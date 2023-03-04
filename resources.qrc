@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/battlebox/media/sounds">
+        <file>resources/sounds/BloodSportBall.wav</file>
+        <file>resources/sounds/DeathMatch.wav</file>
+        <file>resources/sounds/Fight.wav</file>
+        <file>resources/sounds/Fight2.wav</file>
+        <file>resources/sounds/Go_Angry.wav</file>
+        <file>resources/sounds/Go_Deep.wav</file>
+        <file>resources/sounds/Go_Fast.wav</file>
+        <file>resources/sounds/hahaha.wav</file>
+        <file>resources/sounds/hault.wav</file>
+        <file>resources/sounds/One.wav</file>
+        <file>resources/sounds/pow.wav</file>
+        <file>resources/sounds/Soccer.wav</file>
+        <file>resources/sounds/Soccer2.wav</file>
+        <file>resources/sounds/SportsBrawl.wav</file>
+        <file>resources/sounds/Three.wav</file>
+        <file>resources/sounds/Two.wav</file>
+    </qresource>
+    <qresource prefix="/battlebox/media/images">
+        <file>resources/Deathmatch_Final.png</file>
+        <file>resources/LHSHorn.png</file>
+        <file>resources/RHSHorn.png</file>
+        <file>resources/SoccerLogo.PNG</file>
+        <file>resources/SpinningCoin.gif</file>
+        <file>resources/SpinningCoin_50.gif</file>
+    </qresource>
+</RCC>

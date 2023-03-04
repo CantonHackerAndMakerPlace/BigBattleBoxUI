@@ -1,0 +1,2439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BattleBoxMainWindow</class>
+ <widget class="QMainWindow" name="BattleBoxMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>889</width>
+    <height>639</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>50</horstretch>
+    <verstretch>50</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>BattleBoxMainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMinimumSize</enum>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QGridLayout" name="gridLayout_39">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QStackedWidget" name="mainDisplay">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="gameSelection">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_16">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_15">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetNoConstraint</enum>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="1" column="0" colspan="2">
+             <widget class="QLabel" name="gsSublabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>-1</pointsize>
+                <italic>true</italic>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#gsSublabel {
+	font-size: 30px;
+
+}</string>
+              </property>
+              <property name="text">
+               <string>Select a game mode</string>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::AutoText</enum>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="gsLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>-1</pointsize>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#gsLabel{
+	font-size: 75px;
+}</string>
+              </property>
+              <property name="text">
+               <string>CHAMP Battle Box</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="soccerConfigButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="baseSize">
+               <size>
+                <width>50</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Soccer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="dmConfigButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="baseSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Death Match</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="QPushButton" name="systemConfigurationButton">
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Configuration</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="deathMatchCountDown">
+         <layout class="QGridLayout" name="gridLayout_3">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="2" column="0">
+             <widget class="QPushButton" name="dmcdCancel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="dmCDTitle">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Death Match Count Down</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="dmCDCountDownLabel">
+              <property name="font">
+               <font>
+                <pointsize>125</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>CountDown</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="deathMatchPlayersReady">
+         <property name="font">
+          <font>
+           <pointsize>50</pointsize>
+          </font>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_4">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="dmprTitle">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Death Match Players Ready</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QPushButton" name="dmprCancel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QWidget" name="dmprPlayerOneDoorWidget" native="true">
+              <property name="styleSheet">
+               <string notr="true">QWidget#dmprPlayerOneDoorWidget {
+	background-color: red;
+}</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_18">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_6">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="dmprPlayerOneDoorIndicatorLabel">
+                   <property name="font">
+                    <font>
+                     <pointsize>30</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                   <property name="text">
+                    <string>Player One: Door Open</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="dmprPlayerTwoReadyButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>200</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Player Two Ready</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QPushButton" name="dmprStart">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Start Death Match</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QWidget" name="dmprPlayerTwoDoorWidget" native="true">
+              <property name="styleSheet">
+               <string notr="true">QWidget#dmprPlayerTwoDoorWidget {
+	background-color: red;
+}</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_20">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_17">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="dmprPlayerTwoDoorIndicatorLabel">
+                   <property name="font">
+                    <font>
+                     <pointsize>30</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                   <property name="text">
+                    <string>Player Two: Door Open</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="dmprPlayerOneReadyButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Player One Ready</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QWidget" name="dmprPlayerOneReadyWidget" native="true">
+              <property name="styleSheet">
+               <string notr="true">QWidget#dmprPlayerOneReadyWidget {
+	background-color: red;
+}</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_23">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_21">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="dmprPlayerOneReadyLabel">
+                   <property name="font">
+                    <font>
+                     <pointsize>30</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                   <property name="text">
+                    <string>Player One: Not Ready</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QWidget" name="dmprPlayerTwoReadyWidget" native="true">
+              <property name="styleSheet">
+               <string notr="true">QWidget#dmprPlayerTwoReadyWidget {
+	background-color: red;
+}</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_24">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_22">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="dmprPlayerTwoReadyLabel">
+                   <property name="font">
+                    <font>
+                     <pointsize>30</pointsize>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                   <property name="text">
+                    <string>Player Two: Not Ready</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="ConfigurationWidget" name="configuration">
+         <layout class="QFormLayout" name="formLayout_2">
+          <property name="horizontalSpacing">
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="deathMatchRunning">
+         <layout class="QGridLayout" name="gridLayout_8">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_7">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="dmrPlayerTwoWinsButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Player Two Wins</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0" colspan="2">
+             <widget class="QPushButton" name="dmrCancel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel - to game selection screen</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="dmrTitle">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Death Match Running</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="dmrPlayerOneWinsButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Player One Wins</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="QPushButton" name="dmrBackToDMConfigButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel - to death match configuration</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QStackedWidget" name="dmrStackedWidget">
+              <widget class="DeathMatchRunningClockWidget" name="dmrCountDownWidget"/>
+              <widget class="DeathMatchCompleteWidget" name="dmrCompleteWidget"/>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="QPushButton" name="dmrRestartMatchButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Restart Match</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="deathMatchWinner">
+         <layout class="QGridLayout" name="gridLayout_12">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_11">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="5" column="0">
+             <widget class="QPushButton" name="dmwToDMCButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Death Match Configuration</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="dmwTitle">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Death Match Winner</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="dmwRestartButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Restart Match</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QPushButton" name="dmwToGameSelectButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Game Select Screen</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="dmWinnerDisplayLabel">
+              <property name="font">
+               <font>
+                <pointsize>75</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="deathMatchConfig">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	font-size:15pt;
+}
+</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_14">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_13">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="dmStart">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Start</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="dmCfgReset">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="label_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>25</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Death Match Configuration</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="dmCancel">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="3">
+             <widget class="QScrollArea" name="scrollArea">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>395</width>
+                 <height>538</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QWidget {
+	font-size:15pt;
+}
+QPushButton {
+	font-size:15px
+}</string>
+               </property>
+               <layout class="QFormLayout" name="formLayout_4">
+                <property name="horizontalSpacing">
+                 <number>0</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item row="0" column="0" colspan="2">
+                 <layout class="QFormLayout" name="formLayout_3">
+                  <property name="labelAlignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="playerOneNameLabel">
+                    <property name="text">
+                     <string>Player One Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="playerOneNameLineEdit">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Player One</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="playerTwoNameLabel">
+                    <property name="text">
+                     <string>Player Two Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLineEdit" name="playerTwoNameLineEdit">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="maxLength">
+                     <number>64</number>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Player Two</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="matchDurationLabel">
+                    <property name="text">
+                     <string>Match Duration</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="DurationWidget" name="matchDurationWidget" native="true"/>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="doorDropKindLabel">
+                    <property name="text">
+                     <string>Door Drop Kind</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QComboBox" name="doorDropKindComboBox">
+                    <item>
+                     <property name="text">
+                      <string>Random Door Drop</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Drop Both Doors</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Never Drop doors</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Doors Always Open</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Drop Player One Door</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Drop Player Two Door</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="dropDoorAtLabel">
+                    <property name="text">
+                     <string>Drop Door At</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="DurationWidget" name="doorDropTimeWidget" native="true"/>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="saveLoadLabel">
+                    <property name="text">
+                     <string>Save/Load</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <layout class="QGridLayout" name="gridLayout_19">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="dmCfgLoadButton">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Open File..</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QPushButton" name="dmCfgSaveButton">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Save to File...</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QLabel" name="quickLoadLabelLabel">
+                    <property name="text">
+                     <string>Quick Load</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="1">
+                   <layout class="QGridLayout" name="gridLayout">
+                    <item row="1" column="0">
+                     <widget class="QPushButton" name="dmQuickLoadButton">
+                      <property name="minimumSize">
+                       <size>
+                        <width>150</width>
+                        <height>50</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>150</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Quick Load</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <spacer name="horizontalSpacer">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="2" column="0">
+                     <widget class="QListWidget" name="dmQuickLoadListWidget">
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>225</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>225</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="soccerConfig">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	font-size: 15pt;
+}</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_10">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_9">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetNoConstraint</enum>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="soccerCfgStartButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Start</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="soccerCfgCancelButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="3">
+             <widget class="QLabel" name="soccerCfgTitleLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>25</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Soccer Configuration</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="soccerCfgResetButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="3">
+             <widget class="QScrollArea" name="soccerCfgScrollArea">
+              <property name="styleSheet">
+               <string notr="true">QWidget {
+font-size:15pt
+}
+QPushButton {
+	font-size:3em;
+}</string>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents_2">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>489</width>
+                 <height>515</height>
+                </rect>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <layout class="QFormLayout" name="formLayout_8">
+                <property name="horizontalSpacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item row="0" column="0" colspan="2">
+                 <layout class="QFormLayout" name="formLayout_6">
+                  <property name="labelAlignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="horizontalSpacing">
+                   <number>0</number>
+                  </property>
+                  <property name="verticalSpacing">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="soccerCfgTeamOneNameLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Team One Name:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="soccerCfgTeamOneNameLineEdit">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Team One Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="soccerCfgTeamTwoNameLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Team Two Name:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLineEdit" name="soccerCfgTeamTwoNameLineEdit">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Team Two Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="soccerCfgGameScoreLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Game Score:</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QSpinBox" name="soccerCfgGameScoreSpinBox">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="maximum">
+                     <number>10000</number>
+                    </property>
+                    <property name="value">
+                     <number>3</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="soccerCfgMatchDurationLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Match Duration:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="DurationWidget" name="soccerCfgMatchDurationWidget" native="true"/>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="saveLoadLabel_2">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Save/Load:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QWidget" name="saveLoadWidget" native="true">
+                    <layout class="QGridLayout" name="gridLayout_26">
+                     <item row="0" column="0">
+                      <layout class="QGridLayout" name="gridLayout_25">
+                       <item row="0" column="0">
+                        <widget class="QPushButton" name="soccerCfgSaveFileButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>150</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>150</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>15</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Save to file..</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QPushButton" name="soccerCfgOpenFileButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>150</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>150</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>15</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Open FIle..</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="2">
+                        <widget class="QWidget" name="widget" native="true"/>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="quickLoadLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Quick Load:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QWidget" name="quickLoadWidget" native="true">
+                    <layout class="QGridLayout" name="gridLayout_28">
+                     <item row="0" column="0">
+                      <layout class="QGridLayout" name="gridLayout_27">
+                       <item row="1" column="0">
+                        <widget class="QPushButton" name="soccerCfgQuickLoadButton">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>150</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>150</width>
+                           <height>50</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>15</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Quick Load</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <spacer name="horizontalSpacer_2">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item row="2" column="0">
+                        <widget class="QListWidget" name="soccerCfgQuickLoadListWidget">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>225</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>300</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="soccerPlayersReady">
+         <layout class="QGridLayout" name="gridLayout_30">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_29">
+            <property name="spacing">
+             <number>6</number>
+            </property>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="sprTeamTwoReadyButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Team Two Ready</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="sprPlayersReadyTitleLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Soccer Players Ready Screen</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="sprTeamTwoReadyLabel">
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:red;</string>
+              </property>
+              <property name="text">
+               <string>Team Two Ready</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="sprTeamOneReadyButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Team One Ready</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="sprTeamOneReadyLabel">
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: red;</string>
+              </property>
+              <property name="text">
+               <string>Team One Ready</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="sprCancelButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="sprStartButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Start</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="soccerRunning">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+font-size: 20pt;
+}</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_32">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetNoConstraint</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_31">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetNoConstraint</enum>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="srTeamOneWinsButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Team One Wins</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QPushButton" name="srT1ScorePlusOneButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>T1 Score
++1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="6">
+             <widget class="QStackedWidget" name="srStackedWidget">
+              <widget class="SoccerGameOverWidget" name="srGameOverWidget"/>
+              <widget class="QWidget" name="srGoalScoredWidget">
+               <layout class="QGridLayout" name="gridLayout_38">
+                <item row="0" column="0">
+                 <layout class="QGridLayout" name="gridLayout_37">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="srGoalScoredLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>30</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>empty</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+              <widget class="SoccerRunningClockWidget" name="srRunningWidget"/>
+              <widget class="SoccerResumeCountDownWidget" name="srResumeCountDownWidget"/>
+             </widget>
+            </item>
+            <item row="7" column="0" colspan="6">
+             <widget class="QPushButton" name="srCancelGameSelectionButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel - to game selection</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QPushButton" name="srT1GoalButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Team One Goal Scored</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="6">
+             <widget class="QLabel" name="srTitle">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>75</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>25</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Soccer Runing Screen</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" colspan="4">
+             <widget class="QPushButton" name="srMatchEndsInDrawButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Draw</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="5">
+             <widget class="QPushButton" name="srTeamTwoWinsButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Team Two Wins</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0" colspan="6">
+             <widget class="QPushButton" name="srRestartMatchButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Restart Match</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="5">
+             <widget class="QPushButton" name="srT2GoalButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Team Two Goal Scored</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="3">
+             <widget class="QPushButton" name="srT2ScorePlusOneButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>T2 Score
++1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0" colspan="6">
+             <widget class="QPushButton" name="srCancelConfigButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel - to soccer configuration</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="4">
+             <widget class="QPushButton" name="srT2ScoreMinusOneButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>T2 Score
+-1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QPushButton" name="srT1ScoreMinusOneButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>T1 Score
+-1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="6">
+             <widget class="QPushButton" name="srResumeButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Resume</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="soccerGameOver">
+         <layout class="QGridLayout" name="gridLayout_36">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_35">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Soccer Game Over</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="soccerCountDown">
+         <layout class="QGridLayout" name="gridLayout_34">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_33">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="scdTitleLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>50</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Soccer Count Down</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="scdCancelButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>150</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="scdLabel">
+              <property name="font">
+               <font>
+                <pointsize>125</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DurationWidget</class>
+   <extends>QWidget</extends>
+   <header>durationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DeathMatchRunningClockWidget</class>
+   <extends>QWidget</extends>
+   <header>deathmatchrunningclockwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DeathMatchCompleteWidget</class>
+   <extends>QWidget</extends>
+   <header>deathmatchcompletewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SoccerRunningClockWidget</class>
+   <extends>QWidget</extends>
+   <header>soccerrunningclockwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SoccerGameOverWidget</class>
+   <extends>QWidget</extends>
+   <header>soccergameoverwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SoccerResumeCountDownWidget</class>
+   <extends>QWidget</extends>
+   <header>soccerresumecountdownwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ConfigurationWidget</class>
+   <extends>QWidget</extends>
+   <header>configurationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
