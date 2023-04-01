@@ -40,6 +40,11 @@ public:
     void loadSettings();
     void saveSettings();
 
+    template<typename T>
+    T getSetting(QString key, T const& default_value) {
+        return this->settings()->value(key, default_value).template value<T>();
+    }
+
     DeathMatchConfig *deathMatchConfig() const {
         return m_deathMatch;
     }

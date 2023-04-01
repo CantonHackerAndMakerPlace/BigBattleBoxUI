@@ -15,8 +15,8 @@
 #include <QGraphicsOpacityEffect>
 #include <QSoundEffect>
 #include <QAudioDevice>
+#include <QBuffer>
 
-// TODO: replace these with settings file.
 constexpr const char* THREE_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Three.wav";
 constexpr const char* TWO_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Two.wav";
 constexpr const char* ONE_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/One.wav";
@@ -25,11 +25,11 @@ constexpr const char* DEATHMATCH_SOUND = "qrc:/battlebox/media/sounds/resources/
 constexpr const char* GO_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Go_Angry.wav";
 constexpr const char* SOCCER_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Soccer.wav";
 
-constexpr const char* THREE_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Three.wav";
-constexpr const char* TWO_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Two.wav";
-constexpr const char* ONE_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/One.wav";
-constexpr const char* FIGHT_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Fight.wav";
-constexpr const char* GO_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Go_Angry.wav";
+//constexpr const char* THREE_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Three.wav";
+//constexpr const char* TWO_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Two.wav";
+//constexpr const char* ONE_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/One.wav";
+//constexpr const char* FIGHT_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Fight.wav";
+//constexpr const char* GO_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Go_Angry.wav";
 
 MediaDialog::MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent)
     : QDialog(parent)
@@ -52,6 +52,8 @@ MediaDialog::MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent)
     , m_go(new QSoundEffect(m_out->device(), this))
 {
     ui->setupUi(this);
+
+    qDebug() << RESOURCE_LOCATION;
 
     // Loading movies from contents.
     ui->coinDisplayLabel->setMovie(m_champCoin);
@@ -90,12 +92,13 @@ void MediaDialog::initSoundEffect(QSoundEffect *effect, const char* file) {
 }
 
 void MediaDialog::initAnimations() {
+    qDebug() << "Attempting to configure count down groups";
     m_cdEff = new QGraphicsOpacityEffect(ui->countDownTextLabel);
     ui->countDownTextLabel->setGraphicsEffect(m_cdEff);
     buildCoundDownAnimation(
                 ui->countDownTextLabel,
                 "3",
-                THREE_SOUND_FILE,
+                THREE_SOUND,
                 m_three,
                 [&](QParallelAnimationGroup *g){
         qDebug() << "Setting m_cdThreeCallout";
@@ -104,7 +107,7 @@ void MediaDialog::initAnimations() {
     buildCoundDownAnimation(
                 ui->countDownTextLabel,
                 "2",
-                TWO_SOUND_FILE,
+                TWO_SOUND,
                 m_two,
                 [&](QParallelAnimationGroup *g){
         qDebug() << "Setting m_cdTwoCallout";
@@ -113,7 +116,7 @@ void MediaDialog::initAnimations() {
     buildCoundDownAnimation(
                 ui->countDownTextLabel,
                 "1",
-                ONE_SOUND_FILE,
+                ONE_SOUND,
                 m_one,
                 [&](QParallelAnimationGroup *g){
         m_cdOneCallout = g;
@@ -123,7 +126,7 @@ void MediaDialog::initAnimations() {
     buildCoundDownAnimation(
                 ui->countDownTextLabel,
                 "FIGHT!!!!",
-                FIGHT_SOUND_FILE,
+                FIGHT_SOUND,
                 m_fight,
                 [&](QParallelAnimationGroup *g) {
         m_cdFightCallout = g;
@@ -132,7 +135,7 @@ void MediaDialog::initAnimations() {
     buildCoundDownAnimation(
                 ui->countDownTextLabel,
                 "GO!!!!",
-                GO_SOUND_FILE,
+                GO_SOUND,
                 m_go,
                 [&](QParallelAnimationGroup *g){
         qDebug() << "Setting m_cdGoCallout";
@@ -140,16 +143,53 @@ void MediaDialog::initAnimations() {
     });
 }
 
-void MediaDialog::buildCoundDownAnimation(QLabel *toUpdate, QString text, const char* sound_file,
+void MediaDialog::buildCoundDownAnimation(QLabel *toUpdate, QString text, const char *soundFile,
                                           QSoundEffect* effect, Callback cb) {
+    const char *noQrc = &soundFile[3];
+    QFile f(noQrc);
+    if (!f.open(QFile::ReadOnly)) {
+        qDebug() << "Failed to open" << soundFile;
+    }
+    auto buffer = f.readAll();
+    QBuffer *input = new QBuffer(this);
+    input->write(buffer);
+    qDebug() << "Called MediaDialog::buildCoundDownAnimation for " << text;
+    qDebug() << "Sound file:" << soundFile;
     auto *decoder = new QAudioDecoder(this);
-    decoder->setSource(QUrl::fromLocalFile(sound_file));
+    decoder->setSourceDevice(input);
+
     QAudioFormat format;
     format.setSampleRate(48000);
     format.setChannelCount(1);
     decoder->setAudioFormat(format);
+
+    connect(decoder, &QAudioDecoder::bufferReady, [=] {
+       qDebug() << "Buffer ready called for : " << text;
+    });
+
+    connect(decoder, &QAudioDecoder::finished, [=] {
+       qDebug() << "Finished called for : " << text;
+    });
+
+    connect(decoder, &QAudioDecoder::formatChanged, [=](const QAudioFormat &format) {
+       qDebug() << "QAudioDecoder::formatChanged: " << text << "With format" << format;
+    });
+    connect(decoder, &QAudioDecoder::bufferAvailableChanged, [=](bool isAvailable) {
+        qDebug() << "QAudioDecoder::bufferAvailableChanged:" << isAvailable<< text;
+    });
+    connect(decoder, &QAudioDecoder::isDecodingChanged, [=](bool isDecoding) {
+        qDebug() << "QAudioDecoder::isDecodingChanged:" << isDecoding << text;
+    });
+    connect(decoder, &QAudioDecoder::positionChanged, [=](qint64 position) {
+        qDebug() << "QAudioDecoder::positionChanged:" << position<< text;
+    });
+    connect(decoder, &QAudioDecoder::sourceChanged, [=]() {
+        qDebug() << "QAudioDecoder::sourceChanged:" << text;
+    });
+
     connect(decoder, &QAudioDecoder::durationChanged,
             [=](qint64 dur) {
+        qDebug() << "Duration changed called for: " << soundFile << "\n";
         QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
         {
             QPropertyAnimation *a = new QPropertyAnimation(m_cdEff, "opacity");
@@ -193,9 +233,11 @@ void MediaDialog::buildCoundDownAnimation(QLabel *toUpdate, QString text, const 
     using MFP = void(QAudioDecoder::*)(QAudioDecoder::Error);
     connect(decoder, MFP(&QAudioDecoder::error),
             [=](QAudioDecoder::Error error) {
-        qDebug() << "Test " << error;
+        qDebug() << "Received error " << error<< decoder->errorString();
     });
     decoder->start();
+    qDebug() << "Duration" << decoder->duration();
+    qDebug() << "Error string:" << decoder->errorString();
 }
 
 void MediaDialog::init() {
@@ -277,7 +319,9 @@ void MediaDialog::enterDMCountDownScreen() {
 }
 
 void MediaDialog::DMCDstart3() {
+    qDebug() << "Called MediaDialog::DMCDstart3!";
     m_cdThreeCallout->start();
+    qDebug() << "Called Finished clla to m_cdThreeCallout->start";
 }
 
 void MediaDialog::DMCDstart2() {

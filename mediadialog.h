@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QHash>
 #include <QLabel>
+#include <QTemporaryFile>
 #include <functional>
 #include <battleboxviewmodel.h>
 
@@ -34,7 +35,7 @@ private:
     void initSounds();
     void initAnimations();
     using Callback = std::function<void(QParallelAnimationGroup *)>;
-    void buildCoundDownAnimation(QLabel *toUpdate, QString text, const char* sound,
+    void buildCoundDownAnimation(QLabel *toUpdate, QString text, const char *soundFile,
                                  QSoundEffect* effect, Callback cb);
 
     void init();
@@ -103,14 +104,12 @@ private:
     QSoundEffect *m_one;
     QSoundEffect *m_fight;
     QSoundEffect *m_go;
-
     QGraphicsOpacityEffect *m_cdEff;
     QParallelAnimationGroup *m_cdThreeCallout;
     QParallelAnimationGroup *m_cdTwoCallout;
     QParallelAnimationGroup *m_cdOneCallout;
     QParallelAnimationGroup *m_cdFightCallout;
     QParallelAnimationGroup *m_cdGoCallout;
-
 };
 
 #endif // MEDIADIALOG_H

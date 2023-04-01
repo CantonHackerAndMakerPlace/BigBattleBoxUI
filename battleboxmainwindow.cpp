@@ -326,7 +326,9 @@ void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
         connect(a, &QPropertyAnimation::stateChanged,
                 [&](QAbstractAnimation::State newState, QAbstractAnimation::State) {
             if(newState == QAbstractAnimation::State::Running) {
+                qDebug() << "Emitting DMCDStart3";
                 emit DMCDstart3();
+                qDebug() << "Finished Emitting DMCDStart3";
                 ui->dmCDCountDownLabel->setText("3");
             }
         });
@@ -726,6 +728,7 @@ void BattleBoxMainWindow::changeScreen(BattleBoxMainWindow::Screen newPage,
         break;
 
     case DMCountDownScreen:
+        qDebug() << "Leaving DMCountDownScreen";
         m_dmcdAnimationGroup->stop();
         emit leaveDMCountDownScreen();
         break;
@@ -788,9 +791,11 @@ void BattleBoxMainWindow::changeScreen(BattleBoxMainWindow::Screen newPage,
         break;
 
     case DMCountDownScreen:
+        qDebug() << "Entering DMCountDownScreen";
         ui->mainDisplay->setCurrentWidget(ui->deathMatchCountDown);
-        m_dmcdAnimationGroup->start();
         emit enterDMCountDownScreen();
+        m_dmcdAnimationGroup->start();
+
         break;
 
     case DMPlayersReadyScreen:

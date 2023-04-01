@@ -1,2 +1,10 @@
+*.cflags
+*.config
+*.creator
+*.cxxflags
+*.files
+*.includes
+*.creator.user
+.qtc_clangd/
 *.autosave
 CMakeLists.txt.user

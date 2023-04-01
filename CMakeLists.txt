@@ -108,7 +108,7 @@ else()
 endif()
 
 target_link_libraries(BattleBox PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia Qt${QT_VERSION_MAJOR}::SerialPort)
-
+target_compile_features(BattleBox PRIVATE cxx_std_17)
 set_target_properties(BattleBox PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -116,6 +116,7 @@ set_target_properties(BattleBox PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+add_compile_definitions(RESOURCE_LOCATION="${CMAKE_SOURCE_DIR}/resources")
 
 install(TARGETS BattleBox
     BUNDLE DESTINATION .
