@@ -22,7 +22,7 @@ QSettings *BattleBoxViewModel::settings() const {
 }
 
 void BattleBoxViewModel::loadSettings() {
-    QString settingsFile= QApplication::applicationDirPath() + "/settings.ini";
+    QString settingsFile = QApplication::applicationDirPath() + "/settings.ini";
     m_settings = new QSettings(settingsFile, QSettings::NativeFormat, this);
 }
 

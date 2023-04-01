@@ -37,7 +37,8 @@ BattleBoxMainWindow::BattleBoxMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     initSettings();
-//    this->showMaximized();
+
+    m_mediaScreen->loadSettingsDependentResources();
 
     initBattleBoxState();
 
@@ -93,7 +94,6 @@ void BattleBoxMainWindow::initSettings() {
     attachSettingToSwitch(m_boxState->playerTwo()->doorButton(), "player_two/door_switch_kind");
     attachSettingToSwitch(m_boxState->playerTwo()->trapDoorButton(), "player_two/trap_door_switch_kind");
     attachSettingToSwitch(m_boxState->playerTwo()->conceedButton(), "player_two/conceed_switch_kind");
-
 
     // Creating deathmatch default values
 //    int m_matchDuration;

@@ -42,8 +42,15 @@ public:
 
     template<typename T>
     T getSetting(QString key, T const& default_value) {
-        return this->settings()->value(key, default_value).template value<T>();
+        qDebug() << "Do we have settings available?" << bool(settings());
+        if (!settings()->contains(key)) {
+            this->settings()->setValue(key, default_value);
+            saveSettings();
+        }
+        auto loadedSetting = this->settings()->value(key, default_value);
+        return loadedSetting.template value<T>();
     }
+
 
     DeathMatchConfig *deathMatchConfig() const {
         return m_deathMatch;

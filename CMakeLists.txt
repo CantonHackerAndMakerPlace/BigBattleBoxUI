@@ -81,6 +81,8 @@ set(PROJECT_SOURCES
     stateindicatorwidget.h
     stateindicatorwidget.cpp
     stateindicatorwidget.ui
+    soundeffectmedia.h
+    soundeffectmedia.cpp
     main.cpp
 )
 

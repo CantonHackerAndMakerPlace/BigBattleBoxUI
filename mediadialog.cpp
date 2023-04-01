@@ -1,7 +1,8 @@
 #include "mediadialog.h"
+#include "triggeringanimation.h"
 #include "ui_mediadialog.h"
 #include "battleboxmainwindow.h"
-#include "triggeringanimation.h"
+#include "soundeffectmedia.h"
 
 #include <QDirIterator>
 #include <QAudioDecoder>
@@ -17,19 +18,13 @@
 #include <QAudioDevice>
 #include <QBuffer>
 
-constexpr const char* THREE_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Three.wav";
-constexpr const char* TWO_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Two.wav";
-constexpr const char* ONE_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/One.wav";
-constexpr const char* FIGHT_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Fight.wav";
-constexpr const char* DEATHMATCH_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/DeathMatch.wav";
-constexpr const char* GO_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Go_Angry.wav";
-constexpr const char* SOCCER_SOUND = "qrc:/battlebox/media/sounds/resources/sounds/Soccer.wav";
-
-//constexpr const char* THREE_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Three.wav";
-//constexpr const char* TWO_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Two.wav";
-//constexpr const char* ONE_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/One.wav";
-//constexpr const char* FIGHT_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Fight.wav";
-//constexpr const char* GO_SOUND_FILE = "/home/battlbox/Projects/BattleBox/resources/sounds/Go_Angry.wav";
+constexpr const char* THREE_SOUND = "sounds/Three.wav";
+constexpr const char* TWO_SOUND = "sounds/Two.wav";
+constexpr const char* ONE_SOUND = "sounds/One.wav";
+constexpr const char* FIGHT_SOUND = "sounds/Fight.wav";
+constexpr const char* DEATHMATCH_SOUND = "sounds/DeathMatch.wav";
+constexpr const char* GO_SOUND = "sounds/Go_Angry.wav";
+constexpr const char* SOCCER_SOUND = "sounds/Soccer.wav";
 
 MediaDialog::MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent)
     : QDialog(parent)
@@ -43,25 +38,21 @@ MediaDialog::MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent)
               )
           )
     , m_out(new QAudioOutput(this))
-    , m_deathMatch(new QSoundEffect(m_out->device(), this))
-    , m_soccer(new QSoundEffect(m_out->device(), this))
-    , m_three(new QSoundEffect(m_out->device(), this))
-    , m_two(new QSoundEffect(m_out->device(), this))
-    , m_one(new QSoundEffect(m_out->device(), this))
-    , m_fight(new QSoundEffect(m_out->device(), this))
-    , m_go(new QSoundEffect(m_out->device(), this))
+    , m_deathMatch(new SoundEffectMedia(m_out, this))
+    , m_soccer(new SoundEffectMedia(m_out, this))
+    , m_three(new SoundEffectMedia(m_out, this))
+    , m_two(new SoundEffectMedia(m_out, this))
+    , m_one(new SoundEffectMedia(m_out, this))
+    , m_fight(new SoundEffectMedia(m_out, this))
+    , m_go(new SoundEffectMedia(m_out, this))
 {
     ui->setupUi(this);
-
-    qDebug() << RESOURCE_LOCATION;
 
     // Loading movies from contents.
     ui->coinDisplayLabel->setMovie(m_champCoin);
     ui->coinDisplayLabel->setScaledContents(true);
     m_champCoin->start();
 
-    initSounds();
-    initAnimations();
     init();
 }
 
@@ -69,127 +60,63 @@ MediaDialog::~MediaDialog()
 {
     delete ui;
 }
-void MediaDialog::initSounds() {
-    initSoundEffect(m_deathMatch, DEATHMATCH_SOUND);
-    initSoundEffect(m_soccer, SOCCER_SOUND);
-    initSoundEffect(m_three, THREE_SOUND);
-    initSoundEffect(m_two, TWO_SOUND);
-    initSoundEffect(m_one, ONE_SOUND);
-    initSoundEffect(m_fight, FIGHT_SOUND);
-    initSoundEffect(m_go, GO_SOUND);
-    setVolume(1.0f);
-}
 
-void MediaDialog::initSoundEffect(QSoundEffect *effect, const char* file) {
-
-    connect(this, &MediaDialog::volumeChanged,
-            effect, &QSoundEffect::setVolume);
-    effect->setLoopCount(1);
-    effect->setVolume(1.0f);
-    effect->setSource(QUrl(file));
-    assert(!effect->isLoaded());
-    assert(!effect->isMuted());
-}
-
-void MediaDialog::initAnimations() {
-    qDebug() << "Attempting to configure count down groups";
+void MediaDialog::loadSettingsDependentResources() {
+    qDebug() << "initalizing simple sounds";
+    initSoundEffect(m_deathMatch, "sounds/deathmatch", DEATHMATCH_SOUND);
+    initSoundEffect(m_soccer, "sounds/soccer", SOCCER_SOUND);
+    qDebug() << "initializing animation dependent sounds";
     m_cdEff = new QGraphicsOpacityEffect(ui->countDownTextLabel);
     ui->countDownTextLabel->setGraphicsEffect(m_cdEff);
-    buildCoundDownAnimation(
-                ui->countDownTextLabel,
-                "3",
-                THREE_SOUND,
-                m_three,
-                [&](QParallelAnimationGroup *g){
-        qDebug() << "Setting m_cdThreeCallout";
-        m_cdThreeCallout = g;
-    });
-    buildCoundDownAnimation(
-                ui->countDownTextLabel,
-                "2",
-                TWO_SOUND,
-                m_two,
-                [&](QParallelAnimationGroup *g){
-        qDebug() << "Setting m_cdTwoCallout";
-        m_cdTwoCallout = g;
-    });
-    buildCoundDownAnimation(
-                ui->countDownTextLabel,
-                "1",
-                ONE_SOUND,
-                m_one,
-                [&](QParallelAnimationGroup *g){
-        m_cdOneCallout = g;
-        qDebug() << "Setting m_cdOneCallout";
-    });
+    setVolume(1.0f);
+    initAnimatedSoundEffect(m_three, "sounds/three", THREE_SOUND, ui->countDownTextLabel, "3",
+        [&](QParallelAnimationGroup *g) {
+            qDebug() << "Setting m_cdThreeCallout";
+            m_cdThreeCallout = g;
+        });
+    initAnimatedSoundEffect(m_two, "sounds/two", TWO_SOUND,  ui->countDownTextLabel, "2",
+        [&](QParallelAnimationGroup *g) {
+            qDebug() << "Setting m_cdTwoCallout";
+            m_cdTwoCallout = g;
+        });
+    initAnimatedSoundEffect(m_one, "sounds/one", ONE_SOUND, ui->countDownTextLabel, "3",
+        [&](QParallelAnimationGroup *g) {
+            qDebug() << "Setting m_cdOneCallout";
+            m_cdOneCallout = g;
+        });
+    initAnimatedSoundEffect(m_fight, "sounds/fight", FIGHT_SOUND, ui->countDownTextLabel, "FIGHT!!!",
+        [&](QParallelAnimationGroup *g) {
+            qDebug() << "Setting m_cdFightCallout";
+            m_cdFightCallout = g;
+        });
+    initAnimatedSoundEffect(m_go, "sounds/go", GO_SOUND, ui->countDownTextLabel, "GO!!!",
+        [&](QParallelAnimationGroup *g) {
+            qDebug() << "Setting m_cdGoCallout";
+            m_cdGoCallout = g;
+        });
 
-    buildCoundDownAnimation(
-                ui->countDownTextLabel,
-                "FIGHT!!!!",
-                FIGHT_SOUND,
-                m_fight,
-                [&](QParallelAnimationGroup *g) {
-        m_cdFightCallout = g;
-        qDebug() << "Setting m_cdFightCallout";
-    });
-    buildCoundDownAnimation(
-                ui->countDownTextLabel,
-                "GO!!!!",
-                GO_SOUND,
-                m_go,
-                [&](QParallelAnimationGroup *g){
-        qDebug() << "Setting m_cdGoCallout";
-        m_cdGoCallout = g;
-    });
+
 }
 
-void MediaDialog::buildCoundDownAnimation(QLabel *toUpdate, QString text, const char *soundFile,
-                                          QSoundEffect* effect, Callback cb) {
-    const char *noQrc = &soundFile[3];
-    QFile f(noQrc);
-    if (!f.open(QFile::ReadOnly)) {
-        qDebug() << "Failed to open" << soundFile;
-    }
-    auto buffer = f.readAll();
-    QBuffer *input = new QBuffer(this);
-    input->write(buffer);
-    qDebug() << "Called MediaDialog::buildCoundDownAnimation for " << text;
-    qDebug() << "Sound file:" << soundFile;
-    auto *decoder = new QAudioDecoder(this);
-    decoder->setSourceDevice(input);
+void MediaDialog::initSoundEffect(SoundEffectMedia *effect, const char* settingsKey,
+                     const char* relativePath) {
+    connect(this, &MediaDialog::volumeChanged,
+            effect, &SoundEffectMedia::setVolume);
+    QString path = m_data->getSetting(QString(settingsKey), QString(RESOURCE_LOCATION) + "/" + relativePath);
+    effect->setPath(path);
+}
 
-    QAudioFormat format;
-    format.setSampleRate(48000);
-    format.setChannelCount(1);
-    decoder->setAudioFormat(format);
+void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,const char* settingsKey,
+                                  const char* relativePath, QLabel *toUpdate, QString text,
+                                  Callback cb) {
 
-    connect(decoder, &QAudioDecoder::bufferReady, [=] {
-       qDebug() << "Buffer ready called for : " << text;
-    });
-
-    connect(decoder, &QAudioDecoder::finished, [=] {
-       qDebug() << "Finished called for : " << text;
-    });
-
-    connect(decoder, &QAudioDecoder::formatChanged, [=](const QAudioFormat &format) {
-       qDebug() << "QAudioDecoder::formatChanged: " << text << "With format" << format;
-    });
-    connect(decoder, &QAudioDecoder::bufferAvailableChanged, [=](bool isAvailable) {
-        qDebug() << "QAudioDecoder::bufferAvailableChanged:" << isAvailable<< text;
-    });
-    connect(decoder, &QAudioDecoder::isDecodingChanged, [=](bool isDecoding) {
-        qDebug() << "QAudioDecoder::isDecodingChanged:" << isDecoding << text;
-    });
-    connect(decoder, &QAudioDecoder::positionChanged, [=](qint64 position) {
-        qDebug() << "QAudioDecoder::positionChanged:" << position<< text;
-    });
-    connect(decoder, &QAudioDecoder::sourceChanged, [=]() {
-        qDebug() << "QAudioDecoder::sourceChanged:" << text;
-    });
-
-    connect(decoder, &QAudioDecoder::durationChanged,
+    // Connecting
+    connect(this, &MediaDialog::volumeChanged,
+            effect, &SoundEffectMedia::setVolume);
+    QString path = m_data->getSetting(QString(settingsKey), QString(RESOURCE_LOCATION) + "/" + relativePath);
+    connect(effect, &SoundEffectMedia::ready,
             [=](qint64 dur) {
-        qDebug() << "Duration changed called for: " << soundFile << "\n";
+        qDebug() << "Duration changed called for: " << effect->path() << "\n";
         QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
         {
             QPropertyAnimation *a = new QPropertyAnimation(m_cdEff, "opacity");
@@ -229,15 +156,7 @@ void MediaDialog::buildCoundDownAnimation(QLabel *toUpdate, QString text, const 
 
         cb(group);
     });
-
-    using MFP = void(QAudioDecoder::*)(QAudioDecoder::Error);
-    connect(decoder, MFP(&QAudioDecoder::error),
-            [=](QAudioDecoder::Error error) {
-        qDebug() << "Received error " << error<< decoder->errorString();
-    });
-    decoder->start();
-    qDebug() << "Duration" << decoder->duration();
-    qDebug() << "Error string:" << decoder->errorString();
+    effect->setPath(path);
 }
 
 void MediaDialog::init() {

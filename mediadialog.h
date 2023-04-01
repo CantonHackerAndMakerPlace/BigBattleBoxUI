@@ -9,6 +9,7 @@
 #include <battleboxviewmodel.h>
 
 class BattleBoxMainWindow;
+class SoundEffectMedia;
 
 class QAudioOutput;
 class QMediaPlayer;
@@ -31,16 +32,19 @@ public:
     ~MediaDialog();
 
 private:
-    void initSoundEffect(QSoundEffect *effect, const char* file);
-    void initSounds();
-    void initAnimations();
+
+    void initSoundEffect(SoundEffectMedia *effect, const char* settingsKey,
+                         const char* relativePath);
     using Callback = std::function<void(QParallelAnimationGroup *)>;
-    void buildCoundDownAnimation(QLabel *toUpdate, QString text, const char *soundFile,
-                                 QSoundEffect* effect, Callback cb);
+    void initAnimatedSoundEffect(SoundEffectMedia *effect, const char* settingsKey,
+                         const char* relativePath, QLabel *toUpdate, QString text,
+                         Callback cb);
+
 
     void init();
     BattleBoxMainWindow *mainWindow() const;
 public:
+    void loadSettingsDependentResources();
     float volume() const { return m_volume; }
 public slots:
     void setVolume(float vol) {
@@ -97,13 +101,14 @@ private:
     float m_volume;
     QMovie *m_champCoin;
     QAudioOutput *m_out;
-    QSoundEffect *m_deathMatch;
-    QSoundEffect *m_soccer;
-    QSoundEffect *m_three;
-    QSoundEffect *m_two;
-    QSoundEffect *m_one;
-    QSoundEffect *m_fight;
-    QSoundEffect *m_go;
+//    SoundEffectMedia *m_deathMatchSound;
+    SoundEffectMedia *m_deathMatch;
+    SoundEffectMedia *m_soccer;
+    SoundEffectMedia *m_three;
+    SoundEffectMedia *m_two;
+    SoundEffectMedia *m_one;
+    SoundEffectMedia *m_fight;
+    SoundEffectMedia *m_go;
     QGraphicsOpacityEffect *m_cdEff;
     QParallelAnimationGroup *m_cdThreeCallout;
     QParallelAnimationGroup *m_cdTwoCallout;

@@ -21,6 +21,7 @@ void Media::setName(QString other) {
 void Media::start() { }
 void Media::pause() { }
 void Media::stop() { }
+qint64 Media::duration() { return -1; }
 
 
 // --------------------------------------------------

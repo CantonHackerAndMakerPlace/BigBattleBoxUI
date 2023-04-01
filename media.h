@@ -5,6 +5,7 @@
 class QMovie;
 class QLabel;
 class QPixmap;
+
 class Media : public QObject
 {
     Q_OBJECT
@@ -20,6 +21,7 @@ public:
     virtual void start();
     virtual void pause();
     virtual void stop();
+    virtual qint64 duration();
 public slots:
     void setName(QString other);
 
@@ -56,6 +58,7 @@ public:
 private:
     QPixmap *m_image;
 };
+
 
 
 
