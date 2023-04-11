@@ -71,7 +71,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="gameSelection">
          <property name="sizePolicy">
@@ -1045,8 +1045,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>395</width>
-                 <height>538</height>
+                 <width>383</width>
+                 <height>558</height>
                 </rect>
                </property>
                <property name="styleSheet">
@@ -1457,8 +1457,8 @@ QPushButton {
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>489</width>
-                 <height>515</height>
+                 <width>481</width>
+                 <height>531</height>
                 </rect>
                </property>
                <property name="sizePolicy">

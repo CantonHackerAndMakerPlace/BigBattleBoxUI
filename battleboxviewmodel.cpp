@@ -8,12 +8,15 @@ BattleBoxViewModel::BattleBoxViewModel(QObject *parent)
     , m_deathMatch(new DeathMatchConfig(this))
     , m_dmprPlayerOne(new DeathMatchPlayerReadyModel(this))
     , m_dmprPlayerTwo(new DeathMatchPlayerReadyModel(this))
+    , m_dmRt(new DeathMatchRuntime(this))
     , m_soccerConfig(new SoccerConfig(this))
     , m_soccerMatch(new SoccerMatch(this))
     , m_soccerTeamOneReady(new SoccerTeamReady(this))
     , m_soccerTeamTwoReady(new SoccerTeamReady(this))
     , m_settings(nullptr)
-{ }
+{
+    m_dmRt->initialize(m_deathMatch);
+}
 
 BattleBoxViewModel::~BattleBoxViewModel() { }
 
@@ -23,7 +26,7 @@ QSettings *BattleBoxViewModel::settings() const {
 
 void BattleBoxViewModel::loadSettings() {
     QString settingsFile = QApplication::applicationDirPath() + "/settings.ini";
-    m_settings = new QSettings(settingsFile, QSettings::NativeFormat, this);
+    m_settings = new QSettings(settingsFile, QSettings::IniFormat, this);
 }
 
 void BattleBoxViewModel::saveSettings() {

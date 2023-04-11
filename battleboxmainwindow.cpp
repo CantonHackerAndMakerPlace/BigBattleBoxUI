@@ -390,11 +390,12 @@ void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
 }
 
 void BattleBoxMainWindow::initDeathMatchRunningScreen() {
-    ui->dmrCountDownWidget->setup(deathMatchConfig());
+    ui->dmrCountDownWidget->setup(deathMatchConfig(), m_data->deathMatchRuntime());
 
     // Configuring buttons
     connect(ui->dmrPlayerOneWinsButton, &QPushButton::clicked,
             [&] {
+        qDebug() << "Clicked dmrPlayerOneWinsButton";
         if(m_data->deathMatchConfig()->playerOneName() == "") {
             m_data->setDeathMatchWinner("Player One");
         } else {
@@ -404,6 +405,7 @@ void BattleBoxMainWindow::initDeathMatchRunningScreen() {
     });
     connect(ui->dmrPlayerTwoWinsButton, &QPushButton::clicked,
             [&] {
+        qDebug() << "Clicked dmrPlayerTwoWinsButton";
         if(m_data->deathMatchConfig()->playerTwoName() == "") {
             m_data->setDeathMatchWinner("Player Two");
         } else {

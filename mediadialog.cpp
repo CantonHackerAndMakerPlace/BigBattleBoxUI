@@ -3,6 +3,7 @@
 #include "ui_mediadialog.h"
 #include "battleboxmainwindow.h"
 #include "soundeffectmedia.h"
+#include "util.h"
 
 #include <QDirIterator>
 #include <QAudioDecoder>
@@ -17,6 +18,10 @@
 #include <QSoundEffect>
 #include <QAudioDevice>
 #include <QBuffer>
+#include <QtOpenGL>
+#include "Box2D/Box2D.h"
+
+constexpr const char* RESOURCE_ROOT = "qrc:/battlebox/media/sounds/resources";
 
 constexpr const char* THREE_SOUND = "sounds/Three.wav";
 constexpr const char* TWO_SOUND = "sounds/Two.wav";
@@ -62,34 +67,32 @@ MediaDialog::~MediaDialog()
 }
 
 void MediaDialog::loadSettingsDependentResources() {
-    qDebug() << "initalizing simple sounds";
-    initSoundEffect(m_deathMatch, "sounds/deathmatch", DEATHMATCH_SOUND);
-    initSoundEffect(m_soccer, "sounds/soccer", SOCCER_SOUND);
-    qDebug() << "initializing animation dependent sounds";
+    initSoundEffect(m_deathMatch, "resources/sounds/deathmatch", "sounds/deathmatch", DEATHMATCH_SOUND);
+    initSoundEffect(m_soccer, "resources/sounds/soccer", "sounds/soccer", SOCCER_SOUND);
     m_cdEff = new QGraphicsOpacityEffect(ui->countDownTextLabel);
     ui->countDownTextLabel->setGraphicsEffect(m_cdEff);
     setVolume(1.0f);
-    initAnimatedSoundEffect(m_three, "sounds/three", THREE_SOUND, ui->countDownTextLabel, "3",
+    initAnimatedSoundEffect(m_three, "resource/sounds/three", "sounds/three", THREE_SOUND, ui->countDownTextLabel, "3",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdThreeCallout";
             m_cdThreeCallout = g;
         });
-    initAnimatedSoundEffect(m_two, "sounds/two", TWO_SOUND,  ui->countDownTextLabel, "2",
+    initAnimatedSoundEffect(m_two, "resource/sounds/two", "sounds/two", TWO_SOUND,  ui->countDownTextLabel, "2",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdTwoCallout";
             m_cdTwoCallout = g;
         });
-    initAnimatedSoundEffect(m_one, "sounds/one", ONE_SOUND, ui->countDownTextLabel, "3",
+    initAnimatedSoundEffect(m_one, "resource/sounds/one", "sounds/one", ONE_SOUND, ui->countDownTextLabel, "3",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdOneCallout";
             m_cdOneCallout = g;
         });
-    initAnimatedSoundEffect(m_fight, "sounds/fight", FIGHT_SOUND, ui->countDownTextLabel, "FIGHT!!!",
+    initAnimatedSoundEffect(m_fight, "resource/sounds/fight", "sounds/fight", FIGHT_SOUND, ui->countDownTextLabel, "FIGHT!!!",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdFightCallout";
             m_cdFightCallout = g;
         });
-    initAnimatedSoundEffect(m_go, "sounds/go", GO_SOUND, ui->countDownTextLabel, "GO!!!",
+    initAnimatedSoundEffect(m_go, "resource/sounds/go", "sounds/go", GO_SOUND, ui->countDownTextLabel, "GO!!!",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdGoCallout";
             m_cdGoCallout = g;
@@ -98,25 +101,32 @@ void MediaDialog::loadSettingsDependentResources() {
 
 }
 
-void MediaDialog::initSoundEffect(SoundEffectMedia *effect, const char* settingsKey,
-                     const char* relativePath) {
+void MediaDialog::initSoundEffect(SoundEffectMedia *effect,
+                                  const char* resourceFilePathKey,
+                                  const char* fsSettingsKey,
+                                  const char* relativePath) {
     connect(this, &MediaDialog::volumeChanged,
             effect, &SoundEffectMedia::setVolume);
-    QString path = m_data->getSetting(QString(settingsKey), QString(RESOURCE_LOCATION) + "/" + relativePath);
-    effect->setPath(path);
+    QString fsPath = m_data->getSetting(QString(fsSettingsKey), QString(RESOURCE_LOCATION) + "/" + relativePath);
+    QString resourcePath = m_data->getSetting(QString(resourceFilePathKey), QString(RESOURCE_ROOT) + "/" + relativePath);
+    effect->initialize(fsPath, resourcePath);
 }
 
-void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,const char* settingsKey,
-                                  const char* relativePath, QLabel *toUpdate, QString text,
-                                  Callback cb) {
+void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,
+                                          const char* resourceKey,
+                                          const char* fsSettingsKey,
+                                          const char* relativePath,
+                                          QLabel *toUpdate,
+                                          QString text,
+                                          Callback cb) {
 
     // Connecting
     connect(this, &MediaDialog::volumeChanged,
             effect, &SoundEffectMedia::setVolume);
-    QString path = m_data->getSetting(QString(settingsKey), QString(RESOURCE_LOCATION) + "/" + relativePath);
+    QString fsPath = m_data->getSetting(QString(fsSettingsKey), QString(RESOURCE_LOCATION) + "/" + relativePath);
+    QString resourcePath = m_data->getSetting(QString(resourceKey), QString(RESOURCE_ROOT) + "/" + relativePath);
     connect(effect, &SoundEffectMedia::ready,
             [=](qint64 dur) {
-        qDebug() << "Duration changed called for: " << effect->path() << "\n";
         QParallelAnimationGroup *group = new QParallelAnimationGroup(this);
         {
             QPropertyAnimation *a = new QPropertyAnimation(m_cdEff, "opacity");
@@ -127,6 +137,7 @@ void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,const char* s
             connect(a, &QPropertyAnimation::stateChanged,
                     [=](QAbstractAnimation::State newState, QAbstractAnimation::State) {
                 if(newState == QAbstractAnimation::State::Running) {
+                    toUpdate->setStyleSheet("QLabel { font-size: 300px;}");
                     toUpdate->setText(text);
                 }
             });
@@ -147,7 +158,6 @@ void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,const char* s
                         QAbstractAnimation::State oldState) {
                 if(newState == QAbstractAnimation::State::Stopped
                         && oldState ==  QAbstractAnimation::State::Running) {
-                    qDebug() << "Called TriggeringAnimation::Finished!";
                     effect->play();
                 }
             });
@@ -156,7 +166,7 @@ void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,const char* s
 
         cb(group);
     });
-    effect->setPath(path);
+    effect->initialize(fsPath, resourcePath);
 }
 
 void MediaDialog::init() {
@@ -201,6 +211,17 @@ void MediaDialog::init() {
     SCREEN_SWITCH_CONNECT(enterSoccerGameOverScreen);
     SCREEN_SWITCH_CONNECT(leaveSoccerGameOverScreen);
 #undef SCREEN_SWITCH_CONNECT
+    initialzieDeathMatchRunning();
+}
+
+void MediaDialog::initialzieDeathMatchRunning() {
+    qDebug() << "Initialzing death match running called";
+    connect(m_data->deathMatchRuntime(), &DeathMatchRuntime::timeRemainingChanged,
+            this, &MediaDialog::updateDMRRemainingTime);
+    connect(m_data->deathMatchRuntime(), &DeathMatchRuntime::doorDropTimeRemainingChanged,
+            this, &MediaDialog::updateDMRDoorDropTime);
+    connect(m_data->deathMatchRuntime(), &DeathMatchRuntime::staringMatch,
+            this, &MediaDialog::staringDMR);
 }
 
 BattleBoxMainWindow *MediaDialog::mainWindow() const {
@@ -211,7 +232,6 @@ void MediaDialog::enterGameSelectScreen() {
     qDebug() << "Entering game selection screen";
     ui->mainDisplay->setCurrentWidget(ui->gameSelectPage);
     m_champCoin->start();
-
 }
 
 void MediaDialog::leaveGameSelectScreen() {
@@ -223,8 +243,6 @@ void MediaDialog::enterDMConfigScreen() {
     qDebug() << "Entering dm config";
     m_deathMatch->play();
     ui->mainDisplay->setCurrentWidget(ui->deathMatchPage);
-//    qDebug() << "Druation: " << m_player->duration();
-//    qDebug() << "Buffer progress: " << m_player->bufferProgress();
 }
 
 void MediaDialog::leaveDMConfigScreen() {
@@ -240,7 +258,7 @@ void MediaDialog::enterDMCountDownScreen() {
 void MediaDialog::DMCDstart3() {
     qDebug() << "Called MediaDialog::DMCDstart3!";
     m_cdThreeCallout->start();
-    qDebug() << "Called Finished clla to m_cdThreeCallout->start";
+    qDebug() << "Called Finished call to m_cdThreeCallout->start";
 }
 
 void MediaDialog::DMCDstart2() {
@@ -294,7 +312,6 @@ void MediaDialog::enterSoccerConfigScreen() {
     m_soccer->play();
 }
 
-
 void MediaDialog::leaveSoccerConfigScreen() {
     qDebug() << "Leaving Soccer config";
 }
@@ -335,6 +352,36 @@ void MediaDialog::enterSoccerGameOverScreen() {
 void MediaDialog::leaveSoccerGameOverScreen() {
     qDebug() << "Leaving Soccer game over screen";
     stopAnimations();
+}
+
+void MediaDialog::updateDMRRemainingTime(int value) {
+    ui->dmrTimeRemaining->setText(msToTimeRep(value));
+}
+
+void MediaDialog::updateDMRDoorDropTime(int value) {
+    ui->dmrDDTimeRemaining->setText(msToTimeRep(value));
+    // Convert time to MS and subtract the current value
+    // because that the amount remaining.
+    int ddTime = m_data->deathMatchConfig()->doorDropTime() * 1000;
+    int timeElapsed = ddTime - value;
+    float result = float(timeElapsed) / float(ddTime);
+    ui->dmrDDProgessBar->setValue(int(result * 100));
+}
+
+void MediaDialog::staringDMR(int duration, bool needsDoorDropTimer, int doorDropTime) {
+    ui->dmrDDTimeRemaining->show();
+    if(needsDoorDropTimer) {
+        ui->dmrDDTimeRemaining->setText(msToTimeRep(doorDropTime));
+        ui->dmrDDTimeRemaining->show();
+        ui->dmrDDProgessBar->show();
+        ui->dmrDDProgessBar->setValue(0);
+        ui->dmrDDtimeLabel->show();
+    } else {
+        ui->dmrDDTimeRemaining->hide();
+        ui->dmrDDProgessBar->hide();
+        ui->dmrDDtimeLabel->hide();
+    }
+    ui->dmrTimeRemaining->setText(msToTimeRep(duration));
 }
 
 void MediaDialog::stopAnimations() {

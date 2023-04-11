@@ -6,6 +6,7 @@
 
 class QParallelAnimationGroup;
 class DeathMatchConfig;
+class DeathMatchRuntime;
 class DMRDataModel;
 
 QString msToTimeRep(int ms);
@@ -21,7 +22,7 @@ public:
     explicit DeathMatchRunningClockWidget(QWidget *parent = nullptr);
     ~DeathMatchRunningClockWidget();
 
-    void setup(DeathMatchConfig *cfg);
+    void setup(DeathMatchConfig *cfg, DeathMatchRuntime *rt);
 public slots:
     void start();
     void pause();
@@ -29,9 +30,10 @@ public slots:
     void stop();
 
 private slots:
-    void updateRemainingTime(QVariant const& var);
-    void updateDoorDropTime(QVariant const& var);
-    void animationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
+    void staringMatch(int duration, bool needsDoorDropTimer, int doorDropTime);
+    void updateRemainingTime(int var);
+    void updateDoorDropTime(int var);
+//    void animationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
 
 signals:
     void started();
@@ -43,6 +45,7 @@ signals:
 private:
     Ui::DeathMatchRunningClockWidget *ui;
     DeathMatchConfig *m_dmcfg;
+    DeathMatchRuntime *m_dmRt;
     QParallelAnimationGroup *m_dmcdAnimationGroup;
 };
 

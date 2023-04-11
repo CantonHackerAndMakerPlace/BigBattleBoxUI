@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>864</width>
+    <width>949</width>
     <height>723</height>
    </rect>
   </property>
@@ -39,6 +39,11 @@
      </property>
      <item row="0" column="0">
       <widget class="QStackedWidget" name="mainDisplay">
+       <property name="font">
+        <font>
+         <pointsize>100</pointsize>
+        </font>
+       </property>
        <widget class="QWidget" name="gameSelectPage">
         <layout class="QGridLayout" name="gridLayout_6">
          <property name="leftMargin">
@@ -106,11 +111,11 @@ QLabel {
             <widget class="QLabel" name="countDownTextLabel">
              <property name="font">
               <font>
-               <pointsize>50</pointsize>
+               <pointsize>100</pointsize>
               </font>
              </property>
              <property name="text">
-              <string>DeathMatch Count Down Page</string>
+              <string>DM CountDown</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -122,6 +127,11 @@ QLabel {
         </layout>
        </widget>
        <widget class="QWidget" name="deathMatchRunningPage">
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+	color: white;
+}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_12">
          <property name="leftMargin">
           <number>0</number>
@@ -140,10 +150,76 @@ QLabel {
          </property>
          <item row="0" column="0">
           <layout class="QGridLayout" name="gridLayout_11">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_2">
+           <item row="2" column="1">
+            <widget class="QLabel" name="dmrDDTimeRemaining">
+             <property name="font">
+              <font>
+               <pointsize>45</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Something</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="dmrDDtimeLabel">
+             <property name="font">
+              <font>
+               <pointsize>40</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Time Till doors Drop</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QLabel" name="dmrTimeRemaining">
+             <property name="font">
+              <font>
+               <pointsize>50</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Death Match Running Page</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="dmrTitle">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>35</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Death Match</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QProgressBar" name="dmrDDProgessBar">
+             <property name="value">
+              <number>24</number>
              </property>
             </widget>
            </item>
@@ -306,11 +382,7 @@ QLabel {
             <number>0</number>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Death Match Label Page</string>
-             </property>
-            </widget>
+            <widget class="QOpenGLWidget" name="dmWinningPlayerWidget"/>
            </item>
           </layout>
          </item>

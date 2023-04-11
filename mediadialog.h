@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <QHash>
 #include <QLabel>
-#include <QTemporaryFile>
 #include <functional>
 #include <battleboxviewmodel.h>
 
@@ -33,16 +32,23 @@ public:
 
 private:
 
-    void initSoundEffect(SoundEffectMedia *effect, const char* settingsKey,
+    void initSoundEffect(SoundEffectMedia *effect,
+                         const char* resourceFilePathKey,
+                         const char* fsSettingsKey,
                          const char* relativePath);
     using Callback = std::function<void(QParallelAnimationGroup *)>;
-    void initAnimatedSoundEffect(SoundEffectMedia *effect, const char* settingsKey,
-                         const char* relativePath, QLabel *toUpdate, QString text,
+    void initAnimatedSoundEffect(SoundEffectMedia *effect,
+                                 const char* resourceKey,
+                                 const char* fsSettingsKey,
+                                 const char* relativePath,
+                          QLabel *toUpdate, QString text,
                          Callback cb);
 
 
     void init();
     BattleBoxMainWindow *mainWindow() const;
+
+    void initialzieDeathMatchRunning();
 public:
     void loadSettingsDependentResources();
     float volume() const { return m_volume; }
@@ -91,6 +97,10 @@ public slots:
 
     void enterSoccerGameOverScreen();
     void leaveSoccerGameOverScreen();
+
+    void updateDMRRemainingTime(int var);
+    void updateDMRDoorDropTime(int var);
+    void staringDMR(int duration, bool needsDoorDropTimer, int doorDropTime);
 signals:
     void volumeChanged(float);
 private:

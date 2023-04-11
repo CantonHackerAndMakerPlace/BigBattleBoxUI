@@ -8,6 +8,7 @@
 #include "deathmatchconfig.h"
 #include "deathmatchplayerreadymodel.h"
 #include "soccerteamready.h"
+#include "deathmatchruntime.h"
 #include <QSettings>
 
 class BattleBoxViewModel : public QObject
@@ -21,6 +22,7 @@ private:
     DeathMatchConfig *m_deathMatch;
     DeathMatchPlayerReadyModel *m_dmprPlayerOne;
     DeathMatchPlayerReadyModel *m_dmprPlayerTwo;
+    DeathMatchRuntime *m_dmRt;
     QString m_DMWinner;
     SoccerConfig *m_soccerConfig;
     SoccerMatch *m_soccerMatch;
@@ -42,7 +44,6 @@ public:
 
     template<typename T>
     T getSetting(QString key, T const& default_value) {
-        qDebug() << "Do we have settings available?" << bool(settings());
         if (!settings()->contains(key)) {
             this->settings()->setValue(key, default_value);
             saveSettings();
@@ -62,6 +63,10 @@ public:
 
     DeathMatchPlayerReadyModel *deathMatchPlayerTwoReady() const {
         return m_dmprPlayerTwo;
+    }
+
+    DeathMatchRuntime *deathMatchRuntime() const {
+        return m_dmRt;
     }
 
     QString deathMatchWinner() const {

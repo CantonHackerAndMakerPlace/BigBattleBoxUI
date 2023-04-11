@@ -16,8 +16,4 @@ bool TriggeringAnimation::event(QEvent *event) {
     return false;
 }
 
-void TriggeringAnimation::updateCurrentTime(int currentTime) {
-    if(currentTime >= m_duration) {
-        qDebug() << "Emitting finished";
-    }
-}
+void TriggeringAnimation::updateCurrentTime(int) { }

@@ -9,8 +9,32 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Multimedia Core SerialPort)
+include(ExternalProject)
+
+set(THIRDPARTY_SOURCE_ROOT ${CMAKE_BINARY_DIR}/thirdparty/)
+set(BOX2D_ROOT ${THIRDPARTY_SOURCE_ROOT}/Box2D)
+
+ExternalProject_Add(Box2d_external
+                    PREFIX ${BOX2D_ROOT}
+                    GIT_REPOSITORY "https://github.com/erincatto/box2d.git"
+                    GIT_TAG "411acc32eb6d4f2e96fc70ddbdf01fe5f9b16230"
+                    UPDATE_COMMAND ""
+                    PATCH_COMMAND ""
+                    BINARY_DIR ${BOX2D_ROOT}/build
+                    INSTALL_DIR ${BOX2D_ROOT}/bin
+                    BUILD_ALWAYS false
+                    INSTALL_COMMAND ""
+                    BUILD_BYPRODUCTS ${BOX2D_ROOT}/build/bin/libbox2d.a
+                )
+
+link_directories(${BOX3D_ROOT}/build/bin)
+ExternalProject_Get_Property(Box2d_external source_dir)
+include_directories(${source_dir}/include)
+
+
+#find_package(OpenGL REQUIRED)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort OpenGL openglwidgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort OpenGL openglwidgets)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
@@ -83,6 +107,9 @@ set(PROJECT_SOURCES
     stateindicatorwidget.ui
     soundeffectmedia.h
     soundeffectmedia.cpp
+    deathmatchruntime.h
+    deathmatchruntime.cpp
+    util.h
     main.cpp
 )
 
@@ -109,7 +136,16 @@ else()
     endif()
 endif()
 
-target_link_libraries(BattleBox PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia Qt${QT_VERSION_MAJOR}::SerialPort)
+target_link_libraries(BattleBox PRIVATE
+    ${BOX2D_ROOT}/build/bin/libbox2d.a
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Multimedia
+    Qt${QT_VERSION_MAJOR}::SerialPort
+    Qt${QT_VERSION_MAJOR}::OpenGL
+    Qt${QT_VERSION_MAJOR}::OpenGLWidgets
+    )
+
 target_compile_features(BattleBox PRIVATE cxx_std_17)
 set_target_properties(BattleBox PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
