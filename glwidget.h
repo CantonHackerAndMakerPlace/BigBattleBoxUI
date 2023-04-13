@@ -1,10 +1,11 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QOpenGLWidget>
+//#include <QOpenGLWidget>
+#include <QWidget>
 #include <box2d/box2d.h>
 
-class GLWidget : public QOpenGLWidget
+class GLWidget : public QWidget
 {
     Q_OBJECT
 public:

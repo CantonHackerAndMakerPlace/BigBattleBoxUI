@@ -1,7 +1,7 @@
 #include "glwidget.h"
 
 GLWidget::GLWidget(QWidget *parent)
-    : QOpenGLWidget(parent)
+    : QWidget(parent)
 {
 //    b2AABB worldAABB;
 //    worldAABB.lowerBound.Set(-200, -100);

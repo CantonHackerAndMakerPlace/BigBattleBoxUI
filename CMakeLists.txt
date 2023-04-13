@@ -33,8 +33,8 @@ include_directories(${source_dir}/include)
 
 
 #find_package(OpenGL REQUIRED)
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort OpenGL openglwidgets)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort OpenGL openglwidgets)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort )
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort )
 
 include_directories(${CMAKE_SOURCE_DIR})
 
@@ -147,8 +147,8 @@ target_link_libraries(BattleBox PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Multimedia
     Qt${QT_VERSION_MAJOR}::SerialPort
-    Qt${QT_VERSION_MAJOR}::OpenGL
-    Qt${QT_VERSION_MAJOR}::OpenGLWidgets
+#    Qt${QT_VERSION_MAJOR}::OpenGL
+#    Qt${QT_VERSION_MAJOR}::OpenGLWidgets
     )
 
 target_compile_features(BattleBox PRIVATE cxx_std_17)

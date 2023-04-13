@@ -18,7 +18,6 @@
 #include <QSoundEffect>
 #include <QAudioDevice>
 #include <QBuffer>
-#include <QtOpenGL>
 
 constexpr const char* RESOURCE_ROOT = "qrc:/battlebox/media/sounds/resources";
 
