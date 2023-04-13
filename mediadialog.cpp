@@ -19,7 +19,6 @@
 #include <QAudioDevice>
 #include <QBuffer>
 #include <QtOpenGL>
-#include "Box2D/Box2D.h"
 
 constexpr const char* RESOURCE_ROOT = "qrc:/battlebox/media/sounds/resources";
 
@@ -82,7 +81,7 @@ void MediaDialog::loadSettingsDependentResources() {
             qDebug() << "Setting m_cdTwoCallout";
             m_cdTwoCallout = g;
         });
-    initAnimatedSoundEffect(m_one, "resource/sounds/one", "sounds/one", ONE_SOUND, ui->countDownTextLabel, "3",
+    initAnimatedSoundEffect(m_one, "resource/sounds/one", "sounds/one", ONE_SOUND, ui->countDownTextLabel, "1",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdOneCallout";
             m_cdOneCallout = g;
@@ -212,6 +211,8 @@ void MediaDialog::init() {
     SCREEN_SWITCH_CONNECT(leaveSoccerGameOverScreen);
 #undef SCREEN_SWITCH_CONNECT
     initialzieDeathMatchRunning();
+    // Connect to player One dmrPlayerOneWinsButton
+    // Connect to player Two dmrPlayerTwoWinsButton
 }
 
 void MediaDialog::initialzieDeathMatchRunning() {

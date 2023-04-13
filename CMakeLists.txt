@@ -110,6 +110,11 @@ set(PROJECT_SOURCES
     deathmatchruntime.h
     deathmatchruntime.cpp
     util.h
+    playerwinswidget.h
+    playerwinswidget.cpp
+    playerwinswidget.ui
+    glwidget.h
+    glwidget.cpp
     main.cpp
 )
 
