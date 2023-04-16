@@ -13,7 +13,6 @@ include(ExternalProject)
 
 set(THIRDPARTY_SOURCE_ROOT ${CMAKE_BINARY_DIR}/thirdparty/)
 set(BOX2D_ROOT ${THIRDPARTY_SOURCE_ROOT}/Box2D)
-
 ExternalProject_Add(Box2d_external
                     PREFIX ${BOX2D_ROOT}
                     GIT_REPOSITORY "https://github.com/erincatto/box2d.git"
@@ -27,16 +26,50 @@ ExternalProject_Add(Box2d_external
                     BUILD_BYPRODUCTS ${BOX2D_ROOT}/build/bin/libbox2d.a
                 )
 
-link_directories(${BOX3D_ROOT}/build/bin)
+
+link_directories(${BOX2D_ROOT}/build/bin)
 ExternalProject_Get_Property(Box2d_external source_dir)
 include_directories(${source_dir}/include)
 
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort QuickWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort QuickWidgets)
 
-#find_package(OpenGL REQUIRED)
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort )
-find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia Core SerialPort )
+set(BOX2DQML_ROOT ${THIRDPARTY_SOURCE_ROOT}/Box2DQML)
+ExternalProject_Add(Box2dQML_external
+                    PREFIX ${BOX2DQML_ROOT}
+                    CMAKE_ARGS "-DQt6_DIR=${Qt6_DIR}"
+                    GIT_REPOSITORY "https://github.com/qml-box2d/qml-box2d.git"
+                    GIT_TAG ""
+                    UPDATE_COMMAND ""
+                    PATCH_COMMAND ""
+                    BINARY_DIR ${BOX2DQML_ROOT}/build
+                    INSTALL_DIR ${BOX2DQML_ROOT}/bin
+                    BUILD_ALWAYS false
+                    INSTALL_COMMAND ""
+#                    BUILD_BYPRODUCTS ${BOX2DQML_ROOT}/build/bin/libbox2d.a
+                )
 
 include_directories(${CMAKE_SOURCE_DIR})
+
+# Directories where Qt Creator can find QML files.
+# (Not needed for builds, but makes Qt Creator code completion happy.)
+list(APPEND QML2_IMPORT_PATH "${BOX2DQML_ROOT}/build/bin/plugins/")
+
+# Prevent adding duplicate values at each run of CMake.
+list(REMOVE_DUPLICATES QML2_IMPORT_PATH)
+
+# The variable is cached in ${BUILD_DIR}/CMakeCache.txt. We need FORCE to
+# change it there immediately. Also, add a comment to the cache file.
+set(QML2_IMPORT_PATH ${QML2_IMPORT_PATH}
+    CACHE STRING "Extra import paths for QML that's being built as part of this project."
+    FORCE
+)
+
+qt_add_qml_module(ConfettiQML STATIC
+    URI confetti.qml
+    VERSION 0.0.1
+    NO_PLUGIN_OPTIONAL
+)
 
 set(PROJECT_SOURCES
     battleboxmainwindow.cpp
@@ -113,8 +146,8 @@ set(PROJECT_SOURCES
     playerwinswidget.h
     playerwinswidget.cpp
     playerwinswidget.ui
-    glwidget.h
-    glwidget.cpp
+    confettigi.h
+    confettigi.cpp
     main.cpp
 )
 
@@ -143,13 +176,12 @@ endif()
 
 target_link_libraries(BattleBox PRIVATE
     ${BOX2D_ROOT}/build/bin/libbox2d.a
-    Qt${QT_VERSION_MAJOR}::Core
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Multimedia
-    Qt${QT_VERSION_MAJOR}::SerialPort
-#    Qt${QT_VERSION_MAJOR}::OpenGL
-#    Qt${QT_VERSION_MAJOR}::OpenGLWidgets
-    )
+    Qt6::Core
+    Qt6::Widgets
+    Qt6::Multimedia
+    Qt6::SerialPort
+    Qt6::QuickWidgets
+)
 
 target_compile_features(BattleBox PRIVATE cxx_std_17)
 set_target_properties(BattleBox PROPERTIES

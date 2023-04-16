@@ -25,4 +25,5 @@
         <file>resources/SpinningCoin.gif</file>
         <file>resources/SpinningCoin_50.gif</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

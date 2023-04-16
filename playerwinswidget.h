@@ -2,6 +2,10 @@
 #define PLAYERWINSWIDGET_H
 
 #include <QWidget>
+//#include <QTimer>
+//#include <QGraphicsScene>
+//#include <QGraphicsView>
+//#include <QGraphicsItem>
 //#include <box2d/box2d.h>
 
 namespace Ui {
@@ -18,11 +22,17 @@ public:
 
     /// Draw area
 //    void paintEvent(QPaintEvent *);
-
-    /// Updates physics.
-//    void timerEvent(QTimerEvent *event);connect(timer, &QTimer::timeout, openGL, &GLWidget::animate);
+public slots:
+    void start();
+    void stop();
+private slots:
+    void autocomputeSceneSize(const QList<QRectF>&);
 private:
     Ui::PlayerWinsWidget *ui;
+//    QGraphicsScene *m_scene;
+//    QTimer *m_timer;
+//    b2World *m_world;
+//    b2Body* m_groundBody;
 };
 
 #endif // PLAYERWINSWIDGET_H

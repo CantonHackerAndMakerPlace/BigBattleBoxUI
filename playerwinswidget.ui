@@ -60,7 +60,16 @@ color: white;</string>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="GLWidget" name="confettiWindow" native="true"/>
+      <widget class="QQuickWidget" name="quickWidget">
+       <property name="resizeMode">
+        <enum>QQuickWidget::SizeRootObjectToView</enum>
+       </property>
+       <property name="source">
+        <url>
+         <string/>
+        </url>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -68,10 +77,9 @@ color: white;</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>GLWidget</class>
+   <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>glwidget.h</header>
-   <container>1</container>
+   <header location="global">QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>

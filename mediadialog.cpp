@@ -300,10 +300,12 @@ void MediaDialog::leaveDMRunningScreen() {
 void MediaDialog::enterDMWinnerDisplayScreen(QString playerName) {
     qDebug() << "Entering DM Winner screen";
     ui->mainDisplay->setCurrentWidget(ui->deathMatchWinnerPage);
+    ui->dmWinnerWidget->start();
 }
 
 void MediaDialog::leaveDMWinnerDisplayScreen() {
     qDebug() << "Leaving DM Winner screen";
+    ui->dmWinnerWidget->stop();
 }
 
 void MediaDialog::enterSoccerConfigScreen() {

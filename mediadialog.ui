@@ -382,7 +382,7 @@ QLabel {
             <number>0</number>
            </property>
            <item row="0" column="0">
-            <widget class="PlayerWinsWidget" name="dmWinnerPage" native="true"/>
+            <widget class="PlayerWinsWidget" name="dmWinnerWidget" native="true"/>
            </item>
           </layout>
          </item>
