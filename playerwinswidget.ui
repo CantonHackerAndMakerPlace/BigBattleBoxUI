@@ -60,14 +60,9 @@ color: white;</string>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QQuickWidget" name="quickWidget">
+      <widget class="QQuickWidget" name="scene">
        <property name="resizeMode">
         <enum>QQuickWidget::SizeRootObjectToView</enum>
-       </property>
-       <property name="source">
-        <url>
-         <string/>
-        </url>
        </property>
       </widget>
      </item>

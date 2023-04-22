@@ -2,11 +2,11 @@
 #define PLAYERWINSWIDGET_H
 
 #include <QWidget>
-//#include <QTimer>
-//#include <QGraphicsScene>
-//#include <QGraphicsView>
-//#include <QGraphicsItem>
-//#include <box2d/box2d.h>
+#include <QTimer>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsItem>
+#include <box2d/box2d.h>
 
 namespace Ui {
 class PlayerWinsWidget;
