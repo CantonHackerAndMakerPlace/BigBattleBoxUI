@@ -167,6 +167,9 @@ qt_add_qml_module(BattleBox
         qmlproject/shared/PolygonBody.qml
         qmlproject/shared/RectangleBoxBody.qml
         qmlproject/shared/ScreenBoundaries.qml
+
+        qmlproject/confetti/main.qml
+        qmlproject/confetti/Wall.qml
     RESOURCES
         qmlproject/cannon/images/cannon.png
         qmlproject/cannon/images/cannon_base.png

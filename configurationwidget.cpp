@@ -3,12 +3,14 @@
 #include "stateindicatorwidget.h"
 #include <QDebug>
 #include <QDateTime>
+#include "mediadialog.h"
 
 ConfigurationWidget::ConfigurationWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ConfigurationWidget)
     , m_settings(nullptr)
     , m_state(nullptr)
+    , m_media(nullptr)
 {
     ui->setupUi(this);
 
@@ -22,13 +24,15 @@ ConfigurationWidget::~ConfigurationWidget() {
     delete ui;
 }
 
-void ConfigurationWidget::init(QSettings *settings, BattleBoxPhysicalState *physicalState) {
+void ConfigurationWidget::init(QSettings *settings, BattleBoxPhysicalState *physicalState, MediaDialog *media) {
     // Loading all of the current configuratation
     assert(!m_settings && "Cannot call init twice");
     assert(!m_state && "Cannot call init twice");
+    assert(!m_media && "Cannot initialize media dialog reference twice");
 
     m_settings = settings;
     m_state = physicalState;
+    m_media = media;
 
     // Connecting all of the signals and for each sub-menu.
     initPlayerOneConfig();
@@ -36,6 +40,7 @@ void ConfigurationWidget::init(QSettings *settings, BattleBoxPhysicalState *phys
     initLedConfig();
     initSpotLightConfig();
     initArduinoConfig();
+    initMediaDialog();
 }
 
 
@@ -152,6 +157,17 @@ void ConfigurationWidget::initArduinoConfig() {
             ui->arduinoTextLog->setTextCursor(cursor);
         }
     });
+}
+
+void ConfigurationWidget::initMediaDialog() {
+    connect(ui->showCannonButton, &QPushButton::pressed,
+            [&]{
+                m_media->showWinnerScreen("cannon/main.qml", ui->winningPlayerNameInpuit->text());
+            });
+    connect(ui->showPlayerWinsButton, &QPushButton::pressed,
+            [&]{
+                m_media->showWinnerScreen("confetti/main.qml", ui->winningPlayerNameInpuit->text());
+            });
 }
 
 void ConfigurationWidget::connectButtonState(PhysicalButton *sw, StateIndicatorWidget *indicator) {

@@ -300,12 +300,12 @@ void MediaDialog::leaveDMRunningScreen() {
 void MediaDialog::enterDMWinnerDisplayScreen(QString playerName) {
     qDebug() << "Entering DM Winner screen";
     ui->mainDisplay->setCurrentWidget(ui->deathMatchWinnerPage);
-    ui->dmWinnerWidget->start();
+//    ui->dmWinnerWidget->start();
 }
 
 void MediaDialog::leaveDMWinnerDisplayScreen() {
     qDebug() << "Leaving DM Winner screen";
-    ui->dmWinnerWidget->stop();
+//    ui->dmWinnerWidget->stop();
 }
 
 void MediaDialog::enterSoccerConfigScreen() {
@@ -384,6 +384,11 @@ void MediaDialog::staringDMR(int duration, bool needsDoorDropTimer, int doorDrop
         ui->dmrDDtimeLabel->hide();
     }
     ui->dmrTimeRemaining->setText(msToTimeRep(duration));
+}
+
+void MediaDialog::showWinnerScreen(QString q, QString winningPlayer) {
+    ui->mainDisplay->setCurrentWidget(ui->deathMatchWinnerPage);
+    ui->dmWinnerWidget->setSource(q);
 }
 
 void MediaDialog::stopAnimations() {

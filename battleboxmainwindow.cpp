@@ -176,7 +176,7 @@ void BattleBoxMainWindow::initializeSystemConfigurationScreen() {
     // things like back buttons, and access to the current data
     connect(ui->configuration, &ConfigurationWidget::clickedBack,
             [&] { setCurrentScreen(Screen::GameSelectionScreen); });
-    ui->configuration->init(m_data->settings(), m_boxState);
+    ui->configuration->init(m_data->settings(), m_boxState, m_mediaScreen);
 }
 
 

@@ -2,10 +2,31 @@ import QtQuick 2.2
 import QtQuick.Controls 2.2
 import Box2D 2.0
 import QtMultimedia
+import QtQml 2.15
 import "../shared"
 
 Rectangle {
     id: root
+
+    Connections {
+        target: mainWidget
+        function onConfetti() {
+            root.fireBall()
+        }
+    }
+    function fireBall() {
+        var angle = Math.abs(joint.getJointAngle());
+        var offsetX = 65 * Math.cos(angle * Math.PI / 180);
+        var offsetY = 65 * Math.sin(angle * Math.PI / 180);
+        var newBall = ball.createObject(root);
+        newBall.x = 125 + offsetX;
+        newBall.y = 500 - offsetY;
+        var impulse = power.value;
+        var impulseX = impulse * Math.cos(angle * Math.PI / 180);
+        var impulseY = impulse * Math.sin(angle * Math.PI / 180);
+        newBall.body.applyLinearImpulse(Qt.point(impulseX, -impulseY), newBall.body.getWorldCenter());
+        shotSound.play();
+    }
 
     width: 800
     height: 600

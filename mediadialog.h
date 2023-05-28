@@ -101,6 +101,8 @@ public slots:
     void updateDMRRemainingTime(int var);
     void updateDMRDoorDropTime(int var);
     void staringDMR(int duration, bool needsDoorDropTimer, int doorDropTime);
+
+    void showWinnerScreen(QString path, QString winningPlayer);
 signals:
     void volumeChanged(float);
 private:

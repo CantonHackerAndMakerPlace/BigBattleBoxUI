@@ -59,7 +59,14 @@ color: white;</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="0" column="1">
+      <widget class="QPushButton" name="testButton">
+       <property name="text">
+        <string>TestButton</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
       <widget class="QQuickWidget" name="scene">
        <property name="resizeMode">
         <enum>QQuickWidget::SizeRootObjectToView</enum>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>889</width>
-    <height>639</height>
+    <width>1071</width>
+    <height>709</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,10 +32,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <property name="spacing">
-     <number>0</number>
-    </property>
+   <layout class="QGridLayout" name="gridLayout_40">
     <property name="sizeConstraint">
      <enum>QLayout::SetMinimumSize</enum>
     </property>
@@ -51,7 +48,7 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item>
+    <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_39">
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
@@ -71,7 +68,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>6</number>
         </property>
         <widget class="QWidget" name="gameSelection">
          <property name="sizePolicy">
@@ -1045,8 +1042,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>383</width>
-                 <height>558</height>
+                 <width>1065</width>
+                 <height>609</height>
                 </rect>
                </property>
                <property name="styleSheet">
