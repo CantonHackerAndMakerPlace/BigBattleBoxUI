@@ -299,7 +299,9 @@ void MediaDialog::leaveDMRunningScreen() {
 
 void MediaDialog::enterDMWinnerDisplayScreen(QString playerName) {
     qDebug() << "Entering DM Winner screen";
+    this->showWinnerScreen("confetti/main.qml", playerName);
     ui->mainDisplay->setCurrentWidget(ui->deathMatchWinnerPage);
+
 //    ui->dmWinnerWidget->start();
 }
 
@@ -389,6 +391,8 @@ void MediaDialog::staringDMR(int duration, bool needsDoorDropTimer, int doorDrop
 void MediaDialog::showWinnerScreen(QString q, QString winningPlayer) {
     ui->mainDisplay->setCurrentWidget(ui->deathMatchWinnerPage);
     ui->dmWinnerWidget->setSource(q);
+    ui->dmWinnerWidget->setWinner(winningPlayer);
+    ui->dmWinnerWidget->startCelibration();
 }
 
 void MediaDialog::stopAnimations() {

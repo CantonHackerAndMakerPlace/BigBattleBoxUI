@@ -7,20 +7,14 @@ PlayerWinsWidget::PlayerWinsWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PlayerWinsWidget)
     , m_qmlToLoad("cannon/main.qml")
+    , m_winner("spongebob")
 {
     ui->setupUi(this);
-    connect(ui->testButton, &QPushButton::pressed,
-            [&]{
-                emit confetti();
-            });
     const QUrl url(u"qrc:/qmlproject/qmlproject/main.qml"_qs);
-    ui->scene->engine()->addImportPath("C:/Users/Brian/Desktop/projects/build-BigBattleBoxUI-Desktop_Qt_6_4_3_MinGW_64_bit-Debug/thirdparty/Box2DQML/bin/lib");
+    ui->scene->engine()->addImportPath(QString(BOX2DQML_ROOT) + "/bin/lib");
     ui->scene->rootContext()->setContextProperty("mainWidget", this);
     ui->scene->setSource(url);
-
 }
-
-//void PlayerWinsWidget::autocomputeSceneSize(const QList<QRectF>& region) { }
 
 PlayerWinsWidget::~PlayerWinsWidget() {
     delete ui;
@@ -35,4 +29,17 @@ void PlayerWinsWidget::setSource(QString path) {
         m_qmlToLoad = path;
         emit sourceChanged(m_qmlToLoad);
     }
+}
+
+QString PlayerWinsWidget::winner() {
+    return m_winner;
+}
+
+void PlayerWinsWidget::setWinner(QString name) {
+    m_winner = name;
+    emit winnerChanged(m_winner);
+}
+
+void PlayerWinsWidget::startCelibration() {
+    emit restartConfetti();
 }

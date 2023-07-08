@@ -16,15 +16,25 @@ Rectangle {
     }
     function fireBall() {
         var angle = Math.abs(joint.getJointAngle());
+        console.debug("Angle: ", angle);
         var offsetX = 65 * Math.cos(angle * Math.PI / 180);
+        console.debug("Offset X: ", offsetX);
         var offsetY = 65 * Math.sin(angle * Math.PI / 180);
+        console.debug("Offset Y: ", offsetY);
         var newBall = ball.createObject(root);
         newBall.x = 125 + offsetX;
+        console.debug("newBall.x: ", newBall.x);
         newBall.y = 500 - offsetY;
+        console.debug("newBall.y: ", newBall.y);
         var impulse = power.value;
+        console.debug("Impulse: ", impulse);
         var impulseX = impulse * Math.cos(angle * Math.PI / 180);
+        console.debug("Impulse X: ", impulseX);
         var impulseY = impulse * Math.sin(angle * Math.PI / 180);
-        newBall.body.applyLinearImpulse(Qt.point(impulseX, -impulseY), newBall.body.getWorldCenter());
+        console.debug("Impulse Y: ", impulseY);
+        var impulsePoint = Qt.point(impulseX, -impulseY);
+        console.debug("impulsePoint: ", impulsePoint );
+        newBall.body.applyLinearImpulse(impulsePoint, newBall.body.getWorldCenter());
         shotSound.play();
     }
 
@@ -356,17 +366,7 @@ Rectangle {
             acceptedButtons: Qt.LeftButton
             anchors.fill: parent
             onClicked: {
-                var angle = Math.abs(joint.getJointAngle());
-                var offsetX = 65 * Math.cos(angle * Math.PI / 180);
-                var offsetY = 65 * Math.sin(angle * Math.PI / 180);
-                var newBall = ball.createObject(root);
-                newBall.x = 125 + offsetX;
-                newBall.y = 500 - offsetY;
-                var impulse = power.value;
-                var impulseX = impulse * Math.cos(angle * Math.PI / 180);
-                var impulseY = impulse * Math.sin(angle * Math.PI / 180);
-                newBall.body.applyLinearImpulse(Qt.point(impulseX, -impulseY), newBall.body.getWorldCenter());
-                shotSound.play();
+                fireBall();
             }
         }
     }

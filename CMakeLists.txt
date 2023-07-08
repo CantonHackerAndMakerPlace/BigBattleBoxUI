@@ -202,7 +202,7 @@ set_target_properties(BattleBox PROPERTIES
 )
 qt_import_plugins(BattleBox INCLUDE qmlproject)
 
-add_compile_definitions(RESOURCE_LOCATION="${CMAKE_SOURCE_DIR}/resources")
+add_compile_definitions(RESOURCE_LOCATION="${CMAKE_SOURCE_DIR}/resources" BOX2DQML_ROOT="${BOX2DQML_ROOT}")
 
 install(TARGETS BattleBox
     BUNDLE DESTINATION .

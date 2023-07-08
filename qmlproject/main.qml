@@ -14,7 +14,7 @@ Item {
         id: sceneLoader
         width: parent.width
         height: parent.height
-        source: mainWidget.source
+//        source: mainWidget.source
         focus: true
         Connections{
             target: mainWidget

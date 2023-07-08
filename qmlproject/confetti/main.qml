@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Controls 2.2
+import QtQuick.Layouts
 import Box2D 2.0
 import QtMultimedia
 import QtQml 2.15
@@ -9,12 +10,43 @@ Rectangle {
     id: confettiPage
     width: 320; height: 480
     color: "lightgray"
-
     World { id: physicsWorld }
+    property list<Item> confetti:[];
+    Connections {
+        target: mainWidget
+        onWinnerChanged: function(text) {
+            winningPlayerName.text = "Player " + text + "\nWINS!";
+        }
+    }
+    Connections {
+        target: mainWidget
+        onRestartConfetti: function () {
+            restartConfetti();
+        }
+    }
 
+
+    Text {
+        id: winningPlayerName
+        text: qsTr("waffles")
+        font.bold: true
+        font.family: "Helvetica"
+        font.pixelSize: 75
+        onTextChanged: function textChanged(text) {
+                winningPlayerName.y = secondPane.height/3 - (winningPlayerName.height/2)
+                winningPlayerName.x = secondPane.width/2 - (winningPlayerName.width/2)
+            }
+        y: winningPlayerName.y = secondPane.height/3 - (winningPlayerName.height/2)
+        x: winningPlayerName.x = secondPane.width/2 - (winningPlayerName.width/2)
+        z: 4
+        onWidthChanged: confettiPage.widthChanged()
+        onHeightChanged: confettiPage.heightChanged()
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+    }
 
     Component {
-        id: rectComponent
+        id: confetti
         RectangleBoxBody {
             id: rect
             width: 20
@@ -52,6 +84,7 @@ Rectangle {
                 }
             }
         }
+
     }
 
     Item {
@@ -116,186 +149,6 @@ Rectangle {
             }
         }
 
-//        PhysicsItem {
-//            id: drivingWheel
-//            width: 48
-//            height: 48
-//            world: physicsWorld
-//            bodyType: Body.Dynamic
-//            fixtures: Circle {
-//                radius: 24
-//                density: 0.5
-//            }
-//            Image {
-//                anchors.fill: parent
-//                source: "images/wheel.png"
-//            }
-//        }
-
-//        PhysicsItem {
-//            id: drivenWheel
-//            width: 48
-//            height: 48
-//            world: physicsWorld
-//            bodyType: Body.Dynamic
-//            fixtures: Circle {
-//                radius: 24
-//                density: 0.5
-//            }
-//            Image {
-//                anchors.fill: parent
-//                source: "images/wheel.png"
-//            }
-//        }
-
-//        PhysicsItem {
-//            id: topBelt
-//            x: 65
-//            y: 500
-//            width: 600
-//            height: 5
-//            world: physicsWorld
-//            fixtures: Box {
-//                id: topBeltFixture
-//                width: topBelt.width
-//                height: topBelt.height
-//                density: 0.5
-//            }
-//            Rectangle {
-//                anchors.fill: parent
-//                color: "#000"
-//                radius: 5
-//            }
-//        }
-//        Rectangle {
-//            id: bottomBelt
-//            x: 65
-//            y: 543
-//            width: 600
-//            height: 5
-//            color: "#000"
-//            radius: 5
-//        }
-
-//        RevoluteJoint {
-//            bodyA: topBelt.body
-//            bodyB: drivingWheel.body
-//            localAnchorA: Qt.point(600,24)
-//            localAnchorB: Qt.point(24,24)
-//            collideConnected: false
-//            enableMotor: true
-//            motorSpeed: 180
-//            maxMotorTorque: 100
-//        }
-
-//        RevoluteJoint {
-//            bodyA: topBelt.body
-//            bodyB: drivenWheel.body
-//            localAnchorA: Qt.point(0,24)
-//            localAnchorB: Qt.point(24,24)
-//            collideConnected: false
-//            enableMotor: true
-//            motorSpeed: 180
-//            maxMotorTorque: 100
-//        }
-//        PhysicsItem {
-//            id: tube
-//            x: 500
-//            y: 10
-//            width: 250
-//            height: 450
-//            world: physicsWorld
-//            fixtures: [
-//                Chain {
-//                    vertices: [
-//                        Qt.point(0,60),
-//                        Qt.point(170,60),
-//                        Qt.point(180,70),
-//                        Qt.point(180,350),
-//                        Qt.point(170,400),
-//                        Qt.point(170,430)
-//                    ]
-//                },
-//                Chain {
-//                    vertices: [
-//                        Qt.point(0,5),
-//                        Qt.point(190,5),
-//                        Qt.point(225,25),
-//                        Qt.point(240,60),
-//                        Qt.point(240,350),
-//                        Qt.point(250,400),
-//                        Qt.point(250,430)
-//                    ]
-//                }
-//            ]
-//            Canvas {
-//                id: canvas
-//                anchors.fill: parent
-//                onPaint: {
-//                    var context = canvas.getContext("2d");
-//                    context.beginPath();
-//                    context.moveTo(0,60);
-//                    context.lineTo(170,60);
-//                    context.lineTo(180,70);
-//                    context.lineTo(180,350);
-//                    context.lineTo(170,400);
-//                    context.lineTo(170,430);
-//                    context.lineTo(250,430);
-//                    context.lineTo(250,400);
-//                    context.lineTo(240,350);
-//                    context.lineTo(240,60);
-//                    context.lineTo(225,25);
-//                    context.lineTo(190,5);
-//                    context.lineTo(0,5);
-//                    context.lineTo(0,60);
-//                    context.fillStyle = "#DEDEDE";
-//                    context.lineWidth = 1;
-//                    context.lineJoin = "miter";
-//                    context.fill();
-//                    context.strokeStyle = "#999";
-//                    context.stroke();
-//                }
-//            }
-//        }
-
-//        BoxBody {
-//            id: flowVertical
-//            x: 680
-//            y: 60
-//            width: 60
-//            height: 500
-//            world: physicsWorld
-//            sensor: true
-//            onBeginContact: other => {
-//                other.getBody().gravityScale = -2;
-//            }
-//        }
-//        BoxBody {
-//            id: flowHorizontal
-//            x: 500
-//            y: 10
-//            width: 240
-//            height: 60
-//            world: physicsWorld
-//            sensor: true
-//            onBeginContact: other => {
-//                var body = other.getBody();
-//                body.gravityScale = 0.5;
-//                body.applyLinearImpulse(Qt.point(-5,0), Qt.point(24,24));
-//            }
-//            onEndContact: other => {
-//                var body = other.getBody();
-//                body.gravityScale = 1;
-//                body.applyForce(Qt.point(5,0), Qt.point(24,24));
-//                var rect = body.target
-//                var index = rect.colorIndex;
-//                index ++;
-//                rect.colorIndex = index;
-//                if ((index + 1) === rect.colors.length)
-//                    rect.animateDeletion = true;
-//            }
-//        }
-
         Rectangle {
             id: debugButton
             x: 50
@@ -314,16 +167,45 @@ Rectangle {
                 onClicked: debugDraw.visible = !debugDraw.visible;
             }
         }
+        Item {
+            id:lTimer
+            property int fireCount: 0
 
-        Timer {
-            id: rectTimer
-            interval: 2000
-            running: true
-            repeat: true
-            onTriggered: {
-                var newBox = rectComponent.createObject(physicsRoot);
-                newBox.x = 60 + (Math.random() * 300);
-                newBox.y = 200;
+            Timer {
+                id: leftSideConfettiTimer
+                interval: 25
+                running: true
+                repeat: true
+                triggeredOnStart: true
+                onTriggered: {
+                    if (lTimer.fireCount < 200) {
+                        lTimer.fireCount += 1;
+                        fireConfetti(ground.x + 100, ground.y - 100, 1, -1);
+                    } else {
+                        leftSideConfettiTimer.stop();
+                    }
+                }
+            }
+
+        }
+        Item {
+            id:rTimer
+            property int fireCount: 0
+
+            Timer {
+                id: rightSideConfettiTimer
+                interval: 25
+                running: true
+                repeat: true
+                triggeredOnStart: true
+                onTriggered: {
+                    if (rTimer.fireCount < 200) {
+                        rTimer.fireCount += 1;
+                        fireConfetti(ground.x + ground.width - (100 + leftWall.width), ground.y - 100, -1, -1);
+                    } else {
+                        rightSideConfettiTimer.stop();
+                    }
+                }
             }
         }
 
@@ -334,5 +216,30 @@ Rectangle {
             opacity: 0.7
             visible: false
         }
+    }
+
+    function fireConfetti(posX, posY, transformX, transformY) {
+        var initalAngle = (Math.random() * (70 - 20));
+        var angle = (initalAngle + 20);
+        var newBox = confetti.createObject(physicsRoot);
+        newBox.x = posX;
+        newBox.y = posY;
+        var impulse = (Math.random() * 10) + 1;
+        var impulseX = impulse * Math.cos(angle * Math.PI / 180);
+        var impulseY = impulse * Math.sin(angle * Math.PI / 180);
+        newBox.colorIndex = (Math.random() * 100) % newBox.colors.length;
+        newBox.body.applyLinearImpulse(Qt.point(transformX*impulseX, transformY*impulseY), newBox.body.getWorldCenter());
+        confettiPage.confetti.push(newBox);
+    }
+
+    function restartConfetti() {
+        for (var i = 0; i < confettiPage.confetti.length; i++) {
+            confettiPage.confetti[i].destroy();
+        }
+        confettiPage.confetti = [];
+        rTimer.fireCount = 0;
+        rightSideConfettiTimer.start();
+        lTimer.fireCount = 0;
+        leftSideConfettiTimer.start();
     }
 }

@@ -14,16 +14,22 @@ class PlayerWinsWidget : public QWidget
 public:
     explicit PlayerWinsWidget(QWidget *parent = nullptr);
     ~PlayerWinsWidget();
-
+    QString winner();
     QString source();
 public slots:
     void setSource(QString path);
+    void setWinner(QString name);
+
+    void startCelibration();
 signals:
     void confetti();
+    void restartConfetti();
     void sourceChanged(QString );
+    void winnerChanged(QString);
 private:
     Ui::PlayerWinsWidget *ui;
     QString m_qmlToLoad;
+    QString m_winner;
 };
 
 #endif // PLAYERWINSWIDGET_H
