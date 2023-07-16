@@ -20,7 +20,7 @@ class PhysicalButton : public QObject
     Q_OBJECT
     Q_PROPERTY(bool state READ state WRITE setState NOTIFY stateChanged)
 public:
-    explicit PhysicalButton(QObject *parent = nullptr);
+    explicit PhysicalButton(QString player, QString usedFor, QObject *parent = nullptr);
 
     enum class SwitchConfig {
         NormallyOpen,
@@ -37,6 +37,8 @@ signals:
     void stateChanged(bool arg);
     void switchKindChanged(PhysicalButton::SwitchConfig cfg);
 private:
+    QString m_name;
+    QString m_usedFor;
     bool m_state = true;
     SwitchConfig m_switchKind = SwitchConfig::NormallyClosed;
 };

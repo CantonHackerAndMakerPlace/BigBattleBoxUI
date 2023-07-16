@@ -426,13 +426,6 @@
          </property>
          <item row="0" column="0">
           <layout class="QGridLayout" name="gridLayout_13">
-           <item row="0" column="0">
-            <widget class="QPushButton" name="showCannonButton">
-             <property name="text">
-              <string>Show Cannon</string>
-             </property>
-            </widget>
-           </item>
            <item row="2" column="0">
             <widget class="QPushButton" name="showPlayerWinsButton">
              <property name="text">
@@ -444,6 +437,20 @@
             <widget class="QLineEdit" name="winningPlayerNameInpuit">
              <property name="text">
               <string>Configuration Test</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="showCannonButton">
+             <property name="text">
+              <string>Show Cannon</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="restoreMediaScreen">
+             <property name="text">
+              <string>Restor Media Screen</string>
              </property>
             </widget>
            </item>

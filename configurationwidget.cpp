@@ -168,6 +168,11 @@ void ConfigurationWidget::initMediaDialog() {
             [&]{
                 m_media->showWinnerScreen("confetti/main.qml", ui->winningPlayerNameInpuit->text());
             });
+
+    connect(ui->restoreMediaScreen, &QPushButton::pressed,
+            [&]{
+                m_media->show();
+            });
 }
 
 void ConfigurationWidget::connectButtonState(PhysicalButton *sw, StateIndicatorWidget *indicator) {

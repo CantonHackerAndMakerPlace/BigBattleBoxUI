@@ -295,6 +295,19 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
             [&] { setCurrentScreen(Screen::DMCountDownScreen); });
     connect(ui->dmprCancel, &QPushButton::clicked,
             [&] { setCurrentScreen(Screen::DMConfigScreen); });
+    // Connecting battle box to UI screen
+
+    // Connecting player one to battle box UI screen controls
+    connect(m_boxState->playerOne()->readyButton(), &PhysicalButton::stateChanged,
+        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setPlayerReady);
+    connect(m_boxState->playerOne()->doorButton(), &PhysicalButton::stateChanged,
+        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setDoorClosed);
+
+    // Connecting player two to battle box UI screen controls
+    connect(m_boxState->playerTwo()->readyButton(), &PhysicalButton::stateChanged,
+        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setPlayerReady);
+    connect(m_boxState->playerTwo()->doorButton(), &PhysicalButton::stateChanged,
+        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setDoorClosed);
 
     connect(m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP1ReadyText);

@@ -1,8 +1,10 @@
 #include "physicalbutton.h"
 #include <QDebug>
 
-PhysicalButton::PhysicalButton(QObject *parent)
+PhysicalButton::PhysicalButton(QString player, QString usedFor, QObject *parent)
     : QObject{parent}
+    , m_name(player)
+    , m_usedFor(usedFor)
     , m_state(false)
 { }
 
@@ -20,6 +22,7 @@ void PhysicalButton::setState(bool arg) {
         // Normally open means when the switch is not pressed
         // the value is false
         if(m_state != arg) {
+            qDebug() << m_name<< "'s " << m_usedFor << " Button Changed state to "  << m_state;
             m_state = arg;
             emit stateChanged(m_state);
         }
@@ -30,6 +33,7 @@ void PhysicalButton::setState(bool arg) {
         // This means we need to ! the input for this case.
         if(m_state != !arg) {
             m_state = !arg;
+            qDebug() << m_name<< "'s " << m_usedFor << " Button Changed state to "  << m_state;
             emit stateChanged(m_state);
         }
         break;

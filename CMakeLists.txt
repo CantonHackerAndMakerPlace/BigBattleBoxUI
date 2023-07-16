@@ -123,6 +123,14 @@ set(PROJECT_SOURCES
     playerwinswidget.ui
     confettigi.h
     confettigi.cpp
+
+    app_state/applicationstate.h
+    app_state/applicationstate.cpp
+    app_state/screen.h
+    app_state/screen.cpp
+    app_state/deathmatchgamesession.h
+    app_state/deathmatchgamesession.cpp
+
     main.cpp
 )
 

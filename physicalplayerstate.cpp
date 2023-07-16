@@ -1,11 +1,12 @@
 #include "physicalplayerstate.h"
 
-PhysicalPlayerState::PhysicalPlayerState(QObject *parent)
+PhysicalPlayerState::PhysicalPlayerState(QString name, QObject *parent)
     : QObject{parent}
-    , m_ready(new PhysicalButton(this))
-    , m_door(new PhysicalButton(this))
-    , m_trapDoor(new PhysicalButton(this))
-    , m_quit(new PhysicalButton(this))
+    , m_name(name)
+    , m_ready(new PhysicalButton(name, "ready", this))
+    , m_door(new PhysicalButton(name, "door", this))
+    , m_trapDoor(new PhysicalButton(name, "trap door", this))
+    , m_quit(new PhysicalButton(name, "quit", this))
     , m_spotLight(new PhysicalRelay(this))
 { }
 

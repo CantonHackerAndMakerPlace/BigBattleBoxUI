@@ -9,7 +9,7 @@ class PhysicalPlayerState : public QObject
 {
     Q_OBJECT
 public:
-    explicit PhysicalPlayerState(QObject *parent = nullptr);
+    explicit PhysicalPlayerState(QString name, QObject *parent = nullptr);
 
     PhysicalButton *readyButton() const;
     PhysicalButton *readyButton();
@@ -24,6 +24,7 @@ public:
     PhysicalRelay *spotLight() const;
     PhysicalRelay *spotLight();
 private:
+    QString m_name;
     PhysicalButton *m_ready;
     PhysicalButton *m_door;
     PhysicalButton *m_trapDoor;

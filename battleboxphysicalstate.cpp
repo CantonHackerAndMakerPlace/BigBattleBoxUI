@@ -8,8 +8,8 @@ constexpr const char *SERIAL_PORT_FILES = "/dev/";
 BattleBoxPhysicalState::BattleBoxPhysicalState(QObject *parent)
     : QObject{parent}
     , m_connectionManager(new ArduinoConnectionManager(this))
-    , m_playerOne(new PhysicalPlayerState(this))
-    , m_playerTwo(new PhysicalPlayerState(this))
+    , m_playerOne(new PhysicalPlayerState("player One", this))
+    , m_playerTwo(new PhysicalPlayerState("player Two", this))
 {
     connect(m_connectionManager, &ArduinoConnectionManager::error,
             this, &BattleBoxPhysicalState::error);

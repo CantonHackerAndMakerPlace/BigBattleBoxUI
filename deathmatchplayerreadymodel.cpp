@@ -1,4 +1,5 @@
 #include "deathmatchplayerreadymodel.h"
+#include <QDebug>
 
 DeathMatchPlayerReadyModel::DeathMatchPlayerReadyModel(QObject *parent)
     : QObject{parent}
@@ -28,6 +29,7 @@ QString DeathMatchPlayerReadyModel::doorText() const {
 void DeathMatchPlayerReadyModel::setDoorClosed(bool arg) {
     if (m_doorClosed != arg) {
         m_doorClosed = arg;
+        qDebug() << "Player SOmething Door closed status: "<< arg;
         emit doorClosedChanged(m_doorClosed);
     }
 }
@@ -37,6 +39,7 @@ void DeathMatchPlayerReadyModel::resetDoorClosed() {
 }
 
 void DeathMatchPlayerReadyModel::setPlayerReady(bool arg) {
+    qDebug() << "Received callback for player ready";
     if(m_doorClosed) {
         if(m_playerReady != arg) {
             m_playerReady = arg;
