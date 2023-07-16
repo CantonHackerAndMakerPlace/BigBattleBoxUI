@@ -54,10 +54,7 @@ set(PROJECT_SOURCES
     durationwidget.cpp
     durationwidget.ui
 
-    deathmatchplayerreadymodel.h
-    deathmatchplayerreadymodel.cpp
-    deathmatchconfig.h
-    deathmatchconfig.cpp
+
     deathmatchrunningclockwidget.h
     deathmatchrunningclockwidget.cpp
     deathmatchrunningclockwidget.ui
@@ -120,8 +117,6 @@ set(PROJECT_SOURCES
     playerwinswidget.h
     playerwinswidget.cpp
     playerwinswidget.ui
-    confettigi.h
-    confettigi.cpp
 
     app_state/applicationstate.h
     app_state/applicationstate.cpp
@@ -131,6 +126,10 @@ set(PROJECT_SOURCES
     app_state/deathmatchgamesession.cpp
     app_state/battleboxviewmodel.h
     app_state/battleboxviewmodel.cpp
+    app_state/deathmatchplayerreadymodel.h
+    app_state/deathmatchplayerreadymodel.cpp
+    app_state/deathmatchconfig.h
+    app_state/deathmatchconfig.cpp
 
     main.cpp
 )

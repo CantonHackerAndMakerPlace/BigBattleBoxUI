@@ -5,7 +5,7 @@
 #include <QSettings>
 #include "soccerconfig.h"
 #include "soccermatch.h"
-#include "deathmatchconfig.h"
+#include "app_state/deathmatchconfig.h"
 #include "deathmatchplayerreadymodel.h"
 #include "soccerteamready.h"
 #include "deathmatchruntime.h"

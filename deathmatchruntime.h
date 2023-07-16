@@ -2,7 +2,7 @@
 #define DEATHMATCHRUNTIME_H
 
 #include <QObject>
-#include "deathmatchconfig.h"
+#include "app_state/deathmatchconfig.h"
 #include <QAbstractAnimation>
 #include <QParallelAnimationGroup>
 

@@ -1,4 +1,4 @@
-#include "deathmatchconfig.h"
+#include "app_state/deathmatchconfig.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>

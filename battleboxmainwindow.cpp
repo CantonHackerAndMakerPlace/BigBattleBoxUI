@@ -13,7 +13,7 @@
 
 #include "mediadialog.h"
 #include "app_state/battleboxviewmodel.h"
-#include "deathmatchconfig.h"
+#include "app_state/deathmatchconfig.h"
 #include "battleboxphysicalstate.h"
 #include "configurationwidget.h"
 

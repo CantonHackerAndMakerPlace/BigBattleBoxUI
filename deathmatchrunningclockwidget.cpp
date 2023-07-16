@@ -1,6 +1,6 @@
 #include "deathmatchrunningclockwidget.h"
 #include "ui_deathmatchrunningclockwidget.h"
-#include "deathmatchconfig.h"
+#include "app_state/deathmatchconfig.h"
 #include "deathmatchruntime.h"
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
