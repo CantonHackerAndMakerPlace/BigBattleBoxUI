@@ -2,7 +2,7 @@
 #define BUTTONCONFIGWIDGET_H
 
 #include <QWidget>
-#include "physicalbutton.h"
+#include "physical_state/physicalbutton.h"
 
 namespace Ui {
 class ButtonConfigWidget;

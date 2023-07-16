@@ -14,7 +14,7 @@
 #include "mediadialog.h"
 #include "app_state/battleboxviewmodel.h"
 #include "app_state/deathmatchconfig.h"
-#include "battleboxphysicalstate.h"
+#include "physical_state/battleboxphysicalstate.h"
 #include "configurationwidget.h"
 
 // sudo chmod a+rw /dev/ttyACM0

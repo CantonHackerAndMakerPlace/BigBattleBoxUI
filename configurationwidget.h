@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QSettings>
 
-#include "battleboxphysicalstate.h"
+#include "physical_state/battleboxphysicalstate.h"
 
 class StateIndicatorWidget;
 class ButtonConfigWidget;

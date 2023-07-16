@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <QStringList>
-#include "physicalplayerstate.h"
-#include "arduinoconnectionmanager.h"
+#include "physical_state/physicalplayerstate.h"
+#include "physical_state/arduinoconnectionmanager.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>

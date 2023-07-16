@@ -2,8 +2,8 @@
 #define PHYSICALPLAYERSTATE_H
 
 #include <QObject>
-#include "physicalbutton.h"
-#include "physicalrelay.h"
+#include "physical_state/physicalbutton.h"
+#include "physical_state/physicalrelay.h"
 
 class PhysicalPlayerState : public QObject
 {

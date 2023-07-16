@@ -1,5 +1,5 @@
-#include "soccermatch.h"
-#include "soccerconfig.h"
+#include "app_state/soccermatch.h"
+#include "app_state/soccerconfig.h"
 
 SoccerMatch::SoccerMatch(QObject *parent)
     : QObject{parent}

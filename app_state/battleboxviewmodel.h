@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QSettings>
-#include "soccerconfig.h"
-#include "soccermatch.h"
+#include "app_state/soccerconfig.h"
+#include "app_state/soccermatch.h"
 #include "app_state/deathmatchconfig.h"
 #include "deathmatchplayerreadymodel.h"
-#include "soccerteamready.h"
-#include "deathmatchruntime.h"
+#include "app_state/soccerteamready.h"
+#include "app_state/deathmatchruntime.h"
 #include <QSettings>
 
 class BattleBoxViewModel : public QObject

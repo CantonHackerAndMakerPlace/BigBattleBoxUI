@@ -1,4 +1,4 @@
-#include "physicalrelay.h"
+#include "physical_state/physicalrelay.h"
 
 PhysicalRelay::PhysicalRelay(QObject *parent)
     : QObject{parent}

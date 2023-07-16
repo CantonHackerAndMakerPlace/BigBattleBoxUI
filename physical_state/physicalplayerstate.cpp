@@ -1,4 +1,4 @@
-#include "physicalplayerstate.h"
+#include "physical_state/physicalplayerstate.h"
 
 PhysicalPlayerState::PhysicalPlayerState(QString name, QObject *parent)
     : QObject{parent}

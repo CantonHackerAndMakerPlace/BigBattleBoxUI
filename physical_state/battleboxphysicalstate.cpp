@@ -1,5 +1,5 @@
-#include "battleboxphysicalstate.h"
-#include "arduinoconnectionmanager.h"
+#include "physical_state/battleboxphysicalstate.h"
+#include "physical_state/arduinoconnectionmanager.h"
 #include <QFileSystemWatcher>
 #include <QDir>
 

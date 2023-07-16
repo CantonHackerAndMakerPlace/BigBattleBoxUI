@@ -2,7 +2,7 @@
 #define SOCCERRUNNINGCLOCKWIDGET_H
 
 #include <QWidget>
-#include <soccermatch.h>
+#include <app_state/soccermatch.h>
 #include <QParallelAnimationGroup>
 
 namespace Ui {

@@ -2,8 +2,8 @@
 #define CONFIGURATIONCONTENTWIDGET_H
 
 #include <QWidget>
-#include "battleboxphysicalstate.h"
-#include "physicalbutton.h"
+#include "physical_state/battleboxphysicalstate.h"
+#include "physical_state/physicalbutton.h"
 
 class BattleBoxViewModel;
 

@@ -1,4 +1,4 @@
-#include "soccerteamready.h"
+#include "app_state/soccerteamready.h"
 
 SoccerTeamReady::SoccerTeamReady(QObject *parent)
     : QObject{parent}

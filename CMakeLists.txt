@@ -53,20 +53,12 @@ set(PROJECT_SOURCES
     durationwidget.h
     durationwidget.cpp
     durationwidget.ui
-
-
     deathmatchrunningclockwidget.h
     deathmatchrunningclockwidget.cpp
     deathmatchrunningclockwidget.ui
     deathmatchcompletewidget.h
     deathmatchcompletewidget.cpp
     deathmatchcompletewidget.ui
-    soccerconfig.h
-    soccerconfig.cpp
-    soccermatch.h
-    soccermatch.cpp
-    soccerteamready.h
-    soccerteamready.cpp
     soccerrunningclockwidget.h
     soccerrunningclockwidget.cpp
     soccerrunningclockwidget.ui
@@ -80,26 +72,16 @@ set(PROJECT_SOURCES
     mediadialog.cpp
     mediadialog.ui
     resources.qrc
-    media.h
-    media.cpp
     triggeringanimation.h
     triggeringanimation.cpp
-    battleboxphysicalstate.h
-    battleboxphysicalstate.cpp
-    physicalbutton.h
-    physicalbutton.cpp
-    physicalplayerstate.h
-    physicalplayerstate.cpp
-    arduinoconnectionmanager.h
-    arduinoconnectionmanager.cpp
     configurationwidget.h
     configurationwidget.cpp
     configurationwidget.ui
     configurationcontentwidget.h
     configurationcontentwidget.cpp
     configurationcontentwidget.ui
-    physicalrelay.h
-    physicalrelay.cpp
+
+
     buttonconfigwidget.h
     buttonconfigwidget.cpp
     buttonconfigwidget.ui
@@ -111,12 +93,23 @@ set(PROJECT_SOURCES
     stateindicatorwidget.ui
     soundeffectmedia.h
     soundeffectmedia.cpp
-    deathmatchruntime.h
-    deathmatchruntime.cpp
     util.h
     playerwinswidget.h
     playerwinswidget.cpp
     playerwinswidget.ui
+
+    physical_state/arduinoconnectionmanager.h
+    physical_state/arduinoconnectionmanager.cpp
+    physical_state/battleboxphysicalstate.h
+    physical_state/battleboxphysicalstate.cpp
+    physical_state/physicalbutton.h
+    physical_state/physicalbutton.cpp
+    physical_state/physicalplayerstate.h
+    physical_state/physicalplayerstate.cpp
+    physical_state/physicalrelay.h
+    physical_state/physicalrelay.cpp
+
+
 
     app_state/applicationstate.h
     app_state/applicationstate.cpp
@@ -130,6 +123,15 @@ set(PROJECT_SOURCES
     app_state/deathmatchplayerreadymodel.cpp
     app_state/deathmatchconfig.h
     app_state/deathmatchconfig.cpp
+    app_state/deathmatchruntime.h
+    app_state/deathmatchruntime.cpp
+    app_state/soccerconfig.h
+    app_state/soccerconfig.cpp
+    app_state/soccermatch.h
+    app_state/soccermatch.cpp
+    app_state/soccerteamready.h
+    app_state/soccerteamready.cpp
+
 
     main.cpp
 )
