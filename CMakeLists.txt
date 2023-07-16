@@ -53,8 +53,7 @@ set(PROJECT_SOURCES
     durationwidget.h
     durationwidget.cpp
     durationwidget.ui
-    battleboxviewmodel.h
-    battleboxviewmodel.cpp
+
     deathmatchplayerreadymodel.h
     deathmatchplayerreadymodel.cpp
     deathmatchconfig.h
@@ -130,6 +129,8 @@ set(PROJECT_SOURCES
     app_state/screen.cpp
     app_state/deathmatchgamesession.h
     app_state/deathmatchgamesession.cpp
+    app_state/battleboxviewmodel.h
+    app_state/battleboxviewmodel.cpp
 
     main.cpp
 )

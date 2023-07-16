@@ -1,4 +1,4 @@
-#include "battleboxviewmodel.h"
+#include "app_state/battleboxviewmodel.h"
 #include "deathmatchconfig.h"
 #include <QApplication>
 #include <QFile>

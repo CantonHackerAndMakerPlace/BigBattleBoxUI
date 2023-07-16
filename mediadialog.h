@@ -5,7 +5,7 @@
 #include <QHash>
 #include <QLabel>
 #include <functional>
-#include <battleboxviewmodel.h>
+#include <app_state/battleboxviewmodel.h>
 
 class BattleBoxMainWindow;
 class SoundEffectMedia;

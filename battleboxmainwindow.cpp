@@ -12,7 +12,7 @@
 #include <iostream>
 
 #include "mediadialog.h"
-#include "battleboxviewmodel.h"
+#include "app_state/battleboxviewmodel.h"
 #include "deathmatchconfig.h"
 #include "battleboxphysicalstate.h"
 #include "configurationwidget.h"
