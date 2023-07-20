@@ -18,7 +18,7 @@ public:
     /// Returns the screen changing event structure. This keeps track of
     /// and emits events related too when we switch screens.
     Screen *screen() const;
-signals:
+private:
     Screen *m_screen;
 };
 

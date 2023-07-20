@@ -39,7 +39,6 @@ public slots:
     void changeToGameSelectScreen();
     void changeToDMConfigScreen();
     void changeToDMCountDownScreen();
-    void changeToDMCDstartFight();
     void changeToDMPlayersReadyScreen();
     void changeToDMRunningScreen();
     void changeToDMWinnerDisplayScreen(QString playerName);
