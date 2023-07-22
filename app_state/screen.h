@@ -60,6 +60,9 @@ signals:
     void leaveDMConfigScreen();
 
     void enterDMCountDownScreen();
+    // Emitted after the screen changed but before the countdown,
+    // This is used to trigger the animation in the correct order.
+    void postEnterDMCountDownScreen();
     void DMCDstart3();
     void DMCDstart2();
     void DMCDstart1();

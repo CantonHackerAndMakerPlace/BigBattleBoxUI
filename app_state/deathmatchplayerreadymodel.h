@@ -16,10 +16,10 @@ private:
     QString m_doorText = "Open";
 
     // Properties
-    Q_PROPERTY(bool m_doorClosed READ doorClosed WRITE setDoorClosed RESET resetDoorClosed NOTIFY doorClosedChanged)
-    Q_PROPERTY(bool m_playerReady READ playerReady WRITE setPlayerReady RESET resetPlayerReady NOTIFY playerReadyChanged)
-    Q_PROPERTY(QString m_readyText READ readyText WRITE setReadyText RESET resetReadyText NOTIFY readyTextChanged)
-    Q_PROPERTY(QString m_doorText READ doorText WRITE setDoorText RESET resetDoorText NOTIFY doorTextChanged)
+    Q_PROPERTY(bool doorClosed READ doorClosed WRITE setDoorClosed RESET resetDoorClosed NOTIFY doorClosedChanged)
+    Q_PROPERTY(bool playerReady READ playerReady WRITE setPlayerReady RESET resetPlayerReady NOTIFY playerReadyChanged)
+    Q_PROPERTY(QString readyText READ readyText WRITE setReadyText RESET resetReadyText NOTIFY readyTextChanged)
+    Q_PROPERTY(QString doorText READ doorText WRITE setDoorText RESET resetDoorText NOTIFY doorTextChanged)
 
 public:
     bool doorClosed() const;
@@ -28,9 +28,11 @@ public:
     QString doorText() const;
 public slots:
     void setDoorClosed(bool arg);
+    void setDoorClosedForRound(bool arg);
     void resetDoorClosed();
 
     void setPlayerReady(bool arg);
+    void setPlayerReadyForRound(bool arg);
     void resetPlayerReady();
 
     void setReadyText(QString arg);

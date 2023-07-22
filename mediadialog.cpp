@@ -282,6 +282,8 @@ void MediaDialog::leaveDMCountDownScreen() {
 void MediaDialog::enterDMPlayersReadyScreen() {
     qDebug() << "Entering DM players ready";
     ui->mainDisplay->setCurrentWidget(ui->deathMatchPlayersReadyPage);
+    ui->deathMatchPlayersReadyPage->show();
+
 }
 
 void MediaDialog::leaveDMPlayersReadyScreen() {

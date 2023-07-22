@@ -29,17 +29,50 @@ QString DeathMatchPlayerReadyModel::doorText() const {
 void DeathMatchPlayerReadyModel::setDoorClosed(bool arg) {
     if (m_doorClosed != arg) {
         m_doorClosed = arg;
-        qDebug() << "Player SOmething Door closed status: "<< arg;
         emit doorClosedChanged(m_doorClosed);
     }
+    updateDoorText(m_doorClosed);
 }
 
 void DeathMatchPlayerReadyModel::resetDoorClosed() {
     setDoorClosed(false);
 }
 
+void DeathMatchPlayerReadyModel::setDoorClosedForRound(bool arg) {
+    if (!arg) {
+        if (!m_doorClosed) {
+            // Do nothing.
+            return;
+        } else {
+            setDoorClosed(arg);
+            if (m_playerReady) {
+                // Player must hit ready again because they opened the door.
+                // Uncheck the player ready state because they aren't
+                // actually ready yet.
+                emit doorNotClosed("Door opened");
+                setPlayerReady(false);
+            } else {
+                // Do nothing player wasn't ready anyway.
+                return;
+            }
+        }
+    } else {
+        setDoorClosed(arg);
+    }
+}
+
 void DeathMatchPlayerReadyModel::setPlayerReady(bool arg) {
-    qDebug() << "Received callback for player ready";
+    if (m_playerReady != arg) {
+        m_playerReady = arg;
+        emit playerReadyChanged(m_playerReady);
+    }
+}
+
+void DeathMatchPlayerReadyModel::setPlayerReadyForRound(bool arg) {
+    // Ignore when the player is ready but lets go of the button.
+    if (m_playerReady && !arg) {
+        return;
+    }
     if(m_doorClosed) {
         if(m_playerReady != arg) {
             m_playerReady = arg;
@@ -80,10 +113,10 @@ void DeathMatchPlayerReadyModel::resetDoorText() {
 }
 
 void DeathMatchPlayerReadyModel::reset() {
-    resetDoorClosed();
+//    resetDoorClosed();
     resetPlayerReady();
     resetReadyText();
-    resetDoorText();
+//    resetDoorText();
 }
 
 void DeathMatchPlayerReadyModel::updateReadyText(bool arg) {

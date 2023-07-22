@@ -95,26 +95,6 @@ void BattleBoxMainWindow::initSettings() {
     attachSettingToSwitch(m_boxState->playerTwo()->trapDoorButton(), "player_two/trap_door_switch_kind");
     attachSettingToSwitch(m_boxState->playerTwo()->conceedButton(), "player_two/conceed_switch_kind");
 
-    // Creating deathmatch default values
-//    int m_matchDuration;
-//    int m_doorDropTime;
-//    QString m_playerOneName;
-//    QString m_playerTwoName;
-//    DoorDrop m_doorDropKind;
-
-//    toString
-//     Deathmatch initial configurations
-//    m_data->loadSettings();
-//    auto settings = m_data->settings();
-//    settings->beginGroup("DeathMatchDefaults");
-//    settings->setValue("MatchDuration", 180);
-//    settings->setValue("DoorDropTime", 120);
-//    m_data->settings()->setValue("DoorDropKind", int(DeathMatchConfig::DoorDrop::Random));
-//    settings->setValue("PlayerOneName", "");
-//    settings->setValue("PlayerTwoName", "");
-//    settings->endGroup();
-
-//    settings->beginGroup("DeathMatchDefaults");
     m_data->saveSettings();
 }
 
@@ -136,13 +116,9 @@ void BattleBoxMainWindow::attachSettingToSwitch(PhysicalButton *button, const ch
 void BattleBoxMainWindow::initBattleBoxState() {
 
     connect(m_boxState->connectionManager(), &ArduinoConnectionManager::connected,
-            [] {
+            [&] {
         qDebug() << "Connected serial port";
-    });
-
-    connect(m_boxState->connectionManager(), &ArduinoConnectionManager::disconnected,
-            [] {
-        qDebug() << "disconnected from serial port";
+        m_boxState->connectionManager()->sendData("Status");
     });
 
     connect(m_boxState->connectionManager(), &ArduinoConnectionManager::disconnected,
@@ -299,15 +275,15 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
 
     // Connecting player one to battle box UI screen controls
     connect(m_boxState->playerOne()->readyButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setPlayerReady);
+        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
     connect(m_boxState->playerOne()->doorButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setDoorClosed);
+        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
 
     // Connecting player two to battle box UI screen controls
     connect(m_boxState->playerTwo()->readyButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setPlayerReady);
+        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
     connect(m_boxState->playerTwo()->doorButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setDoorClosed);
+        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
 
     connect(m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP1ReadyText);
@@ -806,20 +782,17 @@ void BattleBoxMainWindow::changeScreen(BattleBoxMainWindow::Screen newPage,
         break;
 
     case DMCountDownScreen:
-        qDebug() << "Entering DMCountDownScreen";
         ui->mainDisplay->setCurrentWidget(ui->deathMatchCountDown);
         emit enterDMCountDownScreen();
         m_dmcdAnimationGroup->start();
-
         break;
 
     case DMPlayersReadyScreen:
-        m_data->deathMatchPlayerOneReady()->reset();
-        m_data->deathMatchPlayerTwoReady()->reset();
-        // FIXME: remove this eventually!
-        // m_data->deathMatchPlayerOneReady()->setDoorClosed(true);
-        // m_data->deathMatchPlayerTwoReady()->setDoorClosed(true);
         ui->mainDisplay->setCurrentWidget(ui->deathMatchPlayersReady);
+        m_data->deathMatchPlayerOneReady()->reset();
+        m_data->deathMatchPlayerOneReady()->setDoorClosed(m_boxState->playerOne()->doorButton()->state());
+        m_data->deathMatchPlayerTwoReady()->reset();
+        m_data->deathMatchPlayerTwoReady()->setDoorClosed(m_boxState->playerTwo()->doorButton()->state());
         emit enterDMPlayersReadyScreen();
         break;
 

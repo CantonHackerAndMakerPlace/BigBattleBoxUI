@@ -83,6 +83,7 @@ void Screen::changeScreen(Screen::ScreenKind newPage,
 
         case DMCountDownScreen:
             emit enterDMCountDownScreen();
+            emit postEnterDMCountDownScreen();
             break;
 
         case DMPlayersReadyScreen:

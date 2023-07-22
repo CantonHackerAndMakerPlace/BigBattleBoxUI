@@ -100,7 +100,7 @@ private:
     // Screen switching with signal emitting and this is to make it easier to
     // navigate between screens.
     void changeScreen(BattleBoxMainWindow::Screen newPage,
-                            BattleBoxMainWindow::Screen oldPage);
+                      BattleBoxMainWindow::Screen oldPage);
     Screen currentScreen() const;
 
     void loadQuickLoadFiles(QString dir);
