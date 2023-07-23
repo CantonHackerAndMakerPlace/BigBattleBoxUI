@@ -12,10 +12,10 @@
 #include <iostream>
 
 #include "mediadialog.h"
-#include "app_state/battleboxviewmodel.h"
 #include "app_state/deathmatchconfig.h"
-#include "physical_state/battleboxphysicalstate.h"
+#include "app_state/applicationstate.h"
 #include "configurationwidget.h"
+#include "app_state/screen.h"
 
 // sudo chmod a+rw /dev/ttyACM0
 
@@ -27,20 +27,15 @@ static const char *SOCCER_QUICK_LOAD_FOLDER = "/home/battlbox/SoccerConfig";
 BattleBoxMainWindow::BattleBoxMainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::BattleBoxMainWindow)
-    , m_boxState(new BattleBoxPhysicalState(this))
-    , m_data(new BattleBoxViewModel(this))
+    , m_state(new ApplicationState(this))
     , m_dmcdAnimationGroup(new QSequentialAnimationGroup(this))
     , m_scdAnimationGroup(new QSequentialAnimationGroup(this))
-    , m_currentScreen(Screen::InitialLoad)
     , m_dirWatcher(new QFileSystemWatcher(this))
-    , m_mediaScreen(new MediaDialog(m_data, this))
+    , m_mediaScreen(new MediaDialog(m_state, this))
 {
     ui->setupUi(this);
-    initSettings();
-
+    connectScreenSlots();
     m_mediaScreen->loadSettingsDependentResources();
-
-    initBattleBoxState();
 
     initializeSystemConfigurationScreen();
 
@@ -67,9 +62,9 @@ BattleBoxMainWindow::BattleBoxMainWindow(QWidget *parent)
     initSoccerGameOverScreen();
 
     // Setting the current scren.
-    setCurrentScreen(Screen::GameSelectionScreen);
+    m_state->screen()->changeToGameSelectScreen();
 
-    m_data->saveSettings();
+    m_state->data()->saveSettings();
 }
 
 BattleBoxMainWindow::~BattleBoxMainWindow() {
@@ -77,100 +72,82 @@ BattleBoxMainWindow::~BattleBoxMainWindow() {
 }
 
 DeathMatchConfig *BattleBoxMainWindow::deathMatchConfig() const {
-    return m_data->deathMatchConfig();
+    return m_state->data()->deathMatchConfig();
 }
 
-void BattleBoxMainWindow::initSettings() {
-    m_data->loadSettings();
+void BattleBoxMainWindow::connectScreenSlots() {
+#define SCREEN_CONNECT(NAME)\
+    connect(m_state->screen(), &Screen::NAME,\
+            this, &BattleBoxMainWindow::NAME);
+    SCREEN_CONNECT(enterConfigurationScreen);
+    SCREEN_CONNECT(leaveConfigurationScreen);
 
-    // player one settings
-    attachSettingToSwitch(m_boxState->playerOne()->readyButton(), "player_one/ready_switch_kind");
-    attachSettingToSwitch(m_boxState->playerOne()->doorButton(), "player_one/door_switch_kind");
-    attachSettingToSwitch(m_boxState->playerOne()->trapDoorButton(), "player_one/trap_door_switch_kind");
-    attachSettingToSwitch(m_boxState->playerOne()->conceedButton(), "player_one/conceed_switch_kind");
+    SCREEN_CONNECT(enterGameSelectScreen);
+    SCREEN_CONNECT(leaveGameSelectScreen);
 
-    // Player two settings
-    attachSettingToSwitch(m_boxState->playerTwo()->readyButton(), "player_two/ready_switch_kind");
-    attachSettingToSwitch(m_boxState->playerTwo()->doorButton(), "player_two/door_switch_kind");
-    attachSettingToSwitch(m_boxState->playerTwo()->trapDoorButton(), "player_two/trap_door_switch_kind");
-    attachSettingToSwitch(m_boxState->playerTwo()->conceedButton(), "player_two/conceed_switch_kind");
+    SCREEN_CONNECT(enterDMConfigScreen);
+    SCREEN_CONNECT(leaveDMConfigScreen);
 
-    m_data->saveSettings();
-}
+    SCREEN_CONNECT(enterDMCountDownScreen);
+    SCREEN_CONNECT(postEnterDMCountDownScreen)
+    SCREEN_CONNECT(leaveDMCountDownScreen);
 
-void BattleBoxMainWindow::attachSettingToSwitch(PhysicalButton *button, const char* settingsKey) {
-    using PBSwitchConfig = PhysicalButton::SwitchConfig;
-    auto loadedSetting = intToSwitchConfig(m_data->settings()->value(settingsKey, (int)PhysicalButton::SwitchConfig::NormallyClosed).value<int>());
-    connect(button, &PhysicalButton::switchKindChanged,
-            [=](PBSwitchConfig kind){
-        qDebug() << "Called save setting change for " << settingsKey;
-        m_data->settings()->setValue(settingsKey, (int)kind);
-        m_data->saveSettings();
-    });
-    if (loadedSetting.has_value()) {
-        button->setSwitchKind(loadedSetting.value());
-        m_data->settings()->setValue(settingsKey, (int)loadedSetting.value());
-    }
-}
+    SCREEN_CONNECT(enterDMPlayersReadyScreen);
+    SCREEN_CONNECT(leaveDMPlayersReadyScreen);
 
-void BattleBoxMainWindow::initBattleBoxState() {
+    SCREEN_CONNECT(enterDMRunningScreen);
+    SCREEN_CONNECT(leaveDMRunningScreen);
 
-    connect(m_boxState->connectionManager(), &ArduinoConnectionManager::connected,
-            [&] {
-        qDebug() << "Connected serial port";
-        m_boxState->connectionManager()->sendData("Status");
-    });
+    SCREEN_CONNECT(enterDMWinnerDisplayScreen);
+    SCREEN_CONNECT(leaveDMWinnerDisplayScreen);
 
-    connect(m_boxState->connectionManager(), &ArduinoConnectionManager::disconnected,
-            [] {
-        qDebug() << "disconnected from serial port";
-    });
+    SCREEN_CONNECT(enterSoccerConfigScreen);
+    SCREEN_CONNECT(leaveSoccerConfigScreen);
 
-    connect(m_boxState->connectionManager(), &ArduinoConnectionManager::error,
-            [](QString msg) {
-        qDebug() << "Serial port error occurred: " << msg;
-    });
+    SCREEN_CONNECT(leaveSoccerPlayersReadyScreen);
+    SCREEN_CONNECT(enterSoccerPlayersReadyScreen);
 
-    connect(m_boxState->connectionManager(), &ArduinoConnectionManager::error,
-            [](QString msg) {
-        qDebug() << "Serial port error occurred: " << msg;
-    });
+    SCREEN_CONNECT(enterSoccerRunningScreen);
+    SCREEN_CONNECT(leaveSoccerRunningScreen);
 
-    connect(m_boxState->connectionManager(), &ArduinoConnectionManager::availableSerialPortsChanged,
-            [](QStringList msg) {
-        qDebug() << "Received new serial ports" << msg;
-    });
-    auto port = m_data->settings()->value("arduino/com_port", "/dev/ttyACM0").toString();
-    m_boxState->connectionManager()->connectToSerialPort(port);
+    SCREEN_CONNECT(enterSoccerCountDownScreen);
+    SCREEN_CONNECT(leaveSoccerCountDownScreen);
 
-    // TODO: Load things from settings into the box state or move that code
-    // into the box state itself.
+    SCREEN_CONNECT(enterSoccerGameOverScreen);
+    SCREEN_CONNECT(leaveSoccerGameOverScreen);
+#undef SCREEN_CONNECT
 }
 
 void BattleBoxMainWindow::initializeSystemConfigurationScreen() {
     // Configure the system configuration screen. This may require
     // things like back buttons, and access to the current data
     connect(ui->configuration, &ConfigurationWidget::clickedBack,
-            [&] { setCurrentScreen(Screen::GameSelectionScreen); });
-    ui->configuration->init(m_data->settings(), m_boxState, m_mediaScreen);
+        [&] {
+            m_state->screen()->changeToGameSelectScreen();
+        });
+    ui->configuration->init(m_state->data()->settings(), m_state->physicalState(), m_mediaScreen);
 }
 
 
 void BattleBoxMainWindow::initMediaDialog() {
     m_mediaScreen->setModal(false);
     m_mediaScreen->show();
-    //    m_mediaScreen->showFullScreen();
 }
-
 
 void BattleBoxMainWindow::initGameSelectScreen() {
     // Slot Connections.
     connect(ui->dmConfigButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMConfigScreen); });
+        [&] {
+            m_state->screen()->changeToDMConfigScreen();
+        });
     connect(ui->soccerConfigButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::SoccerConfigScreen); });
+        [&] {
+            m_state->screen()->changeToSoccerConfigScreen();
+        });
     connect(ui->systemConfigurationButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::ConfigurationScreen); });
+        [&] {
+            m_state->screen()->changeToConfigurationScreen();
+        });
 }
 
 void BattleBoxMainWindow::initQuickSelectWidgets() {
@@ -195,48 +172,52 @@ void BattleBoxMainWindow::initDeathMatchConfigScreen() {
             this, &BattleBoxMainWindow::on_dmCfgLoadButton_clicked);
 
     connect(ui->dmStart, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMPlayersReadyScreen); });
+        [&] {
+            m_state->screen()->changeToDMPlayersReadyScreen();
+        });
     connect(ui->dmCancel, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::GameSelectionScreen); });
+        [&] {
+            m_state->screen()->changeToGameSelectScreen();
+        });
     connect(ui->dmCfgReset, &QPushButton::clicked,
-            m_data, &BattleBoxViewModel::resetDeathMatchConfig);
+            m_state->data(), &BattleBoxViewModel::resetDeathMatchConfig);
 
     // Setting up bidirectional connections between the deathmatch configuration
     // and the configuration screen.
 
     // Connecting player one name edit
-    ui->playerOneNameLineEdit->setText(m_data->deathMatchConfig()->playerOneName());
+    ui->playerOneNameLineEdit->setText(m_state->data()->deathMatchConfig()->playerOneName());
     connect(ui->playerOneNameLineEdit, &QLineEdit::textChanged,
-            m_data->deathMatchConfig(), &DeathMatchConfig::setPlayerOneName);
-    connect(m_data->deathMatchConfig(), &DeathMatchConfig::playerOneNameChanged,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setPlayerOneName);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::playerOneNameChanged,
             ui->playerOneNameLineEdit, &QLineEdit::setText);
 
     // Connecting player two name edit
-    ui->playerTwoNameLineEdit->setText(m_data->deathMatchConfig()->playerTwoName());
+    ui->playerTwoNameLineEdit->setText(m_state->data()->deathMatchConfig()->playerTwoName());
     connect(ui->playerTwoNameLineEdit, &QLineEdit::textChanged,
-            m_data->deathMatchConfig(), &DeathMatchConfig::setPlayerTwoName);
-    connect(m_data->deathMatchConfig(), &DeathMatchConfig::playerTwoNameChanged,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setPlayerTwoName);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::playerTwoNameChanged,
             ui->playerTwoNameLineEdit, &QLineEdit::setText);
 
     // Connecting match duration widget
-    ui->matchDurationWidget->setDuration(m_data->deathMatchConfig()->matchDuration());
+    ui->matchDurationWidget->setDuration(m_state->data()->deathMatchConfig()->matchDuration());
     connect(ui->matchDurationWidget, &DurationWidget::durationChanged,
-            m_data->deathMatchConfig(), &DeathMatchConfig::setMatchDuration);
-    connect(m_data->deathMatchConfig(), &DeathMatchConfig::matchDurationChanged,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setMatchDuration);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::matchDurationChanged,
             ui->matchDurationWidget, &DurationWidget::setDuration);
 
     // Connecting door drop time duration widget
-    ui->doorDropTimeWidget->setDuration(m_data->deathMatchConfig()->doorDropTime());
+    ui->doorDropTimeWidget->setDuration(m_state->data()->deathMatchConfig()->doorDropTime());
     connect(ui->doorDropTimeWidget, &DurationWidget::durationChanged,
-            m_data->deathMatchConfig(), &DeathMatchConfig::setDoorDropTime);
-    connect(m_data->deathMatchConfig(), &DeathMatchConfig::doorDropChanged,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setDoorDropTime);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::doorDropChanged,
             ui->doorDropTimeWidget, &DurationWidget::setDuration);
 
     // Connecting drop down with kind
-    ui->doorDropKindComboBox->setCurrentIndex((int)m_data->deathMatchConfig()->doorDropKind());
+    ui->doorDropKindComboBox->setCurrentIndex((int)m_state->data()->deathMatchConfig()->doorDropKind());
     connect(ui->doorDropKindComboBox, &QComboBox::currentIndexChanged,
-            m_data->deathMatchConfig(), &DeathMatchConfig::setDoorDropKindFromInt);
-    connect(m_data->deathMatchConfig(), &DeathMatchConfig::doorDropKindChangedInt,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setDoorDropKindFromInt);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::doorDropKindChangedInt,
             ui->doorDropKindComboBox, &QComboBox::setCurrentIndex);
 
     // Connecting quick load slot
@@ -247,58 +228,62 @@ void BattleBoxMainWindow::initDeathMatchConfigScreen() {
             return;
         }
         QString path = DEATHMATCH_QUICK_LOAD_FOLDER + QString("/") + items[0]->text();
-        this->m_data->deathMatchConfig()->loadFromFile(path);
+        this->m_state->data()->deathMatchConfig()->loadFromFile(path);
     });
 
     // Error signal connection.
-    connect(this->m_data->deathMatchConfig(), &DeathMatchConfig::error,
+    connect(this->m_state->data()->deathMatchConfig(), &DeathMatchConfig::error,
             this, &BattleBoxMainWindow::receivedError);
 
     // Configuring default values
-    m_data->deathMatchConfig()->setMatchDuration(180);
-    m_data->deathMatchConfig()->setDoorDropTime(60);
+    m_state->data()->deathMatchConfig()->setMatchDuration(180);
+    m_state->data()->deathMatchConfig()->setDoorDropTime(60);
 }
 
 void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
     // Connecting buttons.
     connect(ui->dmprPlayerOneReadyButton, &QPushButton::clicked,
-            [&] { m_data->deathMatchPlayerOneReady()->setPlayerReady(true); });
+            [&] { m_state->data()->deathMatchPlayerOneReady()->setPlayerReady(true); });
     connect(ui->dmprPlayerTwoReadyButton, &QPushButton::clicked,
-            [&] { m_data->deathMatchPlayerTwoReady()->setPlayerReady(true); });
+            [&] { m_state->data()->deathMatchPlayerTwoReady()->setPlayerReady(true); });
 
     // Screen changing buttons
     connect(ui->dmprStart, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMCountDownScreen); });
+        [&] {
+            m_state->screen()->changeToDMCountDownScreen();
+        });
     connect(ui->dmprCancel, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMConfigScreen); });
+        [&] {
+            m_state->screen()->changeToDMConfigScreen();
+        });
     // Connecting battle box to UI screen
 
     // Connecting player one to battle box UI screen controls
-    connect(m_boxState->playerOne()->readyButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
-    connect(m_boxState->playerOne()->doorButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
+    connect(m_state->physicalState()->playerOne()->readyButton(), &PhysicalButton::stateChanged,
+        m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
+    connect(m_state->physicalState()->playerOne()->doorButton(), &PhysicalButton::stateChanged,
+        m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
 
     // Connecting player two to battle box UI screen controls
-    connect(m_boxState->playerTwo()->readyButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
-    connect(m_boxState->playerTwo()->doorButton(), &PhysicalButton::stateChanged,
-        m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
+    connect(m_state->physicalState()->playerTwo()->readyButton(), &PhysicalButton::stateChanged,
+        m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
+    connect(m_state->physicalState()->playerTwo()->doorButton(), &PhysicalButton::stateChanged,
+        m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
 
-    connect(m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
+    connect(m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP1ReadyText);
-    connect(m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
+    connect(m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP2ReadyText);
 
-    connect(m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
+    connect(m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP1DoorText);
-    connect(m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
+    connect(m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP2DoorText);
 
     // Connecting the door not closed indicator to player ready indicator.
-    connect(this->m_data->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::doorNotClosed,
+    connect(this->m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::doorNotClosed,
             this, &BattleBoxMainWindow::receivedError);
-    connect(this->m_data->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorNotClosed,
+    connect(this->m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorNotClosed,
             this, &BattleBoxMainWindow::receivedError);
 }
 
@@ -370,60 +355,70 @@ void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
     }
     // Connecting final part of the animation signal
     connect(m_dmcdAnimationGroup, &QSequentialAnimationGroup::finished,
-            [&] { setCurrentScreen(Screen::DMRunningScreen); });
+        [&] {
+            m_state->screen()->changeToDMRunningScreen();
+        });
 
     // Connecting cancel.
     connect(ui->dmcdCancel, &QPushButton::clicked,
-            [&]{ setCurrentScreen(Screen::DMConfigScreen); });
+        [&]{
+            m_state->screen()->changeToDMConfigScreen();
+        });
 
 }
 
 void BattleBoxMainWindow::initDeathMatchRunningScreen() {
-    ui->dmrCountDownWidget->setup(deathMatchConfig(), m_data->deathMatchRuntime());
+    ui->dmrCountDownWidget->setup(deathMatchConfig(), m_state->data()->deathMatchRuntime());
 
     // Configuring buttons
     connect(ui->dmrPlayerOneWinsButton, &QPushButton::clicked,
             [&] {
         qDebug() << "Clicked dmrPlayerOneWinsButton";
-        if(m_data->deathMatchConfig()->playerOneName() == "") {
-            m_data->setDeathMatchWinner("Player One");
+        if(m_state->data()->deathMatchConfig()->playerOneName() == "") {
+            m_state->data()->setDeathMatchWinner("Player One");
         } else {
-            m_data->setDeathMatchWinner(m_data->deathMatchConfig()->playerOneName());
+            m_state->data()->setDeathMatchWinner(m_state->data()->deathMatchConfig()->playerOneName());
         }
-        this->setCurrentScreen(Screen::DMWinnerDisplayScreen);
+        m_state->screen()->changeToDMWinnerDisplayScreen(m_state->data()->deathMatchWinner());
     });
     connect(ui->dmrPlayerTwoWinsButton, &QPushButton::clicked,
             [&] {
         qDebug() << "Clicked dmrPlayerTwoWinsButton";
-        if(m_data->deathMatchConfig()->playerTwoName() == "") {
-            m_data->setDeathMatchWinner("Player Two");
+        if(m_state->data()->deathMatchConfig()->playerTwoName() == "") {
+            m_state->data()->setDeathMatchWinner("Player Two");
         } else {
-            m_data->setDeathMatchWinner(m_data->deathMatchConfig()->playerTwoName());
+            m_state->data()->setDeathMatchWinner(m_state->data()->deathMatchConfig()->playerTwoName());
         }
-        this->setCurrentScreen(Screen::DMWinnerDisplayScreen);
+        m_state->screen()->changeToDMWinnerDisplayScreen(m_state->data()->deathMatchWinner());
     });
     // Naviaging buttons
     connect(ui->dmrBackToDMConfigButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMConfigScreen); });
+            [&] {
+                m_state->screen()->changeToDMConfigScreen();
+            });
     connect(ui->dmrRestartMatchButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMPlayersReadyScreen); });
+            [&] {
+                m_state->screen()->changeToDMPlayersReadyScreen();
+            });
     connect(ui->dmrCancel, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::GameSelectionScreen); });
-
-    // Changes the displayed widget to the one I want.
-//    connect(ui->dmrCountDownWidget, &DeathMatchRunningClockWidget::matchOver,
-//            [&] { ui->srStackedWidget->setCurrentWidget(ui->srMatchOverWidget); });
-
+            [&] {
+                m_state->screen()->changeToGameSelectScreen();
+            });
 }
 
 void BattleBoxMainWindow::initDeathMatchWinnerScreen() {
     connect(ui->dmwRestartButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMPlayersReadyScreen); });
+            [&] {
+                m_state->screen()->changeToDMPlayersReadyScreen();
+//                setCurrentScreen(Screen::DMPlayersReadyScreen);
+            });
     connect(ui->dmwToDMCButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::DMConfigScreen); });
+            [&] {
+                m_state->screen()->changeToDMConfigScreen();
+            });
     connect(ui->dmwToGameSelectButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::GameSelectionScreen); });
-    connect(m_data, &BattleBoxViewModel::notifyDeathMatchWinnerChanged,
+            [&] { m_state->screen()->changeToGameSelectScreen(); });
+    connect(m_state->data(), &BattleBoxViewModel::notifyDeathMatchWinnerChanged,
             [&](QString arg) {
         ui->dmWinnerDisplayLabel->setText(QString("%1\nWINS!!").arg(arg));
     });
@@ -433,12 +428,12 @@ void BattleBoxMainWindow::initDeathMatchWinnerScreen() {
 void BattleBoxMainWindow::initSoccerConfigScreen() {
     // Configuring buttons
     connect(ui->soccerCfgStartButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::SoccerPlayersReadyScreen); });
+            [&] { m_state->screen()->changeToSoccerPlayersReadyScreen(); });
     connect(ui->soccerCfgCancelButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::GameSelectionScreen); });
+            [&] { m_state->screen()->changeToGameSelectScreen(); });
 
     connect(ui->soccerCfgResetButton, &QPushButton::clicked,
-            m_data, &BattleBoxViewModel::resetSoccerConfig);
+            m_state->data(), &BattleBoxViewModel::resetSoccerConfig);
 
     connect(ui->soccerCfgSaveFileButton, &QPushButton::clicked,
             this, &BattleBoxMainWindow::on_soccerCfgSaveButton_clicked);
@@ -446,35 +441,35 @@ void BattleBoxMainWindow::initSoccerConfigScreen() {
             this, &BattleBoxMainWindow::on_soccerCfgLoadButton_clicked);
 
     // Connecting team one name edit
-    ui->soccerCfgTeamOneNameLineEdit->setText(m_data->soccerConfig()->teamOneName());
+    ui->soccerCfgTeamOneNameLineEdit->setText(m_state->data()->soccerConfig()->teamOneName());
     connect(ui->soccerCfgTeamOneNameLineEdit, &QLineEdit::textChanged,
-            m_data->soccerConfig(), &SoccerConfig::setTeamOneName);
-    connect(m_data->soccerConfig(), &SoccerConfig::notifyTeamOneNameChanged,
+            m_state->data()->soccerConfig(), &SoccerConfig::setTeamOneName);
+    connect(m_state->data()->soccerConfig(), &SoccerConfig::notifyTeamOneNameChanged,
             ui->soccerCfgTeamOneNameLineEdit, &QLineEdit::setText);
 
     // Connecting team two name edit
-    ui->soccerCfgTeamTwoNameLineEdit->setText(m_data->soccerConfig()->teamTwoName());
+    ui->soccerCfgTeamTwoNameLineEdit->setText(m_state->data()->soccerConfig()->teamTwoName());
     connect(ui->soccerCfgTeamTwoNameLineEdit, &QLineEdit::textChanged,
-            m_data->soccerConfig(), &SoccerConfig::setTeamTwoName);
-    connect(m_data->soccerConfig(), &SoccerConfig::notifyTeamTwoNameChanged,
+            m_state->data()->soccerConfig(), &SoccerConfig::setTeamTwoName);
+    connect(m_state->data()->soccerConfig(), &SoccerConfig::notifyTeamTwoNameChanged,
             ui->soccerCfgTeamTwoNameLineEdit, &QLineEdit::setText);
 
     // Connecting match duration widget
-    ui->soccerCfgMatchDurationWidget->setDuration(m_data->soccerConfig()->matchDuration());
+    ui->soccerCfgMatchDurationWidget->setDuration(m_state->data()->soccerConfig()->matchDuration());
     connect(ui->soccerCfgMatchDurationWidget, &DurationWidget::durationChanged,
-            m_data->soccerConfig(), &SoccerConfig::setMatchDuration);
-    connect(m_data->soccerConfig(), &SoccerConfig::notifyMatchDurationChanged,
+            m_state->data()->soccerConfig(), &SoccerConfig::setMatchDuration);
+    connect(m_state->data()->soccerConfig(), &SoccerConfig::notifyMatchDurationChanged,
             ui->soccerCfgMatchDurationWidget, &DurationWidget::setDuration);
 
     // Connecting match score
-    ui->soccerCfgGameScoreSpinBox->setValue(m_data->soccerConfig()->maxScore());
+    ui->soccerCfgGameScoreSpinBox->setValue(m_state->data()->soccerConfig()->maxScore());
     connect(ui->soccerCfgGameScoreSpinBox, &QSpinBox::valueChanged,
-            m_data->soccerConfig(), &SoccerConfig::setMaxScore);
-    connect(m_data->soccerConfig(), &SoccerConfig::notifyMaxScoreChanged,
+            m_state->data()->soccerConfig(), &SoccerConfig::setMaxScore);
+    connect(m_state->data()->soccerConfig(), &SoccerConfig::notifyMaxScoreChanged,
             ui->soccerCfgGameScoreSpinBox, &QSpinBox::setValue);
 
     // Error signal connection.
-    connect(this->m_data->soccerConfig(), &SoccerConfig::error,
+    connect(this->m_state->data()->soccerConfig(), &SoccerConfig::error,
             this, &BattleBoxMainWindow::receivedError);
 
     // Connecting quick load slot
@@ -485,7 +480,7 @@ void BattleBoxMainWindow::initSoccerConfigScreen() {
             return;
         }
         QString path = SOCCER_QUICK_LOAD_FOLDER + QString("/") + items[0]->text();
-        this->m_data->soccerConfig()->loadFromFile(path);
+        this->m_state->data()->soccerConfig()->loadFromFile(path);
 
     });
 
@@ -495,19 +490,19 @@ void BattleBoxMainWindow::initSoccerPlayersReadyScreen() {
 
     // Soccer players ready screen
     connect(ui->sprStartButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::SoccerCountDownScreen); });
+            [&] { m_state->screen()->changeToSoccerCountDownScreen(); });
     connect(ui->sprCancelButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::SoccerConfigScreen); });
+            [&] { m_state->screen()->changeToSoccerConfigScreen(); });
 
     connect(ui->sprTeamOneReadyButton, &QPushButton::clicked,
-            [&] { m_data->soccerTeamOneReady()->setTeamReady(true); });
+            [&] { m_state->data()->soccerTeamOneReady()->setTeamReady(true); });
     connect(ui->sprTeamTwoReadyButton, &QPushButton::clicked,
-            [&] { m_data->soccerTeamTwoReady()->setTeamReady(true); });
+            [&] { m_state->data()->soccerTeamTwoReady()->setTeamReady(true); });
 
     // Screen changing buttons
-    connect(m_data->soccerTeamOneReady(), &SoccerTeamReady::readyTextChanged,
+    connect(m_state->data()->soccerTeamOneReady(), &SoccerTeamReady::readyTextChanged,
             this, &BattleBoxMainWindow::sprUpdateT1ReadyText);
-    connect(m_data->soccerTeamTwoReady(), &SoccerTeamReady::readyTextChanged,
+    connect(m_state->data()->soccerTeamTwoReady(), &SoccerTeamReady::readyTextChanged,
             this, &BattleBoxMainWindow::sprUpdateT2ReadyText);
 }
 
@@ -573,15 +568,15 @@ void BattleBoxMainWindow::initSoccerCountDownScreen() {
     }
     // Connecting final part of the animation signal
     connect(m_scdAnimationGroup, &QSequentialAnimationGroup::finished,
-            [&] { setCurrentScreen(Screen::SoccerRunningScreen); });
+            [&] { m_state->screen()->changeToSoccerRunningScreen(); });
 
     // Connecting cancel.
     connect(ui->scdCancelButton, &QPushButton::clicked,
-            [&]{ setCurrentScreen(Screen::SoccerConfigScreen); });
+            [&]{ m_state->screen()->changeToSoccerConfigScreen(); });
 }
 
 void BattleBoxMainWindow::initSoccerRunningScreen() {
-    ui->srRunningWidget->setup(m_data->soccerMatch());
+    ui->srRunningWidget->setup(m_state->data()->soccerMatch());
 
     // Connecting the resume button.
     connect(ui->srResumeButton, &QPushButton::clicked,
@@ -602,10 +597,10 @@ void BattleBoxMainWindow::initSoccerRunningScreen() {
         ui->srGoalScoredLabel->setText("Team One scorred a goal with " + msToTimeRep(ui->srRunningWidget->remainingMS()) +  "s remaining");
         ui->srResumeButton->setEnabled(true);
         ui->srStackedWidget->setCurrentWidget(ui->srGoalScoredWidget);
-        if(m_data->soccerMatch()->teamOneScore() >= 1000) {
-            m_data->soccerMatch()->setTeamOneScore(1000);
+        if(m_state->data()->soccerMatch()->teamOneScore() >= 1000) {
+            m_state->data()->soccerMatch()->setTeamOneScore(1000);
         } else {
-            m_data->soccerMatch()->setTeamOneScore(m_data->soccerMatch()->teamOneScore() + 1);
+            m_state->data()->soccerMatch()->setTeamOneScore(m_state->data()->soccerMatch()->teamOneScore() + 1);
         }
     });
 
@@ -618,19 +613,19 @@ void BattleBoxMainWindow::initSoccerRunningScreen() {
 
     connect(ui->srT1ScorePlusOneButton, &QPushButton::clicked,
             [&] {
-        if(m_data->soccerMatch()->teamOneScore() >= 1000) {
-            m_data->soccerMatch()->setTeamOneScore(1000);
+        if(m_state->data()->soccerMatch()->teamOneScore() >= 1000) {
+            m_state->data()->soccerMatch()->setTeamOneScore(1000);
         } else {
-            m_data->soccerMatch()->setTeamOneScore(m_data->soccerMatch()->teamOneScore() + 1);
+            m_state->data()->soccerMatch()->setTeamOneScore(m_state->data()->soccerMatch()->teamOneScore() + 1);
         }
     });
 
     connect(ui->srT1ScoreMinusOneButton, &QPushButton::clicked,
             [&] {
-        if(m_data->soccerMatch()->teamOneScore() <= 0) {
-            m_data->soccerMatch()->setTeamOneScore(0);
+        if(m_state->data()->soccerMatch()->teamOneScore() <= 0) {
+            m_state->data()->soccerMatch()->setTeamOneScore(0);
         } else {
-            m_data->soccerMatch()->setTeamOneScore(m_data->soccerMatch()->teamOneScore() - 1);
+            m_state->data()->soccerMatch()->setTeamOneScore(m_state->data()->soccerMatch()->teamOneScore() - 1);
         }
     });
 
@@ -648,39 +643,39 @@ void BattleBoxMainWindow::initSoccerRunningScreen() {
         ui->srGoalScoredLabel->setText("Team Two scorred a goal with " + msToTimeRep(ui->srRunningWidget->remainingMS()) +  "s remaining");
         ui->srResumeButton->setEnabled(true);
         ui->srStackedWidget->setCurrentWidget(ui->srGoalScoredWidget);
-        if(m_data->soccerMatch()->teamTwoScore() >= 1000) {
-            m_data->soccerMatch()->setTeamTwoScore(1000);
+        if(m_state->data()->soccerMatch()->teamTwoScore() >= 1000) {
+            m_state->data()->soccerMatch()->setTeamTwoScore(1000);
         } else {
-            m_data->soccerMatch()->setTeamTwoScore(m_data->soccerMatch()->teamTwoScore() + 1);
+            m_state->data()->soccerMatch()->setTeamTwoScore(m_state->data()->soccerMatch()->teamTwoScore() + 1);
         }
     });
 
 
     connect(ui->srT2ScorePlusOneButton, &QPushButton::clicked,
             [&] {
-        if(m_data->soccerMatch()->teamTwoScore() >= 1000) {
-            m_data->soccerMatch()->setTeamTwoScore(1000);
+        if(m_state->data()->soccerMatch()->teamTwoScore() >= 1000) {
+            m_state->data()->soccerMatch()->setTeamTwoScore(1000);
         } else {
-            m_data->soccerMatch()->setTeamTwoScore(m_data->soccerMatch()->teamTwoScore() + 1);
+            m_state->data()->soccerMatch()->setTeamTwoScore(m_state->data()->soccerMatch()->teamTwoScore() + 1);
         }
     });
 
     connect(ui->srT2ScoreMinusOneButton, &QPushButton::clicked,
             [&] {
-        if(m_data->soccerMatch()->teamTwoScore() <= 0) {
-            m_data->soccerMatch()->setTeamTwoScore(0);
+        if(m_state->data()->soccerMatch()->teamTwoScore() <= 0) {
+            m_state->data()->soccerMatch()->setTeamTwoScore(0);
         } else {
-            m_data->soccerMatch()->setTeamTwoScore(m_data->soccerMatch()->teamTwoScore() - 1);
+            m_state->data()->soccerMatch()->setTeamTwoScore(m_state->data()->soccerMatch()->teamTwoScore() - 1);
         }
     });
 
     // Naviaging buttons
     connect(ui->srRestartMatchButton,  &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::SoccerPlayersReadyScreen); });
+            [&] { m_state->screen()->changeToSoccerPlayersReadyScreen(); });
     connect(ui->srCancelGameSelectionButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::GameSelectionScreen); });
+            [&] { m_state->screen()->changeToGameSelectScreen(); });
     connect(ui->srCancelConfigButton, &QPushButton::clicked,
-            [&] { setCurrentScreen(Screen::SoccerConfigScreen); });
+            [&] { m_state->screen()->changeToSoccerConfigScreen(); });
 
     // Binding the reumed button.
     connect(ui->srResumeCountDownWidget, &SoccerResumeCountDownWidget::resumed,
@@ -698,149 +693,6 @@ void BattleBoxMainWindow::initSoccerRunningScreen() {
 
 void BattleBoxMainWindow::initSoccerGameOverScreen() {
 
-}
-
-void BattleBoxMainWindow::changeScreen(BattleBoxMainWindow::Screen newPage,
-                                       BattleBoxMainWindow::Screen oldPage) {
-    // Leaving signals.
-    switch(oldPage) {
-    // Do nothing here.
-    case InitialLoad: break;
-    case ConfigurationScreen:
-        emit leaveConfigurationScreen();
-        break;
-
-    case GameSelectionScreen:
-        emit leaveGameSelectScreen();
-        break;
-
-    case DMConfigScreen:
-        emit leaveDMConfigScreen();
-        break;
-
-    case DMCountDownScreen:
-        qDebug() << "Leaving DMCountDownScreen";
-        m_dmcdAnimationGroup->stop();
-        emit leaveDMCountDownScreen();
-        break;
-
-    case DMPlayersReadyScreen:
-        emit leaveDMPlayersReadyScreen();
-        break;
-
-    case DMRunningScreen:
-        ui->dmrCountDownWidget->stop();
-        emit leaveDMRunningScreen();
-        break;
-
-    case DMWinnerDisplayScreen:
-        emit leaveDMWinnerDisplayScreen();
-        break;
-
-    case SoccerConfigScreen:
-        emit leaveSoccerConfigScreen();
-        break;
-
-    case SoccerPlayersReadyScreen:
-        emit leaveSoccerPlayersReadyScreen();
-        break;
-
-    case SoccerRunningScreen:
-        ui->srResumeCountDownWidget->cancel();
-        ui->srRunningWidget->stop();
-        emit leaveSoccerRunningScreen();
-        break;
-
-    case SoccerGameOverScreen:
-        emit leaveSoccerGameOverScreen();
-        break;
-
-    case SoccerCountDownScreen:
-        m_scdAnimationGroup->stop();
-        emit leaveSoccerCountDownScreen();
-        break;
-    }
-
-    // Enter signals.
-    switch(newPage) {
-    // Do nothing because we can never enter this screen.
-    case InitialLoad: break;
-
-    case ConfigurationScreen:
-        ui->mainDisplay->setCurrentWidget(ui->configuration);
-        emit enterConfigurationScreen();
-        break;
-
-    case GameSelectionScreen:
-        ui->mainDisplay->setCurrentWidget(ui->gameSelection);
-        emit enterGameSelectScreen();
-        break;
-
-    case DMConfigScreen:
-        ui->mainDisplay->setCurrentWidget(ui->deathMatchConfig);
-        emit enterDMConfigScreen();
-        break;
-
-    case DMCountDownScreen:
-        ui->mainDisplay->setCurrentWidget(ui->deathMatchCountDown);
-        emit enterDMCountDownScreen();
-        m_dmcdAnimationGroup->start();
-        break;
-
-    case DMPlayersReadyScreen:
-        ui->mainDisplay->setCurrentWidget(ui->deathMatchPlayersReady);
-        m_data->deathMatchPlayerOneReady()->reset();
-        m_data->deathMatchPlayerOneReady()->setDoorClosed(m_boxState->playerOne()->doorButton()->state());
-        m_data->deathMatchPlayerTwoReady()->reset();
-        m_data->deathMatchPlayerTwoReady()->setDoorClosed(m_boxState->playerTwo()->doorButton()->state());
-        emit enterDMPlayersReadyScreen();
-        break;
-
-    case DMRunningScreen:
-        ui->mainDisplay->setCurrentWidget(ui->deathMatchRunning);
-        ui->dmrStackedWidget->setCurrentWidget(ui->dmrCountDownWidget);
-        ui->dmrCountDownWidget->start();
-        emit enterDMRunningScreen();
-        break;
-
-    case DMWinnerDisplayScreen:
-        ui->mainDisplay->setCurrentWidget(ui->deathMatchWinner);
-        emit enterDMWinnerDisplayScreen(m_data->deathMatchWinner());
-        break;
-
-    case SoccerConfigScreen:
-        ui->mainDisplay->setCurrentWidget(ui->soccerConfig);
-        emit enterSoccerConfigScreen();
-        break;
-
-    case SoccerPlayersReadyScreen:
-        m_data->resetSoccerTeamOneReady();
-        m_data->resetSoccerTeamTwoReady();
-        ui->mainDisplay->setCurrentWidget(ui->soccerPlayersReady);
-        emit enterSoccerPlayersReadyScreen();
-        break;
-
-    case SoccerRunningScreen:
-        // Loading new soccer match data
-        m_data->soccerMatch()->loadSoccerConfig(m_data->soccerConfig());
-        ui->srStackedWidget->setCurrentWidget(ui->srRunningWidget);
-        ui->mainDisplay->setCurrentWidget(ui->soccerRunning);
-        ui->srRunningWidget->start();
-        ui->srResumeButton->setEnabled(false);
-        emit enterSoccerRunningScreen();
-        break;
-
-    case SoccerGameOverScreen:
-        ui->mainDisplay->setCurrentWidget(ui->soccerGameOver);
-        emit enterSoccerGameOverScreen();
-        break;
-
-    case SoccerCountDownScreen:
-        ui->mainDisplay->setCurrentWidget(ui->soccerCountDown);
-        m_scdAnimationGroup->start();
-        emit enterSoccerCountDownScreen();
-        break;
-    }
 }
 
 void BattleBoxMainWindow::loadQuickLoadFiles(QString dir) {
@@ -864,24 +716,13 @@ void BattleBoxMainWindow::loadQuickLoadFiles(QString dir) {
     }
 }
 
-auto BattleBoxMainWindow::currentScreen() const -> Screen {
-    return m_currentScreen;
-}
-
-void BattleBoxMainWindow::setCurrentScreen(Screen newScreen) {
-    if(newScreen != currentScreen()) {
-        std::swap(m_currentScreen, newScreen);
-        changeScreen(currentScreen(), newScreen);
-    }
-}
-
 void BattleBoxMainWindow::on_dmCfgSaveButton_clicked() {
     auto fileName = QFileDialog::getSaveFileName(
         this,
         tr("Open File"),
         DEATHMATCH_QUICK_LOAD_FOLDER,
         tr("Json Files (*.json)"));
-    this->m_data->deathMatchConfig()->saveToFile(fileName);
+    this->m_state->data()->deathMatchConfig()->saveToFile(fileName);
 }
 
 void BattleBoxMainWindow::on_dmCfgLoadButton_clicked() {
@@ -890,16 +731,132 @@ void BattleBoxMainWindow::on_dmCfgLoadButton_clicked() {
         tr("Open File"),
         DEATHMATCH_QUICK_LOAD_FOLDER,
         tr("Json Files (*.json)"));
-    this->m_data->deathMatchConfig()->loadFromFile(fileName);
+    this->m_state->data()->deathMatchConfig()->loadFromFile(fileName);
 }
 
 void BattleBoxMainWindow::receivedError(QString msg) {
     std::cout << "Received error message: " << msg.toStdString() << std::endl;
 }
 
+void BattleBoxMainWindow::enterConfigurationScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->configuration);
+}
+
+void BattleBoxMainWindow::leaveConfigurationScreen() {
+
+}
+
+void BattleBoxMainWindow::enterGameSelectScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->gameSelection);
+}
+
+void BattleBoxMainWindow::leaveGameSelectScreen() {
+
+}
+
+void BattleBoxMainWindow::enterDMConfigScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->deathMatchConfig);
+}
+
+void BattleBoxMainWindow::leaveDMConfigScreen() {
+
+}
+
+void BattleBoxMainWindow::enterDMCountDownScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->deathMatchCountDown);
+}
+
+void BattleBoxMainWindow::postEnterDMCountDownScreen() {
+    m_dmcdAnimationGroup->start();
+}
+
+void BattleBoxMainWindow::leaveDMCountDownScreen() {
+    m_dmcdAnimationGroup->stop();
+}
+
+void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->deathMatchPlayersReady);
+    m_state->data()->deathMatchPlayerOneReady()->reset();
+    m_state->data()->deathMatchPlayerOneReady()->setDoorClosed(m_state->physicalState()->playerOne()->doorButton()->state());
+    m_state->data()->deathMatchPlayerTwoReady()->reset();
+    m_state->data()->deathMatchPlayerTwoReady()->setDoorClosed(m_state->physicalState()->playerTwo()->doorButton()->state());
+}
+
+void BattleBoxMainWindow::leaveDMPlayersReadyScreen() {
+
+}
+
+void BattleBoxMainWindow::enterDMRunningScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->deathMatchRunning);
+    ui->dmrStackedWidget->setCurrentWidget(ui->dmrCountDownWidget);
+    ui->dmrCountDownWidget->start();
+}
+
+void BattleBoxMainWindow::leaveDMRunningScreen() {
+    ui->dmrCountDownWidget->stop();
+}
+
+void BattleBoxMainWindow::enterDMWinnerDisplayScreen(QString playerName) {
+    ui->mainDisplay->setCurrentWidget(ui->deathMatchWinner);
+}
+
+void BattleBoxMainWindow::leaveDMWinnerDisplayScreen() {
+
+}
+
+void BattleBoxMainWindow::enterSoccerConfigScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->soccerConfig);
+}
+
+void BattleBoxMainWindow::leaveSoccerConfigScreen() {
+
+}
+
+void BattleBoxMainWindow::leaveSoccerPlayersReadyScreen() {
+
+}
+
+void BattleBoxMainWindow::enterSoccerPlayersReadyScreen() {
+    m_state->data()->resetSoccerTeamOneReady();
+    m_state->data()->resetSoccerTeamTwoReady();
+    ui->mainDisplay->setCurrentWidget(ui->soccerPlayersReady);
+
+}
+
+void BattleBoxMainWindow::enterSoccerRunningScreen() {
+    // Loading new soccer match data
+    m_state->data()->soccerMatch()->loadSoccerConfig(m_state->data()->soccerConfig());
+    ui->srStackedWidget->setCurrentWidget(ui->srRunningWidget);
+    ui->mainDisplay->setCurrentWidget(ui->soccerRunning);
+    ui->srRunningWidget->start();
+    ui->srResumeButton->setEnabled(false);
+}
+
+void BattleBoxMainWindow::leaveSoccerRunningScreen() {
+    ui->srResumeCountDownWidget->cancel();
+    ui->srRunningWidget->stop();
+}
+
+void BattleBoxMainWindow::enterSoccerCountDownScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->soccerCountDown);
+    m_scdAnimationGroup->start();
+}
+
+void BattleBoxMainWindow::leaveSoccerCountDownScreen() {
+    m_scdAnimationGroup->stop();
+}
+
+void BattleBoxMainWindow::enterSoccerGameOverScreen() {
+    ui->mainDisplay->setCurrentWidget(ui->soccerGameOver);
+}
+
+void BattleBoxMainWindow::leaveSoccerGameOverScreen() {
+
+}
+
 void BattleBoxMainWindow::dmprUpdateP1ReadyText(QString arg) {
     ui->dmprPlayerOneReadyLabel->setText(QString("Player One: %1").arg(arg));
-    if(m_data->deathMatchPlayerOneReady()->playerReady()) {
+    if(m_state->data()->deathMatchPlayerOneReady()->playerReady()) {
         ui->dmprPlayerOneReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
         ui->dmprPlayerOneReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
@@ -908,7 +865,7 @@ void BattleBoxMainWindow::dmprUpdateP1ReadyText(QString arg) {
 
 void BattleBoxMainWindow::dmprUpdateP2ReadyText(QString arg) {
     ui->dmprPlayerTwoReadyLabel->setText(QString("Player Two: %1").arg(arg));
-    if(m_data->deathMatchPlayerTwoReady()->playerReady()) {
+    if(m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
         ui->dmprPlayerTwoReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
         ui->dmprPlayerTwoReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
@@ -917,7 +874,7 @@ void BattleBoxMainWindow::dmprUpdateP2ReadyText(QString arg) {
 
 void BattleBoxMainWindow::dmprUpdateP1DoorText(QString arg) {
     ui->dmprPlayerOneDoorIndicatorLabel->setText(QString("Door: %1").arg(arg));
-    if(m_data->deathMatchPlayerOneReady()->doorClosed()) {
+    if(m_state->data()->deathMatchPlayerOneReady()->doorClosed()) {
         ui->dmprPlayerOneDoorWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
         ui->dmprPlayerOneDoorWidget->setStyleSheet(RED_BG_STYLE_SHEET);
@@ -926,7 +883,7 @@ void BattleBoxMainWindow::dmprUpdateP1DoorText(QString arg) {
 
 void BattleBoxMainWindow::dmprUpdateP2DoorText(QString arg) {
     ui->dmprPlayerTwoDoorIndicatorLabel->setText(QString("Door: %1").arg(arg));
-    if(m_data->deathMatchPlayerTwoReady()->doorClosed()) {
+    if(m_state->data()->deathMatchPlayerTwoReady()->doorClosed()) {
         ui->dmprPlayerTwoDoorWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
         ui->dmprPlayerTwoDoorWidget->setStyleSheet(RED_BG_STYLE_SHEET);
@@ -943,7 +900,7 @@ void BattleBoxMainWindow::on_soccerCfgSaveButton_clicked() {
         tr("Open File"),
         SOCCER_QUICK_LOAD_FOLDER,
         tr("Json Files (*.json)"));
-    m_data->soccerConfig()->saveToFile(fileName);
+    m_state->data()->soccerConfig()->saveToFile(fileName);
 }
 
 void BattleBoxMainWindow::on_soccerCfgLoadButton_clicked() {
@@ -952,12 +909,12 @@ void BattleBoxMainWindow::on_soccerCfgLoadButton_clicked() {
         tr("Open File"),
         SOCCER_QUICK_LOAD_FOLDER,
         tr("Json Files (*.json)"));
-    m_data->soccerConfig()->loadFromFile(fileName);
+    m_state->data()->soccerConfig()->loadFromFile(fileName);
 }
 
 void BattleBoxMainWindow::sprUpdateT1ReadyText(QString arg) {
     ui->sprTeamOneReadyLabel->setText(QString("Team One: %1").arg(arg));
-    if(m_data->soccerTeamOneReady()->teamReady()) {
+    if(m_state->data()->soccerTeamOneReady()->teamReady()) {
         ui->sprTeamOneReadyLabel->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
         ui->sprTeamOneReadyLabel->setStyleSheet(RED_BG_STYLE_SHEET);
@@ -966,7 +923,7 @@ void BattleBoxMainWindow::sprUpdateT1ReadyText(QString arg) {
 
 void BattleBoxMainWindow::sprUpdateT2ReadyText(QString arg) {
     ui->sprTeamTwoReadyLabel->setText(QString("Team Two: %1").arg(arg));
-    if(m_data->soccerTeamTwoReady()->teamReady()) {
+    if(m_state->data()->soccerTeamTwoReady()->teamReady()) {
         ui->sprTeamTwoReadyLabel->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
         ui->sprTeamTwoReadyLabel->setStyleSheet(RED_BG_STYLE_SHEET);

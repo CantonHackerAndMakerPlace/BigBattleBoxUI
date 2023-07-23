@@ -5,6 +5,7 @@
 #include <QAbstractAnimation>
 #include <QMetaMethod>
 
+class ApplicationState;
 class QPushButton;
 class BattleBoxViewModel;
 class SoccerMatch;
@@ -24,44 +25,23 @@ QT_END_NAMESPACE
 class BattleBoxMainWindow : public QMainWindow
 {
     Q_OBJECT
-    Q_ENUMS(Screen)
 public:
     BattleBoxMainWindow(QWidget *parent = nullptr);
     ~BattleBoxMainWindow();
 
     void connectPlayerName();
 
-    enum Screen {
-        /// Used as the initial screen's old screen.
-        InitialLoad,
-        ConfigurationScreen,
-        GameSelectionScreen,
-        DMConfigScreen,
-        DMCountDownScreen,
-        DMPlayersReadyScreen,
-        DMRunningScreen,
-        DMWinnerDisplayScreen,
-        SoccerConfigScreen,
-        SoccerPlayersReadyScreen,
-        SoccerRunningScreen,
-        SoccerGameOverScreen,
-        SoccerCountDownScreen,
-    };
 public:
     DeathMatchConfig *deathMatchConfig() const;
 private:
-    void initSettings();
 
-    void attachSettingToSwitch(PhysicalButton *button, const char* settingsKey);
+    void connectScreenSlots();
 
     // Initializing the battle box external state.
-    void initBattleBoxState();
-
     void initializeSystemConfigurationScreen();
 
     // Media initialization
     void initMediaDialog();
-
 
     // multiscreen initializations
     void initQuickSelectWidgets();
@@ -97,21 +77,13 @@ private:
     void on_soccerCfgSaveButton_clicked();
     void on_soccerCfgLoadButton_clicked();
 
-    // Screen switching with signal emitting and this is to make it easier to
-    // navigate between screens.
-    void changeScreen(BattleBoxMainWindow::Screen newPage,
-                      BattleBoxMainWindow::Screen oldPage);
-    Screen currentScreen() const;
-
     void loadQuickLoadFiles(QString dir);
 private slots:
-    void setCurrentScreen(BattleBoxMainWindow::Screen newScreen);
+//    void setCurrentScreen(BattleBoxMainWindow::Screen newScreen);
 
 public slots:
     void receivedError(QString msg);
-private:
-
-signals:
+private slots:
     // Configuration screen buttons.
     void enterConfigurationScreen();
     void leaveConfigurationScreen();
@@ -123,10 +95,7 @@ signals:
     void leaveDMConfigScreen();
 
     void enterDMCountDownScreen();
-    void DMCDstart3();
-    void DMCDstart2();
-    void DMCDstart1();
-    void DMCDstartFight();
+    void postEnterDMCountDownScreen();
     void leaveDMCountDownScreen();
 
     void enterDMPlayersReadyScreen();
@@ -152,7 +121,11 @@ signals:
 
     void enterSoccerGameOverScreen();
     void leaveSoccerGameOverScreen();
-
+signals:
+    void DMCDstart3();
+    void DMCDstart2();
+    void DMCDstart1();
+    void DMCDstartFight();
 
 private slots:
     void dmprUpdateP1ReadyText(QString arg);
@@ -169,14 +142,10 @@ private slots:
 
 private:
     Ui::BattleBoxMainWindow *ui;
-    BattleBoxPhysicalState *m_boxState;
-
-    BattleBoxViewModel *m_data;
     QSequentialAnimationGroup *m_dmcdAnimationGroup;
     QSequentialAnimationGroup *m_scdAnimationGroup;
-    Screen m_currentScreen;
     QFileSystemWatcher *m_dirWatcher;
-
+    ApplicationState *m_state;
     MediaDialog *m_mediaScreen;
 
 };

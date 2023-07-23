@@ -7,7 +7,7 @@ class Screen : public QObject
 {
     Q_OBJECT
 public:
-    enum ScreenKind {
+    enum class ScreenKind {
         /// Used as the initial screen's old screen.
         InitialLoad,
         ConfigurationScreen,
@@ -25,14 +25,22 @@ public:
     };
 
     explicit Screen(QObject *parent = nullptr);
-public:
+private:
     void changeScreen(Screen::ScreenKind newPage,
                       Screen::ScreenKind oldPage,
                       QString name = "");
 private:
     void emitLeaveEvent(Screen::ScreenKind oldPage);
+
 public:
+
+    /// Returns the current screen that is being displayed by the
+    /// application.
     ScreenKind currentScreen() const;
+
+    /// Sets the current screen to a different one and trigger any
+    /// necessary events.
+    void setCurrentScreen(ScreenKind newScreen);
 
 public slots:
     void changeToConfigurationScreen();
@@ -63,10 +71,6 @@ signals:
     // Emitted after the screen changed but before the countdown,
     // This is used to trigger the animation in the correct order.
     void postEnterDMCountDownScreen();
-    void DMCDstart3();
-    void DMCDstart2();
-    void DMCDstart1();
-    void DMCDstartFight();
     void leaveDMCountDownScreen();
 
     void enterDMPlayersReadyScreen();

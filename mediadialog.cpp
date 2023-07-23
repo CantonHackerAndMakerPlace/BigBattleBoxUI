@@ -4,6 +4,7 @@
 #include "battleboxmainwindow.h"
 #include "soundeffectmedia.h"
 #include "util.h"
+#include "app_state/applicationstate.h"
 
 #include <QDirIterator>
 #include <QAudioDecoder>
@@ -29,10 +30,11 @@ constexpr const char* DEATHMATCH_SOUND = "sounds/DeathMatch.wav";
 constexpr const char* GO_SOUND = "sounds/Go_Angry.wav";
 constexpr const char* SOCCER_SOUND = "sounds/Soccer.wav";
 
-MediaDialog::MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent)
+MediaDialog::MediaDialog(ApplicationState *app_state, BattleBoxMainWindow *parent)
     : QDialog(parent)
     , ui(new Ui::MediaDialog)
-    , m_data(data)
+    , m_state(app_state)
+    , m_data(app_state->data())
     , m_champCoin(
           new QMovie(
               ":/battlebox/media/images/resources/SpinningCoin_50.gif",
@@ -59,8 +61,7 @@ MediaDialog::MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent)
     init();
 }
 
-MediaDialog::~MediaDialog()
-{
+MediaDialog::~MediaDialog() {
     delete ui;
 }
 
@@ -171,6 +172,15 @@ void MediaDialog::init() {
 #define SCREEN_SWITCH_CONNECT(SIG_SLOT_NAME)\
     connect(mainWindow(), &BattleBoxMainWindow::SIG_SLOT_NAME,\
             this, &MediaDialog::SIG_SLOT_NAME)
+    SCREEN_SWITCH_CONNECT(DMCDstart3);
+    SCREEN_SWITCH_CONNECT(DMCDstart2);
+    SCREEN_SWITCH_CONNECT(DMCDstart1);
+    SCREEN_SWITCH_CONNECT(DMCDstartFight);
+#undef SCREEN_SWITCH_CONNECT
+
+#define SCREEN_SWITCH_CONNECT(SIG_SLOT_NAME)\
+    connect(m_state->screen(), &Screen::SIG_SLOT_NAME,\
+            this, &MediaDialog::SIG_SLOT_NAME)
 
     SCREEN_SWITCH_CONNECT(enterGameSelectScreen);
     SCREEN_SWITCH_CONNECT(leaveGameSelectScreen);
@@ -179,10 +189,6 @@ void MediaDialog::init() {
     SCREEN_SWITCH_CONNECT(leaveDMConfigScreen);
 
     SCREEN_SWITCH_CONNECT(enterDMCountDownScreen);
-    SCREEN_SWITCH_CONNECT(DMCDstart3);
-    SCREEN_SWITCH_CONNECT(DMCDstart2);
-    SCREEN_SWITCH_CONNECT(DMCDstart1);
-    SCREEN_SWITCH_CONNECT(DMCDstartFight);
     SCREEN_SWITCH_CONNECT(leaveDMCountDownScreen);
 
     SCREEN_SWITCH_CONNECT(enterDMPlayersReadyScreen);

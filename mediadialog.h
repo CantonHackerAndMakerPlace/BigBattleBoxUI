@@ -5,7 +5,7 @@
 #include <QHash>
 #include <QLabel>
 #include <functional>
-#include <app_state/battleboxviewmodel.h>
+#include <app_state/applicationstate.h>
 
 class BattleBoxMainWindow;
 class SoundEffectMedia;
@@ -17,6 +17,7 @@ class QParallelAnimationGroup;
 class QGraphicsOpacityEffect;
 class QSoundEffect;
 class QAudioDevice;
+class ApplicationState;
 
 namespace Ui {
 class MediaDialog;
@@ -27,7 +28,7 @@ class MediaDialog : public QDialog
     Q_OBJECT
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
 public:
-    explicit MediaDialog(BattleBoxViewModel *data, BattleBoxMainWindow *parent = nullptr);
+    explicit MediaDialog(ApplicationState* state, BattleBoxMainWindow *parent = nullptr);
     ~MediaDialog();
 
 private:
@@ -109,11 +110,11 @@ private:
     void stopAnimations();
 private:
     Ui::MediaDialog *ui;
+    ApplicationState *m_state;
     BattleBoxViewModel *m_data;
     float m_volume;
     QMovie *m_champCoin;
     QAudioOutput *m_out;
-//    SoundEffectMedia *m_deathMatchSound;
     SoundEffectMedia *m_deathMatch;
     SoundEffectMedia *m_soccer;
     SoundEffectMedia *m_three;

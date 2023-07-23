@@ -2,61 +2,68 @@
 
 Screen::Screen(QObject *parent)
     : QObject{parent}
-    , m_currentScreen(Screen::InitialLoad)
+    , m_currentScreen(Screen::ScreenKind::InitialLoad)
 { }
 
 void Screen::emitLeaveEvent(Screen::ScreenKind oldPage) {
     // Leaving signals.
     switch(oldPage) {
     // Do nothing here.
-    case InitialLoad: break;
-    case ConfigurationScreen:
+    case ScreenKind::InitialLoad: break;
+    case ScreenKind::ConfigurationScreen:
         emit leaveConfigurationScreen();
         break;
 
-    case GameSelectionScreen:
+    case ScreenKind::GameSelectionScreen:
         emit leaveGameSelectScreen();
         break;
 
-    case DMConfigScreen:
+    case ScreenKind::DMConfigScreen:
         emit leaveDMConfigScreen();
         break;
 
-    case DMCountDownScreen:
+    case ScreenKind::DMCountDownScreen:
         emit leaveDMCountDownScreen();
         break;
 
-    case DMPlayersReadyScreen:
+    case ScreenKind::DMPlayersReadyScreen:
         emit leaveDMPlayersReadyScreen();
         break;
 
-    case DMRunningScreen:
+    case ScreenKind::DMRunningScreen:
         emit leaveDMRunningScreen();
         break;
 
-    case DMWinnerDisplayScreen:
+    case ScreenKind::DMWinnerDisplayScreen:
         emit leaveDMWinnerDisplayScreen();
         break;
 
-    case SoccerConfigScreen:
+    case ScreenKind::SoccerConfigScreen:
         emit leaveSoccerConfigScreen();
         break;
 
-    case SoccerPlayersReadyScreen:
+    case ScreenKind::SoccerPlayersReadyScreen:
         emit leaveSoccerPlayersReadyScreen();
         break;
 
-    case SoccerRunningScreen:
+    case ScreenKind::SoccerRunningScreen:
         emit leaveSoccerRunningScreen();
         break;
 
-    case SoccerGameOverScreen:
+    case ScreenKind::SoccerGameOverScreen:
         emit leaveSoccerGameOverScreen();
         break;
 
-    case SoccerCountDownScreen:
+    case ScreenKind::SoccerCountDownScreen:
         emit leaveSoccerCountDownScreen();
         break;
+    }
+}
+
+void Screen::setCurrentScreen(ScreenKind newScreen) {
+    if(newScreen != currentScreen()) {
+        std::swap(m_currentScreen, newScreen);
+        changeScreen(currentScreen(), newScreen);
     }
 }
 
@@ -68,53 +75,53 @@ void Screen::changeScreen(Screen::ScreenKind newPage,
     // Enter signals.
     switch(newPage) {
         // Do nothing because we can never enter this screen.
-        case InitialLoad: break;
-        case ConfigurationScreen:
+        case ScreenKind::InitialLoad: break;
+        case ScreenKind::ConfigurationScreen:
             emit enterConfigurationScreen();
             break;
 
-        case GameSelectionScreen:
+        case ScreenKind::GameSelectionScreen:
             emit enterGameSelectScreen();
             break;
 
-        case DMConfigScreen:
+        case ScreenKind::DMConfigScreen:
             emit enterDMConfigScreen();
             break;
 
-        case DMCountDownScreen:
+        case ScreenKind::DMCountDownScreen:
             emit enterDMCountDownScreen();
             emit postEnterDMCountDownScreen();
             break;
 
-        case DMPlayersReadyScreen:
+        case ScreenKind::DMPlayersReadyScreen:
             emit enterDMPlayersReadyScreen();
             break;
 
-        case DMRunningScreen:
+        case ScreenKind::DMRunningScreen:
             emit enterDMRunningScreen();
             break;
 
-        case DMWinnerDisplayScreen:
+        case ScreenKind::DMWinnerDisplayScreen:
             emit enterDMWinnerDisplayScreen(name);
             break;
 
-        case SoccerConfigScreen:
+        case ScreenKind::SoccerConfigScreen:
             emit enterSoccerConfigScreen();
             break;
 
-        case SoccerPlayersReadyScreen:
+        case ScreenKind::SoccerPlayersReadyScreen:
             emit enterSoccerPlayersReadyScreen();
             break;
 
-        case SoccerRunningScreen:
+        case ScreenKind::SoccerRunningScreen:
             emit enterSoccerRunningScreen();
             break;
 
-        case SoccerGameOverScreen:
+        case ScreenKind::SoccerGameOverScreen:
             emit enterSoccerGameOverScreen();
             break;
 
-        case SoccerCountDownScreen:
+        case ScreenKind::SoccerCountDownScreen:
             emit enterSoccerCountDownScreen();
             break;
     }
@@ -125,49 +132,49 @@ Screen::ScreenKind Screen::currentScreen() const {
 }
 
 void Screen::changeToConfigurationScreen() {
-    changeScreen(ConfigurationScreen, m_currentScreen);
+    changeScreen(ScreenKind::ConfigurationScreen, m_currentScreen);
 }
 
 void Screen::changeToGameSelectScreen() {
-    changeScreen(GameSelectionScreen, m_currentScreen);
+    changeScreen(ScreenKind::GameSelectionScreen, m_currentScreen);
 }
 
 void Screen::changeToDMConfigScreen() {
-    changeScreen(DMConfigScreen, m_currentScreen);
+    changeScreen(ScreenKind::DMConfigScreen, m_currentScreen);
 }
 
 void Screen::changeToDMCountDownScreen() {
-    changeScreen(DMCountDownScreen, m_currentScreen);
+    changeScreen(ScreenKind::DMCountDownScreen, m_currentScreen);
 }
 
 void Screen::changeToDMPlayersReadyScreen() {
-    changeScreen(DMPlayersReadyScreen, m_currentScreen);
+    changeScreen(ScreenKind::DMPlayersReadyScreen, m_currentScreen);
 }
 
 void Screen::changeToDMRunningScreen() {
-    changeScreen(DMRunningScreen, m_currentScreen);
+    changeScreen(ScreenKind::DMRunningScreen, m_currentScreen);
 }
 
 void Screen::changeToDMWinnerDisplayScreen(QString playerName) {
-    changeScreen(DMWinnerDisplayScreen, m_currentScreen, playerName);
+    changeScreen(ScreenKind::DMWinnerDisplayScreen, m_currentScreen, playerName);
 }
 
 void Screen::changeToSoccerConfigScreen() {
-    changeScreen(SoccerConfigScreen, m_currentScreen);
+    changeScreen(ScreenKind::SoccerConfigScreen, m_currentScreen);
 }
 
 void Screen::changeToSoccerPlayersReadyScreen() {
-    changeScreen(SoccerPlayersReadyScreen, m_currentScreen);
+    changeScreen(ScreenKind::SoccerPlayersReadyScreen, m_currentScreen);
 }
 
 void Screen::changeToSoccerRunningScreen() {
-    changeScreen(SoccerRunningScreen, m_currentScreen);
+    changeScreen(ScreenKind::SoccerRunningScreen, m_currentScreen);
 }
 
 void Screen::changeToSoccerCountDownScreen() {
-    changeScreen(SoccerCountDownScreen, m_currentScreen);
+    changeScreen(ScreenKind::SoccerCountDownScreen, m_currentScreen);
 }
 
 void Screen::changeToSoccerGameOverScreen() {
-    changeScreen(SoccerGameOverScreen, m_currentScreen);
+    changeScreen(ScreenKind::SoccerGameOverScreen, m_currentScreen);
 }
