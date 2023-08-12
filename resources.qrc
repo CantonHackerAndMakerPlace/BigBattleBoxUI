@@ -25,5 +25,47 @@
         <file>resources/SpinningCoin.gif</file>
         <file>resources/SpinningCoin_50.gif</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/battlebox/LEDInterpolation">
+        <file>resources/LEDInterpolation/qeasingcurve-inback.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inbounce.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-incirc.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-incubic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inelastic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inexpo.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutback.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutbounce.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutcirc.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutcubic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutelastic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutexpo.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutquad.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutquart.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutquint.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inoutsine.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inquad.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inquart.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-inquint.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-insine.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-linear.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outback.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outbounce.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outcirc.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outcubic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outelastic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outexpo.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinback.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinbounce.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outincirc.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outincubic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinelastic.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinexpo.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinquad.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinquart.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinquint.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outinsine.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outquad.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outquart.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outquint.png</file>
+        <file>resources/LEDInterpolation/qeasingcurve-outsine.png</file>
+    </qresource>
 </RCC>

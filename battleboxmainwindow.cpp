@@ -125,7 +125,7 @@ void BattleBoxMainWindow::initializeSystemConfigurationScreen() {
         [&] {
             m_state->screen()->changeToGameSelectScreen();
         });
-    ui->configuration->init(m_state->data()->settings(), m_state->physicalState(), m_mediaScreen);
+    ui->configuration->init(m_state, m_mediaScreen);
 }
 
 

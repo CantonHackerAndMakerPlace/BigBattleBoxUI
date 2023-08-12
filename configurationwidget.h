@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QSettings>
 
-#include "physical_state/battleboxphysicalstate.h"
+#include "app_state/applicationstate.h"
 
 class StateIndicatorWidget;
 class ButtonConfigWidget;
@@ -22,7 +22,7 @@ public:
     ~ConfigurationWidget();
 
 
-    void init(QSettings *settings, BattleBoxPhysicalState *physicalState, MediaDialog *media);
+    void init(ApplicationState *state, MediaDialog *media);
 private:
     void initPlayerOneConfig();
     void initPlayerTwoConfig();
@@ -40,7 +40,7 @@ signals:
 private:
     Ui::ConfigurationWidget *ui;
     QSettings *m_settings;
-    BattleBoxPhysicalState *m_state;
+    ApplicationState *m_state;
     MediaDialog *m_media;
 
 };

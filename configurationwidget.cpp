@@ -24,15 +24,16 @@ ConfigurationWidget::~ConfigurationWidget() {
     delete ui;
 }
 
-void ConfigurationWidget::init(QSettings *settings, BattleBoxPhysicalState *physicalState, MediaDialog *media) {
+void ConfigurationWidget::init(ApplicationState *state, MediaDialog *media) {
     // Loading all of the current configuratation
     assert(!m_settings && "Cannot call init twice");
     assert(!m_state && "Cannot call init twice");
     assert(!m_media && "Cannot initialize media dialog reference twice");
 
-    m_settings = settings;
-    m_state = physicalState;
+//    m_settings = settings;
+    m_state = state;
     m_media = media;
+    m_settings = m_state->data()->settings();
 
     // Connecting all of the signals and for each sub-menu.
     initPlayerOneConfig();
@@ -45,82 +46,83 @@ void ConfigurationWidget::init(QSettings *settings, BattleBoxPhysicalState *phys
 
 
 void ConfigurationWidget::initPlayerOneConfig() {
-    connectButtonState(m_state->playerOne()->readyButton(),
+    connectButtonState(m_state->physicalState()->playerOne()->readyButton(),
         ui->p1StatusIndicator->readyState());
 
-    connectButtonState(m_state->playerOne()->doorButton(),
+    connectButtonState(m_state->physicalState()->playerOne()->doorButton(),
         ui->p1StatusIndicator->doorState());
 
-    connectButtonState(m_state->playerOne()->trapDoorButton(),
+    connectButtonState(m_state->physicalState()->playerOne()->trapDoorButton(),
         ui->p1StatusIndicator->trapDoorState());
 
-    connectButtonState(m_state->playerOne()->conceedButton(),
+    connectButtonState(m_state->physicalState()->playerOne()->conceedButton(),
         ui->p1StatusIndicator->conceedState());
 
-    connectWiringState(m_state->playerOne()->readyButton(), ui->p1ReadySwitchKind);
-    connectWiringState(m_state->playerOne()->doorButton(), ui->p1DoorSwitchKind);
-    connectWiringState(m_state->playerOne()->conceedButton(), ui->p1ConceedSwitchKind);
-    connectWiringState(m_state->playerOne()->trapDoorButton(), ui->p1TrapDoorSwitchKind);
+    connectWiringState(m_state->physicalState()->playerOne()->readyButton(), ui->p1ReadySwitchKind);
+    connectWiringState(m_state->physicalState()->playerOne()->doorButton(), ui->p1DoorSwitchKind);
+    connectWiringState(m_state->physicalState()->playerOne()->conceedButton(), ui->p1ConceedSwitchKind);
+    connectWiringState(m_state->physicalState()->playerOne()->trapDoorButton(), ui->p1TrapDoorSwitchKind);
 }
 
 void ConfigurationWidget::initPlayerTwoConfig() {
-    connectButtonState(m_state->playerTwo()->readyButton(),
+    connectButtonState(m_state->physicalState()->playerTwo()->readyButton(),
         ui->p2StatusIndicator->readyState());
 
-    connectButtonState(m_state->playerTwo()->doorButton(),
+    connectButtonState(m_state->physicalState()->playerTwo()->doorButton(),
         ui->p2StatusIndicator->doorState());
 
-    connectButtonState(m_state->playerTwo()->trapDoorButton(),
+    connectButtonState(m_state->physicalState()->playerTwo()->trapDoorButton(),
         ui->p2StatusIndicator->trapDoorState());
 
-    connectButtonState(m_state->playerTwo()->conceedButton(),
+    connectButtonState(m_state->physicalState()->playerTwo()->conceedButton(),
         ui->p2StatusIndicator->conceedState());
 
-    connectWiringState(m_state->playerTwo()->readyButton(), ui->p2ReadySwitchKind);
-    connectWiringState(m_state->playerTwo()->doorButton(), ui->p2DoorSwitchKind);
-    connectWiringState(m_state->playerTwo()->conceedButton(), ui->p2ConceedSwitchKind);
-    connectWiringState(m_state->playerTwo()->trapDoorButton(), ui->p2TrapDoorSwitchKind);
+    connectWiringState(m_state->physicalState()->playerTwo()->readyButton(), ui->p2ReadySwitchKind);
+    connectWiringState(m_state->physicalState()->playerTwo()->doorButton(), ui->p2DoorSwitchKind);
+    connectWiringState(m_state->physicalState()->playerTwo()->conceedButton(), ui->p2ConceedSwitchKind);
+    connectWiringState(m_state->physicalState()->playerTwo()->trapDoorButton(), ui->p2TrapDoorSwitchKind);
 }
 
 void ConfigurationWidget::initLedConfig() {
-
+    ui->ledConfig->init(m_state);
 }
 
 void ConfigurationWidget::initSpotLightConfig() {
 
 }
+
 constexpr size_t LOG_LINES = 1000;
 void ConfigurationWidget::initArduinoConfig() {
-    ui->arduinoConnectionIndicator->setState(m_state->connectionManager()->isConnected());
-    connect(m_state->connectionManager(), &ArduinoConnectionManager::connected,
+    ui->arduinoConnectionIndicator->setState(m_state->physicalState()->connectionManager()->isConnected());
+    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::connected,
             [&](QString port) {
-        ui->arduinoConnectionIndicator->setState(m_state->connectionManager()->isConnected());
+        ui->arduinoConnectionIndicator->setState(m_state->physicalState()->connectionManager()->isConnected());
         ui->availableComPorts->setCurrentText(port);
     });
 
-    connect(m_state->connectionManager(), &ArduinoConnectionManager::disconnected,
+    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::disconnected,
             [&](QString port) {
-        ui->arduinoConnectionIndicator->setState(m_state->connectionManager()->isConnected());
+        ui->arduinoConnectionIndicator->setState(m_state->physicalState()->connectionManager()->isConnected());
         ui->availableComPorts->setCurrentText("");
     });
 
     // Adding initial empty elements.
     ui->availableComPorts->addItem("");
-    ui->availableComPorts->addItems(m_state->connectionManager()->availableSerialPorts());
+    ui->availableComPorts->addItems(m_state->physicalState()->connectionManager()->availableSerialPorts());
 
-    connect(m_state->connectionManager(), &ArduinoConnectionManager::availableSerialPortsChanged,
+    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::availableSerialPortsChanged,
             [&](const QStringList &ports) {
         auto text = ui->availableComPorts->currentText();
         ui->availableComPorts->clear();
         ui->availableComPorts->addItem("");
-        ui->availableComPorts->addItems(m_state->connectionManager()->availableSerialPorts());
+        ui->availableComPorts->addItems(m_state->physicalState()->connectionManager()->availableSerialPorts());
         ui->availableComPorts->setCurrentText(text);
     });
 
-    connect(m_state->connectionManager(), &ArduinoConnectionManager::error,
+    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::error,
             [&](QString msg){
         // Update state because this could me we are disconnected.
-        ui->arduinoConnectionIndicator->setState(m_state->connectionManager()->isConnected());
+        ui->arduinoConnectionIndicator->setState(m_state->physicalState()->connectionManager()->isConnected());
         qDebug() << "Received an error message from arduino connection";
     });
 
@@ -129,16 +131,16 @@ void ConfigurationWidget::initArduinoConfig() {
             [&](const QString& text) {
         // The remainder of the state will be updated by the rest of
         // the slots.
-        m_state->connectionManager()->connectToSerialPort(text);
+        m_state->physicalState()->connectionManager()->connectToSerialPort(text);
         qDebug() << "Selecting new arduino connection:" << text;
         m_settings->setValue("arduino/com_port", text);
 
     });
 
-    connect(m_state->connectionManager(), &ArduinoConnectionManager::connectToSerialPort,
+    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::connectToSerialPort,
             ui->availableComPorts, &QComboBox::currentTextChanged);
 
-    connect(m_state->connectionManager(), &ArduinoConnectionManager::receivedData,
+    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::receivedData,
             [&](QString msg) {
         QString cleanMsg = msg.remove('\r').remove('\n');
 

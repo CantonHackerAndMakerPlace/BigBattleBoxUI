@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LEDControlWidget</class>
+ <widget class="QWidget" name="LEDControlWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1138</width>
+    <height>658</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,20">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QTreeWidget" name="treeWidget">
+       <column>
+        <property name="text">
+         <string>Screens</string>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>General LED Configurations</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Idle Screen</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Death Match</string>
+        </property>
+        <property name="flags">
+         <set>ItemIsEnabled</set>
+        </property>
+        <item>
+         <property name="text">
+          <string>Configuration Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Players Ready Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Count Down Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Door Drop Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Match Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Winning Player Lights</string>
+         </property>
+        </item>
+       </item>
+       <item>
+        <property name="text">
+         <string>Soccer</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Configuration Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Players Ready Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Count Down Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Match Lights</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Winning Player Lights</string>
+         </property>
+        </item>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QStackedWidget" name="lightConfigDisplay">
+       <widget class="GeneralLEDConfigurationWidget" name="generalLedConfigurationWidget"/>
+       <widget class="QWidget" name="deathMatchPlayersReadyLightsWidget"/>
+       <widget class="QWidget" name="deathMatchCountDownLightsWidget"/>
+       <widget class="QWidget" name="deathMatchDoorDropLightsWidget"/>
+       <widget class="QWidget" name="deathMatchMatchLightsWidget"/>
+       <widget class="QWidget" name="soccerConfigLightsWidget"/>
+       <widget class="QWidget" name="soccerPlayerReadyLightsWidget"/>
+       <widget class="QWidget" name="soccerCountDownLightsWidget"/>
+       <widget class="QWidget" name="soccerMatchLightsWidget"/>
+       <widget class="QWidget" name="soccerWinningPlayerLightsWidget"/>
+       <widget class="QWidget" name="deathMatchWinningPlayerLightsWidget"/>
+       <widget class="QWidget" name="idleScreenWidget"/>
+       <widget class="QWidget" name="deathMatchConfigLightsWidget"/>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GeneralLEDConfigurationWidget</class>
+   <extends>QWidget</extends>
+   <header>generalledconfigurationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

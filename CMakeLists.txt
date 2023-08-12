@@ -45,6 +45,8 @@ ExternalProject_Add(Box2dQML_external
                 )
 
 include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/widgets)
+include_directories(${CMAKE_SOURCE_DIR}/screens/configuration)
 
 set(PROJECT_SOURCES
     battleboxmainwindow.cpp
@@ -108,7 +110,8 @@ set(PROJECT_SOURCES
     physical_state/physicalplayerstate.cpp
     physical_state/physicalrelay.h
     physical_state/physicalrelay.cpp
-
+    physical_state/ledsettings.h
+    physical_state/ledsettings.cpp
 
 
     app_state/applicationstate.h
@@ -131,6 +134,34 @@ set(PROJECT_SOURCES
     app_state/soccermatch.cpp
     app_state/soccerteamready.h
     app_state/soccerteamready.cpp
+
+    # LED configuration files
+    app_state/led/ledconfiguration.h
+    app_state/led/ledconfiguration.cpp
+    app_state/led/generalledconfiguration.h
+    app_state/led/generalledconfiguration.cpp
+    app_state/led/ledidleconfiguration.h
+    app_state/led/ledidleconfiguration.cpp
+    app_state/led/interpolation.h
+    app_state/led/interpolation.cpp
+
+    # Screens directory used for managing individual screen widgets
+    screens/configuration/ledcontrolwidget.h
+    screens/configuration/ledcontrolwidget.cpp
+    screens/configuration/ledcontrolwidget.ui
+    screens/configuration/interpolationselectorwidget.h
+    screens/configuration/interpolationselectorwidget.cpp
+
+    screens/configuration/interpolationselectorwidget.ui
+    screens/configuration/generalledconfigurationwidget.h
+    screens/configuration/generalledconfigurationwidget.cpp
+    screens/configuration/generalledconfigurationwidget.ui
+
+    # other custom
+    widgets/RangeSlider.h
+    widgets/RangeSlider.cpp
+
+
 
 
     main.cpp
@@ -187,7 +218,6 @@ qt_add_qml_module(BattleBox
 
         qmlproject/cannon/sounds/cannon.wav
         qmlproject/cannon/sounds/gear.wav
-
 )
 
 

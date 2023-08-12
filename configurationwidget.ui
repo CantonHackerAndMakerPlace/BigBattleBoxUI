@@ -72,7 +72,7 @@
         </font>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="playerOneConfig">
         <attribute name="title">
@@ -283,7 +283,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="ledConfig">
+       <widget class="QWidget" name="ledConfigTab">
         <attribute name="title">
          <string>LED Config</string>
         </attribute>
@@ -304,7 +304,11 @@
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <layout class="QGridLayout" name="gridLayout_7"/>
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="0" column="0">
+            <widget class="LEDControlWidget" name="ledConfig" native="true"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -481,6 +485,12 @@
    <class>StateIndicatorWidget</class>
    <extends>QWidget</extends>
    <header>stateindicatorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LEDControlWidget</class>
+   <extends>QWidget</extends>
+   <header>ledcontrolwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
