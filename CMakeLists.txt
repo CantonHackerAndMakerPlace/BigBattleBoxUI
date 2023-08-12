@@ -161,8 +161,8 @@ set(PROJECT_SOURCES
     widgets/RangeSlider.h
     widgets/RangeSlider.cpp
 
-
-
+    defaultrestorable.h
+    defaultrestorable.cpp
 
     main.cpp
 )
