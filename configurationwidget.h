@@ -35,6 +35,8 @@ private:
 
     void connectWiringState(PhysicalButton *sw, ButtonConfigWidget *wiringCfg);
 
+    void sendCommand();
+
 signals:
     void clickedBack();
 private:

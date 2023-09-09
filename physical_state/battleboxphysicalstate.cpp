@@ -1,5 +1,6 @@
 #include "physical_state/battleboxphysicalstate.h"
 #include "physical_state/arduinoconnectionmanager.h"
+#include <QColor>
 #include <QFileSystemWatcher>
 #include <QDir>
 
@@ -8,6 +9,7 @@ constexpr const char *SERIAL_PORT_FILES = "/dev/";
 BattleBoxPhysicalState::BattleBoxPhysicalState(QObject *parent)
     : QObject{parent}
     , m_connectionManager(new ArduinoConnectionManager(this))
+    , m_messanger(new ArduinoMessanger(m_connectionManager, this))
     , m_playerOne(new PhysicalPlayerState("player One", this))
     , m_playerTwo(new PhysicalPlayerState("player Two", this))
 {
@@ -158,6 +160,89 @@ PhysicalPlayerState *BattleBoxPhysicalState::playerTwo() const {
     return m_playerTwo;
 }
 
+
+
+void BattleBoxPhysicalState::sendTest() {
+
+}
+
+void BattleBoxPhysicalState::sendStatus() {
+
+}
+
+void BattleBoxPhysicalState::sendSpotLightsOn() {
+
+}
+
+void BattleBoxPhysicalState::sendSpotLightsOff() {
+
+}
+
+void BattleBoxPhysicalState::sendSetSpotLights(bool p1, bool p2) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDReconfig(int position, int pin, int ledCount) {
+    connectionManager()->sendData(QString("LEDReconfig %1 %2 %3\n").arg(QString::number(position), QString::number(pin), QString::number(ledCount)));
+}
+
+void BattleBoxPhysicalState::sendLEDAllShow() {
+
+}
+
+void BattleBoxPhysicalState::sendLEDAllFill(int r, int g, int b, int index, int count) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDAllFill(QColor color, int index, int count) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDAllSetPixelColor(int index, int r, int g, int b) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDAllSetPixelColor(int index, QColor color) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDAllSetBrightness(int brightness) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDAllWhite() {
+
+}
+
+void BattleBoxPhysicalState::sendLEDShow(int position) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDFill(int position, int r, int g, int b, int index, int count) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDFill(int position, QColor color, int index, int count) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDSetPixelColor(int position, int index, int r, int g, int b) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDSetPixelColor(int position, int index, QColor color) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDSetBrightness(int position, int brightness) {
+
+}
+
+void BattleBoxPhysicalState::sendLEDWhite(int position) {
+
+}
+
+
 namespace {
     // Returns true in the event of a failure.
     bool readBool(QStringList &readableData,
@@ -195,6 +280,7 @@ namespace {
         return false;
     }
 }
+
 void BattleBoxPhysicalState::parseData(QString data) {
     qDebug() << "Handling arduino data";
     QJsonParseError err;
@@ -221,7 +307,6 @@ void BattleBoxPhysicalState::parseData(QString data) {
         handleUpdate(document);
     } else if (status == "OK") {
         // We need to dispatch further.
-
     } else if (status == "Error") {
         qWarning() << "Received an error respons from arduino" << data;
         return;
@@ -229,29 +314,6 @@ void BattleBoxPhysicalState::parseData(QString data) {
         qWarning() << "Unknown status returned by arduino:" << data;
         return;
     }
-    // Dispatching update request.
-
-//    Received data
-/*
-{
-    "status":"UPDATE",
-    "p1":{
-        "door":0,
-        "ready":1,
-        "trap_door":1,
-        "quit":1
-    },
-    "p2":{
-        "door":0,
-        "ready":1,
-        "trap_door":1,
-        "quit":1
-    },
-    "l1":0,
-    "l2":0
-}
-
-*/
 }
 
 bool readObjectReq(QJsonObject &obj, const char* name, QJsonObject *out) {

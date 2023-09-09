@@ -5,6 +5,7 @@ ApplicationState::ApplicationState(QObject *parent)
     , m_screen(new Screen(this))
     , m_model(new BattleBoxViewModel(this))
     , m_physicalState(new BattleBoxPhysicalState(this))
+    , m_ledConfig(new LEDConfiguration(this))
 {
     initSettings();
     initBattleBoxState();
@@ -25,6 +26,10 @@ void ApplicationState::initSettings() {
     attachSettingToSwitch(m_physicalState->playerTwo()->trapDoorButton(), "player_two/trap_door_switch_kind");
     attachSettingToSwitch(m_physicalState->playerTwo()->conceedButton(), "player_two/conceed_switch_kind");
 
+    // Attaching the LED light settings.
+    m_ledConfig->loadSettings(m_model->settings());
+
+    // Sync settings on disk
     m_model->saveSettings();
 }
 
@@ -46,8 +51,15 @@ void ApplicationState::attachSettingToSwitch(PhysicalButton *button, const char*
 void ApplicationState::initBattleBoxState() {
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::connected,
             [&] {
-                qDebug() << "Connected serial port";
+                qDebug() << "Connected serial port!!!!!";
                 m_physicalState->connectionManager()->sendData("Status");
+                m_physicalState->sendLEDReconfig(0,
+                                                 m_ledConfig->generalLEDConfiguration()->playerOneLedPin().value(),
+                                                 m_ledConfig->generalLEDConfiguration()->playerOneLedCount().value());
+
+                m_physicalState->sendLEDReconfig(1,
+                                                 m_ledConfig->generalLEDConfiguration()->playerTwoLedPin().value(),
+                                                 m_ledConfig->generalLEDConfiguration()->playerTwoLedCount().value());
             });
 
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::disconnected,
@@ -71,6 +83,18 @@ void ApplicationState::initBattleBoxState() {
             });
     auto port = m_model->settings()->value("arduino/com_port", "/dev/ttyACM0").toString();
     m_physicalState->connectionManager()->connectToSerialPort(port);
+}
+
+void ApplicationState::onArduinoConnection() {
+    qDebug() << "Called onArduinoConnection";
+
+    // When we connect to the arduino we must send the LED
+    // configuration settings
+
+}
+
+LEDConfiguration *ApplicationState::ledConfig() const {
+    return m_ledConfig;
 }
 
 Screen *ApplicationState::screen() const {

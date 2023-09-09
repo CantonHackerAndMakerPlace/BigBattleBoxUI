@@ -5,6 +5,7 @@
 #include "app_state/screen.h"
 #include "app_state/battleboxviewmodel.h"
 #include "physical_state/battleboxphysicalstate.h"
+#include "app_state/led/ledconfiguration.h"
 
 /// The goal of this class is to managed the global state of the program's UI
 /// and any of the other state associated with it. The goal of this
@@ -27,8 +28,11 @@ public:
     /// The phyical state part of the battlebox. This is used to keep track of things
     /// like when a button is pressed, released, and the state of the relays. This
     /// is managed primarilly by the arduino connection manager and is used in order
-    /// to provide the correct state at any given time.
+    /// to provide the correct state at any given time.5
     BattleBoxPhysicalState *physicalState() const;
+
+    /// Returns the LEDConfiguration object.
+    LEDConfiguration *ledConfig() const;
 
 private:
     // Loading setting functions and setting up signals and slots during
@@ -36,11 +40,14 @@ private:
     void initSettings();
     void attachSettingToSwitch(PhysicalButton *button, const char* settingsKey);
     void initBattleBoxState();
+public slots:
+    void onArduinoConnection();
 
 private:
     Screen *m_screen;
     BattleBoxViewModel *m_model = nullptr;
     BattleBoxPhysicalState *m_physicalState = nullptr;
+    LEDConfiguration *m_ledConfig = nullptr;
 };
 
 #endif // APPLICATIONSTATE_H

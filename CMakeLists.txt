@@ -100,6 +100,9 @@ set(PROJECT_SOURCES
     playerwinswidget.cpp
     playerwinswidget.ui
 
+    integerobject.h
+    integerobject.cpp
+
     physical_state/arduinoconnectionmanager.h
     physical_state/arduinoconnectionmanager.cpp
     physical_state/battleboxphysicalstate.h
@@ -110,8 +113,9 @@ set(PROJECT_SOURCES
     physical_state/physicalplayerstate.cpp
     physical_state/physicalrelay.h
     physical_state/physicalrelay.cpp
-    physical_state/ledsettings.h
-    physical_state/ledsettings.cpp
+    physical_state/arduinomessanger.h
+    physical_state/arduinomessanger.cpp
+
 
 
     app_state/applicationstate.h
@@ -145,6 +149,8 @@ set(PROJECT_SOURCES
     app_state/led/interpolation.h
     app_state/led/interpolation.cpp
 
+
+
     # Screens directory used for managing individual screen widgets
     screens/configuration/ledcontrolwidget.h
     screens/configuration/ledcontrolwidget.cpp
@@ -163,6 +169,9 @@ set(PROJECT_SOURCES
 
     defaultrestorable.h
     defaultrestorable.cpp
+
+    integerobject.h
+    integerobject.cpp
 
     main.cpp
 )

@@ -159,6 +159,18 @@ void ConfigurationWidget::initArduinoConfig() {
             ui->arduinoTextLog->setTextCursor(cursor);
         }
     });
+
+    connect(ui->sendArduinoCmdButton, &QPushButton::pressed,
+            this, &ConfigurationWidget::sendCommand);
+}
+
+void ConfigurationWidget::sendCommand() {
+
+    auto msg = ui->arduinoCmdLineEdit->text();
+    qDebug() << "Sending message: " << msg;
+    m_state->physicalState()->connectionManager()->sendData(msg);
+    ui->arduinoCmdLineEdit->setText("");
+
 }
 
 void ConfigurationWidget::initMediaDialog() {

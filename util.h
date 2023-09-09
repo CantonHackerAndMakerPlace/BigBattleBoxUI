@@ -25,4 +25,10 @@ inline QString msToTimeRep(int ms) {
     return QString(temp.c_str());
 }
 
+
+//#define TRIVIAL_SLOT_BODY(MEMBER, PARAM, SIG)\
+//    if (MEMBER != PARAM) {\
+//        MEMBER = PARAM; \
+//        emit SIG(MEMBER);\
+//    }
 #endif // UTIL_H
