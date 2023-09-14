@@ -6,6 +6,8 @@ ApplicationState::ApplicationState(QObject *parent)
     , m_model(new BattleBoxViewModel(this))
     , m_physicalState(new BattleBoxPhysicalState(this))
     , m_ledConfig(new LEDConfiguration(this))
+    , m_arduinoClient(new ArduinoClient(m_ledConfig->generalLEDConfiguration(), m_physicalState->messanger(), this))
+    , m_ledController(new LEDController(m_arduinoClient, this))
 {
     initSettings();
     initBattleBoxState();
@@ -51,17 +53,18 @@ void ApplicationState::attachSettingToSwitch(PhysicalButton *button, const char*
 void ApplicationState::initBattleBoxState() {
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::connected,
             [&] {
-                qDebug() << "Connected serial port!!!!!";
-                m_physicalState->connectionManager()->sendData("Status");
-                m_physicalState->sendLEDReconfig(0,
-                                                 m_ledConfig->generalLEDConfiguration()->playerOneLedPin().value(),
-                                                 m_ledConfig->generalLEDConfiguration()->playerOneLedCount().value());
-
-                m_physicalState->sendLEDReconfig(1,
-                                                 m_ledConfig->generalLEDConfiguration()->playerTwoLedPin().value(),
-                                                 m_ledConfig->generalLEDConfiguration()->playerTwoLedCount().value());
+                qDebug() << "Connected serial port";
             });
 
+    connect(m_arduinoClient, &ArduinoClient::connected,
+            [&] {
+        // NOTE: Sending reconfiguration messages directly is best I think?
+        qDebug() << "Arduino ready for send and receive sending configuration messages";
+
+        }
+    );
+
+    // TODO: Eventuall move this into the PhyiscalState Class.
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::disconnected,
             [] {
                 qDebug() << "disconnected from serial port";
@@ -107,4 +110,9 @@ BattleBoxViewModel *ApplicationState::data() const {
 
 BattleBoxPhysicalState *ApplicationState::physicalState() const {
     return m_physicalState;
+}
+
+
+LEDController *ApplicationState::ledController() const {
+    return m_ledController;
 }

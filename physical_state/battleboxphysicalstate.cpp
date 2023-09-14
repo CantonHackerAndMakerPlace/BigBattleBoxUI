@@ -13,6 +13,40 @@ BattleBoxPhysicalState::BattleBoxPhysicalState(QObject *parent)
     , m_playerOne(new PhysicalPlayerState("player One", this))
     , m_playerTwo(new PhysicalPlayerState("player Two", this))
 {
+
+    // Pusing events out of this class so there is no confusion.
+    connect(m_connectionManager, &ArduinoConnectionManager::disconnected,
+        this, &BattleBoxPhysicalState::disconnectedFromArduino);
+    connect(m_messanger, &ArduinoMessanger::receivedFirstResponse,
+        this, &BattleBoxPhysicalState::arduinoReadyForSendReceive);
+
+    connect(m_messanger, &ArduinoMessanger::receivedMessageToSend,
+            [&] (MsgKind kind, QString content){
+        qDebug() << "Received a message to send:" << content;
+            });
+    connect(m_messanger, &ArduinoMessanger::receivedFirstResponse,
+            [&] {
+                qDebug() << "Received first arduino response";
+            });
+    connect(m_messanger, &ArduinoMessanger::receivedMessageResponse,
+            [&] (MsgKind kind, QString content) {
+        qDebug() << "Received Arduino response:" << content;
+            });
+    connect(m_messanger, &ArduinoMessanger::sentMessage,
+            [&] (MsgKind kind, QString content) {
+                qDebug() << "Sending message:" << content;
+            });
+    connect(m_messanger, &ArduinoMessanger::abandonedMessage,
+            [&] (MsgKind kind, QString content) {
+                qDebug() << "Abandoning message:" << content;
+            });
+
+
+    // TODO: Add additional logging here so I can track the arduino
+    // connection updates.
+
+
+    // Other connections
     connect(m_connectionManager, &ArduinoConnectionManager::error,
             this, &BattleBoxPhysicalState::error);
 
@@ -152,6 +186,10 @@ ArduinoConnectionManager *BattleBoxPhysicalState::connectionManager() const {
     return m_connectionManager;
 }
 
+ArduinoMessanger *BattleBoxPhysicalState::messanger() const {
+    return m_messanger;
+}
+
 PhysicalPlayerState *BattleBoxPhysicalState::playerOne() const {
     return m_playerOne;
 }
@@ -160,87 +198,6 @@ PhysicalPlayerState *BattleBoxPhysicalState::playerTwo() const {
     return m_playerTwo;
 }
 
-
-
-void BattleBoxPhysicalState::sendTest() {
-
-}
-
-void BattleBoxPhysicalState::sendStatus() {
-
-}
-
-void BattleBoxPhysicalState::sendSpotLightsOn() {
-
-}
-
-void BattleBoxPhysicalState::sendSpotLightsOff() {
-
-}
-
-void BattleBoxPhysicalState::sendSetSpotLights(bool p1, bool p2) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDReconfig(int position, int pin, int ledCount) {
-    connectionManager()->sendData(QString("LEDReconfig %1 %2 %3\n").arg(QString::number(position), QString::number(pin), QString::number(ledCount)));
-}
-
-void BattleBoxPhysicalState::sendLEDAllShow() {
-
-}
-
-void BattleBoxPhysicalState::sendLEDAllFill(int r, int g, int b, int index, int count) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDAllFill(QColor color, int index, int count) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDAllSetPixelColor(int index, int r, int g, int b) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDAllSetPixelColor(int index, QColor color) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDAllSetBrightness(int brightness) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDAllWhite() {
-
-}
-
-void BattleBoxPhysicalState::sendLEDShow(int position) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDFill(int position, int r, int g, int b, int index, int count) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDFill(int position, QColor color, int index, int count) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDSetPixelColor(int position, int index, int r, int g, int b) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDSetPixelColor(int position, int index, QColor color) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDSetBrightness(int position, int brightness) {
-
-}
-
-void BattleBoxPhysicalState::sendLEDWhite(int position) {
-
-}
 
 
 namespace {

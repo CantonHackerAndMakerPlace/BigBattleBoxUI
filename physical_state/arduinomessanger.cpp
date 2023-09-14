@@ -21,7 +21,66 @@ static const QHash<QString, MsgKind> MsgNameToKind = {
     {"LEDSetPixelColor", MsgKind::LEDSetPixelColor},
     {"LEDSetBrightness", MsgKind::LEDSetBrightness},
     {"LEDWhite", MsgKind::LEDWhite   },
-};
+    };
+
+std::ostream& operator<<(std::ostream& out, MsgKind kind) {
+    switch(kind) {
+
+    case MsgKind::Unknown:
+        out << "Unknown";
+        break;
+    case MsgKind::Test:
+        out << "Test";
+        break;
+    case MsgKind::Status:
+        out << "Status";
+        break;
+    case MsgKind::SpotLightsOn:
+        out << "SpotLightsOn";
+        break;
+    case MsgKind::SpotLightsOff:
+        out << "SpotLightsOff";
+        break;
+    case MsgKind::SetSpotLights:
+        out << "SetSpotLights";
+        break;
+    case MsgKind::LEDReconfig:
+        out << "LEDReconfig";
+        break;
+    case MsgKind::LEDAllShow:
+        out << "LEDAllShow";
+        break;
+    case MsgKind::LEDAllFill:
+        out << "LEDAllFill";
+        break;
+    case MsgKind::LEDAllSetPixelColor:
+        out << "LEDAllSetPixelColor";
+        break;
+    case MsgKind::LEDAllSetBrightness:
+        out << "LEDAllSetBrightness";
+        break;
+    case MsgKind::LEDAllWhite:
+        out << "LEDAllWhite";
+        break;
+    case MsgKind::LEDShow:
+        out << "LEDShow";
+        break;
+    case MsgKind::LEDFill:
+        out << "LEDFill";
+        break;
+    case MsgKind::LEDSetPixelColor:
+        out << "LEDSetPixelColor";
+        break;
+    case MsgKind::LEDSetBrightness:
+        out << "LEDSetBrightness";
+        break;
+    case MsgKind::LEDWhite:
+        out << "LEDWhite";
+        break;
+        break;
+    }
+    return out;
+}
 
 MsgKind fromString(QString &msgName) {
     auto iter = MsgNameToKind.find(msgName);
@@ -56,7 +115,9 @@ ArduinoMessanger::ArduinoMessanger(ArduinoConnectionManager *connectionManager, 
     connect(m_conn, &ArduinoConnectionManager::error,
             this, &ArduinoMessanger::onError);
 
-
+}
+ArduinoConnectionManager *ArduinoMessanger::connectionManager() const {
+    return m_conn;
 }
 
 void ArduinoMessanger::sendMessage(MsgKind kind, QString content) {
@@ -68,6 +129,7 @@ void ArduinoMessanger::sendMessage(MsgKind kind, QString content) {
             emit abandonedMessage(msg.kind, msg.content);
         }
         m_messagesToSend.enqueue(ArduinoMessage{ kind, content });
+        receivedMessageToSend(kind, content);
     } else {
         // If we are disconnected simply ignore the message.
         emit abandonedMessage(kind, content);
@@ -141,8 +203,6 @@ void ArduinoMessanger::handleResponseToDispatch(QJsonObject *obj, QString const&
 
     // If we have an unknown message we haven't received a response to anything yet.
     if (m_awaitingResponseFor.kind != MsgKind::Unknown) {
-        //
-
         if (m_awaitingResponseFor.kind != kind) {
             qWarning() << "Missmatch between sent message and recieved response. Sent Message: " << m_awaitingResponseFor.content << "Received response:" << data;
             emit abandonedMessage(m_awaitingResponseFor.kind, m_awaitingResponseFor.content);
@@ -214,7 +274,7 @@ void ArduinoMessanger::messageHandler() {
             // Handling case for actually sending a message.
             auto nextMsg = m_messagesToSend.dequeue();
             m_awaitingResponseFor = nextMsg;
-            emit receivedMessageToSend(nextMsg.kind, nextMsg.content);
+            emit sentMessage(nextMsg.kind, nextMsg.content);
             m_conn->sendData(nextMsg.content);
             m_messagingTimeoutHandler->start(m_timeOutMs);
             m_messagingState = MsgState::WaitingForResponse;
@@ -242,81 +302,140 @@ void ArduinoMessanger::onError(QString msg) {
 }
 
 void ArduinoMessanger::sendTest() {
-
+    sendMessage(MsgKind::Test, "Test");
 }
 
 void ArduinoMessanger::sendStatus() {
-
+    sendMessage(MsgKind::Status, "Status");
 }
 
 void ArduinoMessanger::sendSpotLightsOn() {
+    sendMessage(MsgKind::SpotLightsOn, "SpotLightsOn");
 
 }
 
 void ArduinoMessanger::sendSpotLightsOff() {
-
+    sendMessage(MsgKind::SpotLightsOff, "SpotLightsOff");
 }
 
 void ArduinoMessanger::sendSetSpotLights(bool p1, bool p2) {
-
+    sendMessage(MsgKind::SetSpotLights,
+                QString("SetSpotLights %1 %2").arg(QString::number(p1), QString::number(p2)));
 }
 
 void ArduinoMessanger::sendLEDReconfig(int position, int pin, int ledCount) {
-//    connectionManager()->sendData(QString("LEDReconfig %1 %2 %3\n").arg(QString::number(position), QString::number(pin), QString::number(ledCount)));
+    sendMessage(MsgKind::LEDReconfig,
+                QString("LEDReconfig %1 %2 %3").arg(QString::number(position), QString::number(pin), QString::number(ledCount)));
 }
 
 void ArduinoMessanger::sendLEDAllShow() {
-
+    sendMessage(MsgKind::LEDAllShow, "LEDAllShow");
 }
 
 void ArduinoMessanger::sendLEDAllFill(int r, int g, int b, int index, int count) {
-
+    sendMessage(MsgKind::LEDAllFill,
+                QString("LEDAllFill %1 %2 %3 %4 %5")
+                    .arg(QString::number(g),
+                         QString::number(r),
+                         QString::number(b),
+                         QString::number(index),
+                         QString::number(count))
+                );
 }
 
 void ArduinoMessanger::sendLEDAllFill(QColor color, int index, int count) {
-
+    sendMessage(MsgKind::LEDAllFill,
+                QString("LEDAllFill %1 %2 %3 %4 %5")
+                    .arg(QString::number(color.green()),
+                         QString::number(color.red()),
+                         QString::number(color.blue()),
+                         QString::number(index),
+                         QString::number(count))
+                );
 }
 
 void ArduinoMessanger::sendLEDAllSetPixelColor(int index, int r, int g, int b) {
-
+    sendMessage(MsgKind::LEDAllSetPixelColor,
+                QString("LEDAllSetPixelColor %1 %2 %3 %4")
+                    .arg(QString::number(index),
+                         QString::number(g),
+                         QString::number(r),
+                         QString::number(b))
+                );
 }
 
 void ArduinoMessanger::sendLEDAllSetPixelColor(int index, QColor color) {
-
+    sendMessage(MsgKind::LEDAllSetPixelColor,
+                QString("LEDAllSetPixelColor %1 %2 %3 %4")
+                    .arg(QString::number(index),
+                         QString::number(color.green()),
+                         QString::number(color.red()),
+                         QString::number(color.blue())
+                         )
+                );
 }
 
 void ArduinoMessanger::sendLEDAllSetBrightness(int brightness) {
-
+    sendMessage(MsgKind::LEDAllSetBrightness,
+                QString("LEDAllSetBrightness %1")
+                    .arg(QString::number(brightness))
+                );
 }
 
 void ArduinoMessanger::sendLEDAllWhite() {
-
+    sendMessage(MsgKind::LEDAllWhite, "LEDAllWhite");
 }
 
 void ArduinoMessanger::sendLEDShow(int position) {
-
+    sendMessage(MsgKind::LEDShow,
+                QString("LEDShow %1")
+                    .arg(QString::number(position))
+                );
 }
 
 void ArduinoMessanger::sendLEDFill(int position, int r, int g, int b, int index, int count) {
-
+    sendMessage(MsgKind::LEDFill,
+                QString("LEDFill %1 %2 %3 %4 %5 %6")
+                    .arg(QString::number(position),
+                         QString::number(g),
+                         QString::number(r),
+                         QString::number(b),
+                         QString::number(index),
+                         QString::number(count))
+                );
 }
 
 void ArduinoMessanger::sendLEDFill(int position, QColor color, int index, int count) {
-
+    sendLEDFill(position, color.red(), color.green(), color.blue(), index, count);
 }
 
 void ArduinoMessanger::sendLEDSetPixelColor(int position, int index, int r, int g, int b) {
-
+    sendMessage(MsgKind::LEDSetPixelColor,
+                QString("LEDSetPixelColor %1 %2 %3 %4 %5")
+                    .arg(QString::number(position),
+                         QString::number(index),
+                         QString::number(g),
+                         QString::number(r),
+                         QString::number(b))
+                );
 }
 
 void ArduinoMessanger::sendLEDSetPixelColor(int position, int index, QColor color) {
+    sendLEDSetPixelColor(position, index, color.red(), color.green(), color.blue());
 
 }
 
 void ArduinoMessanger::sendLEDSetBrightness(int position, int brightness) {
-
+    sendMessage(MsgKind::LEDSetBrightness,
+                QString("LEDSetBrightness %1 %2")
+                    .arg(QString::number(position),
+                         QString::number(brightness))
+                );
 }
 
 void ArduinoMessanger::sendLEDWhite(int position) {
-
+    sendMessage(MsgKind::LEDWhite,
+                QString("LEDWhite %1")
+                    .arg(QString::number(position))
+                );
 }

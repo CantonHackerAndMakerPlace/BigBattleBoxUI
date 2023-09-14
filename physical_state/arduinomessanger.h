@@ -7,6 +7,7 @@
 #include <QColor>
 #include <QTimer>
 #include <QJsonDocument>
+#include <iostream>
 
 enum class MsgKind {
     Unknown,
@@ -28,6 +29,8 @@ enum class MsgKind {
     LEDWhite,
 };
 
+std::ostream& operator<<(std::ostream& out, MsgKind kind);
+
 struct ArduinoMessage {
     MsgKind kind;
     QString content;
@@ -43,7 +46,7 @@ class ArduinoMessanger : public QObject
     Q_OBJECT
 public:
     explicit ArduinoMessanger(ArduinoConnectionManager *connectionManager, QObject *parent = nullptr);
-
+    ArduinoConnectionManager *connectionManager() const;
 public slots:
     /// Arduino communication helper funcitons.
     void sendTest();
@@ -83,6 +86,7 @@ private slots:
     void onError(QString msg);
 signals:
     void receivedFirstResponse();
+
     /// Emitted when we are given a message to send to the arduino.
     void receivedMessageToSend(MsgKind, QString);
 
@@ -92,9 +96,6 @@ signals:
     /// Signals to use for debugging when messages are processed and sent
     /// to/received from the arduino
     void sentMessage(MsgKind, QString);
-
-    /// When we have sucessfully parsed a message response.
-    void receivedMessage(MsgKind, QString);
 
     /// This happens when we receive a new message, and we already have too many
     /// message.
@@ -111,8 +112,8 @@ private:
     bool m_receivedFirstMessageAftrerConnection = false;
     ArduinoConnectionManager *m_conn;
     std::size_t m_maxMessages = 10000;
-    std::size_t m_timeOutMs = 200;
-    std::size_t m_messagePollingInterval = 10;
+    std::size_t m_timeOutMs = 100;
+    std::size_t m_messagePollingInterval = 5;
     std::size_t m_firstMsgTimeOut = 10000;
     QTimer *m_messagingTimeoutHandler;
     QTimer *m_messageSender;

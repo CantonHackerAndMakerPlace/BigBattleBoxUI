@@ -6,6 +6,8 @@
 #include "app_state/battleboxviewmodel.h"
 #include "physical_state/battleboxphysicalstate.h"
 #include "app_state/led/ledconfiguration.h"
+#include "physical_state/ledcontroller.h"
+#include <physical_state/arduinoclient.h>
 
 /// The goal of this class is to managed the global state of the program's UI
 /// and any of the other state associated with it. The goal of this
@@ -34,6 +36,10 @@ public:
     /// Returns the LEDConfiguration object.
     LEDConfiguration *ledConfig() const;
 
+    ArduinoClient *arduinoClient() const;
+
+    LEDController *ledController() const;
+
 private:
     // Loading setting functions and setting up signals and slots during
     // initialization.
@@ -48,6 +54,8 @@ private:
     BattleBoxViewModel *m_model = nullptr;
     BattleBoxPhysicalState *m_physicalState = nullptr;
     LEDConfiguration *m_ledConfig = nullptr;
+    ArduinoClient *m_arduinoClient = nullptr;
+    LEDController *m_ledController = nullptr;
 };
 
 #endif // APPLICATIONSTATE_H

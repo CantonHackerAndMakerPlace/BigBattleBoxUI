@@ -115,8 +115,16 @@ set(PROJECT_SOURCES
     physical_state/physicalrelay.cpp
     physical_state/arduinomessanger.h
     physical_state/arduinomessanger.cpp
+    physical_state/ledcontroller.h
+    physical_state/ledcontroller.cpp
 
+    physical_state/arduinoclient.h
+    physical_state/arduinoclient.cpp
 
+    physical_state/ledalgo/ledalgo.h
+    physical_state/ledalgo/ledalgo.cpp
+    physical_state/ledalgo/breath.h
+    physical_state/ledalgo/breath.cpp
 
     app_state/applicationstate.h
     app_state/applicationstate.cpp
