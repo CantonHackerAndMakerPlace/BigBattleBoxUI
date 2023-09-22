@@ -96,7 +96,59 @@ void MediaDialog::loadSettingsDependentResources() {
             qDebug() << "Setting m_cdGoCallout";
             m_cdGoCallout = g;
         });
+}
 
+
+static const char *GREEN_BG_STYLE_SHEET = "background-color:green;";
+static const char *RED_BG_STYLE_SHEET = "background-color:red;";
+
+void MediaDialog::dmprUpdateP1ReadyText(QString arg) {
+    ui->dmprP1ReadyLabel->setText(QString("Player One: %1").arg(arg));
+    if(m_state->data()->deathMatchPlayerOneReady()->playerReady()) {
+        ui->dmprP1ReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
+    } else {
+        ui->dmprP1ReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+    }
+}
+
+void MediaDialog::dmprUpdateP2ReadyText(QString arg) {
+    ui->dmprP2ReadyLabel->setText(QString("Player Two: %1").arg(arg));
+    if(m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
+        ui->dmprP2ReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
+    } else {
+        ui->dmprP2ReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+    }
+}
+
+void MediaDialog::dmprUpdateP1DoorText(QString arg) {
+    ui->dmprP1DoorLabel->setText(QString("Door: %1").arg(arg));
+    if(m_state->data()->deathMatchPlayerOneReady()->doorClosed()) {
+        ui->dmprP1DoorWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
+    } else {
+        ui->dmprP1DoorWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+    }
+}
+
+void MediaDialog::dmprUpdateP2DoorText(QString arg) {
+    ui->dmprP2DoorLabel->setText(QString("Door: %1").arg(arg));
+    if(m_state->data()->deathMatchPlayerTwoReady()->doorClosed()) {
+        ui->dmprP2DoorWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
+    } else {
+        ui->dmprP2DoorWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+    }
+}
+
+void MediaDialog::initializeDMPRScreen() {
+    // Connecting to the display
+    connect(m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
+            this, &MediaDialog::dmprUpdateP1ReadyText);
+    connect(m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
+            this, &MediaDialog::dmprUpdateP2ReadyText);
+
+    connect(m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
+            this, &MediaDialog::dmprUpdateP1DoorText);
+    connect(m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
+            this, &MediaDialog::dmprUpdateP2DoorText);
 
 }
 
@@ -216,8 +268,7 @@ void MediaDialog::init() {
     SCREEN_SWITCH_CONNECT(leaveSoccerGameOverScreen);
 #undef SCREEN_SWITCH_CONNECT
     initialzieDeathMatchRunning();
-    // Connect to player One dmrPlayerOneWinsButton
-    // Connect to player Two dmrPlayerTwoWinsButton
+    initializeDMPRScreen();
 }
 
 void MediaDialog::initialzieDeathMatchRunning() {

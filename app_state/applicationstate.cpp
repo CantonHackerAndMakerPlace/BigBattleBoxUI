@@ -112,6 +112,9 @@ BattleBoxPhysicalState *ApplicationState::physicalState() const {
     return m_physicalState;
 }
 
+ArduinoClient *ApplicationState::arduinoClient() const {
+    return m_arduinoClient;
+}
 
 LEDController *ApplicationState::ledController() const {
     return m_ledController;

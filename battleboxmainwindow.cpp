@@ -241,6 +241,10 @@ void BattleBoxMainWindow::initDeathMatchConfigScreen() {
 }
 
 void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
+    // Make sure to only only handle input while
+    // m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen
+    // is true.
+
     // Connecting buttons.
     connect(ui->dmprPlayerOneReadyButton, &QPushButton::clicked,
             [&] { m_state->data()->deathMatchPlayerOneReady()->setPlayerReady(true); });
@@ -260,15 +264,54 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
 
     // Connecting player one to battle box UI screen controls
     connect(m_state->physicalState()->playerOne()->readyButton(), &PhysicalButton::stateChanged,
-        m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
+            [&] (bool arg) {
+                if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
+                    m_state->data()->deathMatchPlayerOneReady()->setPlayerReadyForRound(arg);
+                    m_state->arduinoClient()->setSpotLights(
+                        true,
+                        m_state->physicalState()->playerTwo()->spotLight()->state()
+                    );
+                }
+            });
+
     connect(m_state->physicalState()->playerOne()->doorButton(), &PhysicalButton::stateChanged,
         m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
 
+    connect(m_state->physicalState()->playerOne()->conceedButton(), &PhysicalButton::stateChanged,
+            [&] {
+                if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
+                    m_state->data()->deathMatchPlayerOneReady()->cancelPlayerReadyForRound();
+                    m_state->arduinoClient()->setSpotLights(
+                        false,
+                        m_state->physicalState()->playerTwo()->spotLight()->state()
+                    );
+                }
+            });
+
     // Connecting player two to battle box UI screen controls
     connect(m_state->physicalState()->playerTwo()->readyButton(), &PhysicalButton::stateChanged,
-        m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setPlayerReadyForRound);
+            [&] (bool arg) {
+                if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
+                    m_state->data()->deathMatchPlayerTwoReady()->setPlayerReadyForRound(arg);
+                    m_state->arduinoClient()->setSpotLights(
+                        m_state->physicalState()->playerOne()->spotLight()->state(),
+                        true
+                    );
+                }
+            });
     connect(m_state->physicalState()->playerTwo()->doorButton(), &PhysicalButton::stateChanged,
         m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::setDoorClosedForRound);
+    connect(m_state->physicalState()->playerTwo()->conceedButton(), &PhysicalButton::stateChanged,
+            [&] {
+                if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
+                    m_state->data()->deathMatchPlayerTwoReady()->cancelPlayerReadyForRound();
+                    m_state->arduinoClient()->setSpotLights(
+                        m_state->physicalState()->playerOne()->spotLight()->state(),
+                        false
+                    );
+                }
+            });
+
 
     connect(m_state->data()->deathMatchPlayerOneReady(), &DeathMatchPlayerReadyModel::readyTextChanged,
             this, &BattleBoxMainWindow::dmprUpdateP1ReadyText);
@@ -780,9 +823,13 @@ void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
     m_state->data()->deathMatchPlayerOneReady()->setDoorClosed(m_state->physicalState()->playerOne()->doorButton()->state());
     m_state->data()->deathMatchPlayerTwoReady()->reset();
     m_state->data()->deathMatchPlayerTwoReady()->setDoorClosed(m_state->physicalState()->playerTwo()->doorButton()->state());
+    m_state->arduinoClient()->setSpotLights(false, false);
 }
 
 void BattleBoxMainWindow::leaveDMPlayersReadyScreen() {
+    m_state->physicalState()->playerOne()->spotLight()->setState(false);
+    m_state->physicalState()->playerTwo()->spotLight()->setState(false);
+    m_state->arduinoClient()->setSpotLights(false, false);
 
 }
 

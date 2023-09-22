@@ -33,6 +33,7 @@ public slots:
 
     void setPlayerReady(bool arg);
     void setPlayerReadyForRound(bool arg);
+    void cancelPlayerReadyForRound();
     void resetPlayerReady();
 
     void setReadyText(QString arg);
@@ -40,6 +41,8 @@ public slots:
 
     void setDoorText(QString arg);
     void resetDoorText();
+
+
 
     void reset();
 

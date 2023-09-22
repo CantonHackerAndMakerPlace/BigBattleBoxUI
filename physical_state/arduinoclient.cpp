@@ -196,6 +196,10 @@ void ArduinoClient::p2SetColor(QColor color) {
     m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
 }
 
+void ArduinoClient::setSpotLights(bool p1, bool p2) {
+    m_messanger->sendSetSpotLights(p1, p2);
+}
+
 void ArduinoClient::onConnected() {
     // Sending messages to updating the current LED configuration.
     m_messanger->sendLEDReconfig(0,

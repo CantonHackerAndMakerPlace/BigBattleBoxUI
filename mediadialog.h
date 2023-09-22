@@ -50,6 +50,7 @@ private:
     BattleBoxMainWindow *mainWindow() const;
 
     void initialzieDeathMatchRunning();
+    void initializeDMPRScreen();
 public:
     void loadSettingsDependentResources();
     float volume() const { return m_volume; }
@@ -61,6 +62,12 @@ public slots:
         }
     }
 public slots:
+    // Death match player ready slots
+    void dmprUpdateP1ReadyText(QString arg);
+    void dmprUpdateP2ReadyText(QString arg);
+    void dmprUpdateP1DoorText(QString arg);
+    void dmprUpdateP2DoorText(QString arg);
+
     // All of the signals for screen switching.
     void enterGameSelectScreen();
     void leaveGameSelectScreen();

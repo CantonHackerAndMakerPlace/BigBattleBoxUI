@@ -344,5 +344,5 @@ void BattleBoxPhysicalState::handleUpdate(const QJsonDocument& document) {
     m_playerTwo->doorButton()->setState(p2Door);
     m_playerTwo->readyButton()->setState(p2Ready);
     m_playerTwo->conceedButton()->setState(p2Conceed);
-    m_playerTwo->trapDoorButton()->setState(p1TrapDoor);
+    m_playerTwo->trapDoorButton()->setState(p2TrapDoor);
 }

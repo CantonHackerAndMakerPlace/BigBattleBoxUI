@@ -61,6 +61,11 @@ void DeathMatchPlayerReadyModel::setDoorClosedForRound(bool arg) {
     }
 }
 
+void DeathMatchPlayerReadyModel::cancelPlayerReadyForRound() {
+    // Ignoring when the player lets go of the button.
+    setPlayerReady(false);
+}
+
 void DeathMatchPlayerReadyModel::setPlayerReady(bool arg) {
     if (m_playerReady != arg) {
         m_playerReady = arg;

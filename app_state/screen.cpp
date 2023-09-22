@@ -1,4 +1,5 @@
 #include "screen.h"
+#include <QDebug>
 
 Screen::Screen(QObject *parent)
     : QObject{parent}
@@ -60,8 +61,42 @@ void Screen::emitLeaveEvent(Screen::ScreenKind oldPage) {
     }
 }
 
+static const char *toStr(Screen::ScreenKind k) {
+    switch(k) {
+    case Screen::ScreenKind::InitialLoad:
+        return "InitialLoad";
+    case Screen::ScreenKind::ConfigurationScreen:
+        return "ConfigurationScreen";
+    case Screen::ScreenKind::GameSelectionScreen:
+        return "GameSelectionScreen";
+    case Screen::ScreenKind::DMConfigScreen:
+        return "DMConfigScreen";
+    case Screen::ScreenKind::DMCountDownScreen:
+        return "DMCountDownScreen";
+    case Screen::ScreenKind::DMPlayersReadyScreen:
+        return "DMPlayersReadyScreen";
+    case Screen::ScreenKind::DMRunningScreen:
+        return "DMRunningScreen";
+    case Screen::ScreenKind::DMWinnerDisplayScreen:
+        return "DMWinnerDisplayScreen";
+    case Screen::ScreenKind::SoccerConfigScreen:
+        return "SoccerConfigScreen";
+    case Screen::ScreenKind::SoccerPlayersReadyScreen:
+        return "SoccerPlayersReadyScreen";
+    case Screen::ScreenKind::SoccerRunningScreen:
+        return "SoccerRunningScreen";
+    case Screen::ScreenKind::SoccerGameOverScreen:
+        return "SoccerGameOverScreen";
+    case Screen::ScreenKind::SoccerCountDownScreen:
+        return "SoccerCountDownScreen";
+        break;
+    }
+    return "";
+}
+
 void Screen::setCurrentScreen(ScreenKind newScreen) {
     if(newScreen != currentScreen()) {
+
         std::swap(m_currentScreen, newScreen);
         changeScreen(currentScreen(), newScreen);
     }
@@ -125,6 +160,8 @@ void Screen::changeScreen(Screen::ScreenKind newPage,
             emit enterSoccerCountDownScreen();
             break;
     }
+    qDebug() << "Switching from" << toStr(currentScreen()) << "to" << toStr(newPage);
+    std::swap(m_currentScreen, newPage);
 }
 
 Screen::ScreenKind Screen::currentScreen() const {
