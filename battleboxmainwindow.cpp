@@ -267,10 +267,7 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
             [&] (bool arg) {
                 if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
                     m_state->data()->deathMatchPlayerOneReady()->setPlayerReadyForRound(arg);
-                    m_state->arduinoClient()->setSpotLights(
-                        true,
-                        m_state->physicalState()->playerTwo()->spotLight()->state()
-                    );
+                    m_state->arduinoClient()->setP1SpotLight(true);
                 }
             });
 
@@ -281,10 +278,7 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
             [&] {
                 if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
                     m_state->data()->deathMatchPlayerOneReady()->cancelPlayerReadyForRound();
-                    m_state->arduinoClient()->setSpotLights(
-                        false,
-                        m_state->physicalState()->playerTwo()->spotLight()->state()
-                    );
+                    m_state->arduinoClient()->setP1SpotLight(false);
                 }
             });
 
@@ -293,10 +287,7 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
             [&] (bool arg) {
                 if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
                     m_state->data()->deathMatchPlayerTwoReady()->setPlayerReadyForRound(arg);
-                    m_state->arduinoClient()->setSpotLights(
-                        m_state->physicalState()->playerOne()->spotLight()->state(),
-                        true
-                    );
+                    m_state->arduinoClient()->setP2SpotLight(true);
                 }
             });
     connect(m_state->physicalState()->playerTwo()->doorButton(), &PhysicalButton::stateChanged,
@@ -305,10 +296,7 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
             [&] {
                 if (m_state->screen()->currentScreen() == Screen::ScreenKind::DMPlayersReadyScreen) {
                     m_state->data()->deathMatchPlayerTwoReady()->cancelPlayerReadyForRound();
-                    m_state->arduinoClient()->setSpotLights(
-                        m_state->physicalState()->playerOne()->spotLight()->state(),
-                        false
-                    );
+                    m_state->arduinoClient()->setP2SpotLight(false);
                 }
             });
 

@@ -20,7 +20,9 @@ static const QHash<QString, MsgKind> MsgNameToKind = {
     {"LEDFill", MsgKind::LEDFill},
     {"LEDSetPixelColor", MsgKind::LEDSetPixelColor},
     {"LEDSetBrightness", MsgKind::LEDSetBrightness},
-    {"LEDWhite", MsgKind::LEDWhite   },
+    {"LEDWhite", MsgKind::LEDWhite},
+    {"SetP1SpotLight", MsgKind::SetP1SpotLight},
+    {"SetP2SpotLight", MsgKind::SetP2SpotLight},
     };
 
 std::ostream& operator<<(std::ostream& out, MsgKind kind) {
@@ -77,6 +79,11 @@ std::ostream& operator<<(std::ostream& out, MsgKind kind) {
     case MsgKind::LEDWhite:
         out << "LEDWhite";
         break;
+    case MsgKind::SetP1SpotLight:
+        out << "SetP1SpotLight";
+        break;
+    case MsgKind::SetP2SpotLight:
+        out << "SetP2SpotLight";
         break;
     }
     return out;
@@ -318,10 +325,22 @@ void ArduinoMessanger::sendSpotLightsOff() {
     sendMessage(MsgKind::SpotLightsOff, "SpotLightsOff");
 }
 
+void ArduinoMessanger::sendSetP1SpotLight(bool v) {
+    sendMessage(MsgKind::SetP1SpotLight,
+                QString("SetP1SpotLight %1").arg(QString::number(v)));
+}
+
+void ArduinoMessanger::sendSetP2SpotLight(bool v) {
+    sendMessage(MsgKind::SetP2SpotLight,
+                QString("SetP2SpotLight %1 %2").arg(QString::number(v)));
+}
+
 void ArduinoMessanger::sendSetSpotLights(bool p1, bool p2) {
     sendMessage(MsgKind::SetSpotLights,
                 QString("SetSpotLights %1 %2").arg(QString::number(p1), QString::number(p2)));
 }
+
+
 
 void ArduinoMessanger::sendLEDReconfig(int position, int pin, int ledCount) {
     sendMessage(MsgKind::LEDReconfig,

@@ -60,6 +60,8 @@ public:
     void p2SetColor(QColor color);
 
     void setSpotLights(bool p1, bool p2);
+    void setP1SpotLight(bool v);
+    void setP2SpotLight(bool v);
 private:
     /// Figure out based on the LED light orientation the index inside of the LED
     /// strand that corresponds to a zero relative index.

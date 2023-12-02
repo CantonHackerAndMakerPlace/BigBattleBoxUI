@@ -15,6 +15,8 @@ enum class MsgKind {
     Status,
     SpotLightsOn,
     SpotLightsOff,
+    SetP1SpotLight,
+    SetP2SpotLight,
     SetSpotLights,
     LEDReconfig,
     LEDAllShow,
@@ -53,6 +55,8 @@ public slots:
     void sendStatus();
     void sendSpotLightsOn();
     void sendSpotLightsOff();
+    void sendSetP1SpotLight(bool v);
+    void sendSetP2SpotLight(bool v);
     void sendSetSpotLights(bool p1, bool p2);
     void sendLEDReconfig(int position, int pin, int ledCount);
     void sendLEDAllShow();
