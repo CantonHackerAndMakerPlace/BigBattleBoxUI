@@ -136,7 +136,7 @@ void ArduinoMessanger::sendMessage(MsgKind kind, QString content) {
             emit abandonedMessage(msg.kind, msg.content);
         }
         m_messagesToSend.enqueue(ArduinoMessage{ kind, content });
-        receivedMessageToSend(kind, content);
+        emit receivedMessageToSend(kind, content);
     } else {
         // If we are disconnected simply ignore the message.
         emit abandonedMessage(kind, content);
@@ -210,13 +210,14 @@ void ArduinoMessanger::handleResponseToDispatch(QJsonObject *obj, QString const&
 
     // If we have an unknown message we haven't received a response to anything yet.
     if (m_awaitingResponseFor.kind != MsgKind::Unknown) {
+        // We have received a known response as expected.
+        m_resendAttempts = 0;
         if (m_awaitingResponseFor.kind != kind) {
             qWarning() << "Missmatch between sent message and recieved response. Sent Message: " << m_awaitingResponseFor.content << "Received response:" << data;
             emit abandonedMessage(m_awaitingResponseFor.kind, m_awaitingResponseFor.content);
 
             // We are obviously out of touch with the current stream of events so we should bail?
             m_awaitingResponseFor = ArduinoMessage { MsgKind::Unknown, data };
-
         } else {
             // We have received the correct response and we should send the next message.
             emit receivedMessageResponse(kind, data);
@@ -247,7 +248,31 @@ void ArduinoMessanger::onTimeout() {
         // abandonded message set the state waiting for new
         // message and let it get sent.
         qWarning() << "Warning: a timeout has been for the message" << m_awaitingResponseFor.content << ". Sending next message";
-        m_messagingState = MsgState::WaitingForNewMessage;
+        switch(m_awaitingResponseFor.kind) {
+        case MsgKind::Status:
+        case MsgKind::SpotLightsOn:
+        case MsgKind::SpotLightsOff:
+        case MsgKind::SetP1SpotLight:
+        case MsgKind::SetP2SpotLight:
+        case MsgKind::SetSpotLights:
+            // Do a resend on some of the messages that need to succeed and can't be ignored.
+            if (m_resendAttempts < 1) {
+                ++m_resendAttempts;
+                qWarning() << "Attempting to resend";
+                m_messagingState = MsgState::WaitingForResponse;
+                m_conn->sendData(m_awaitingResponseFor.content);
+            } else {
+                qWarning() << "Second resend failed again.";
+                // We already tried to resend, move onto the next mesage instead.
+                m_resendAttempts = 0;
+                m_messagingState = MsgState::WaitingForNewMessage;
+            }
+            break;
+        default:
+            m_messagingState = MsgState::WaitingForNewMessage;
+            break;
+        }
+
         break;
     }
 
@@ -332,12 +357,12 @@ void ArduinoMessanger::sendSetP1SpotLight(bool v) {
 
 void ArduinoMessanger::sendSetP2SpotLight(bool v) {
     sendMessage(MsgKind::SetP2SpotLight,
-                QString("SetP2SpotLight %1 %2").arg(QString::number(v)));
+                QString("SetP2SpotLight %1").arg(QString::number(v)));
 }
 
 void ArduinoMessanger::sendSetSpotLights(bool p1, bool p2) {
     sendMessage(MsgKind::SetSpotLights,
-                QString("SetSpotLights %1 %2").arg(QString::number(p1), QString::number(p2)));
+                QString("SetSpotLights %1").arg(QString::number(p1), QString::number(p2)));
 }
 
 

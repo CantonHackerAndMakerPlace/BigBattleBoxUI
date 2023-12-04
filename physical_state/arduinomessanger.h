@@ -124,6 +124,7 @@ private:
     MsgState m_messagingState;
     QQueue<ArduinoMessage> m_messagesToSend;
     ArduinoMessage m_awaitingResponseFor;
+    int m_resendAttempts = 0;
 };
 
 #endif // ARDUINOMESSANGER_H
