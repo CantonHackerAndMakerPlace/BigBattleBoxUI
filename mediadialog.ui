@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2420</width>
+    <width>2461</width>
     <height>737</height>
    </rect>
   </property>
@@ -111,7 +111,7 @@ QLabel {
             <widget class="QLabel" name="countDownTextLabel">
              <property name="font">
               <font>
-               <pointsize>200</pointsize>
+               <pointsize>150</pointsize>
               </font>
              </property>
              <property name="text">
@@ -154,7 +154,7 @@ QLabel {
             <widget class="QLabel" name="dmrDDTimeRemaining">
              <property name="font">
               <font>
-               <pointsize>80</pointsize>
+               <pointsize>50</pointsize>
               </font>
              </property>
              <property name="text">
@@ -184,7 +184,7 @@ QLabel {
             <widget class="QLabel" name="dmrTimeRemaining">
              <property name="font">
               <font>
-               <pointsize>150</pointsize>
+               <pointsize>100</pointsize>
               </font>
              </property>
              <property name="text">
@@ -416,7 +416,7 @@ QLabel {
                  <widget class="QLabel" name="dmprP1DoorLabel">
                   <property name="font">
                    <font>
-                    <pointsize>100</pointsize>
+                    <pointsize>50</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -441,7 +441,7 @@ QLabel {
                  <widget class="QLabel" name="dmprP1ReadyLabel">
                   <property name="font">
                    <font>
-                    <pointsize>100</pointsize>
+                    <pointsize>50</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -466,7 +466,7 @@ QLabel {
                  <widget class="QLabel" name="dmprP2DoorLabel">
                   <property name="font">
                    <font>
-                    <pointsize>100</pointsize>
+                    <pointsize>50</pointsize>
                    </font>
                   </property>
                   <property name="text">
@@ -491,7 +491,7 @@ QLabel {
                  <widget class="QLabel" name="dmprP2ReadyLabel">
                   <property name="font">
                    <font>
-                    <pointsize>100</pointsize>
+                    <pointsize>50</pointsize>
                    </font>
                   </property>
                   <property name="text">

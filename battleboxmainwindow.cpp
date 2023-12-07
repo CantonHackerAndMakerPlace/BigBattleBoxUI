@@ -247,9 +247,15 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
 
     // Connecting buttons.
     connect(ui->dmprPlayerOneReadyButton, &QPushButton::clicked,
-            [&] { m_state->data()->deathMatchPlayerOneReady()->setPlayerReady(true); });
+            [&] {
+                m_state->data()->deathMatchPlayerOneReady()->setPlayerReady(true);
+                m_state->arduinoClient()->setP1SpotLight(true);
+    });
     connect(ui->dmprPlayerTwoReadyButton, &QPushButton::clicked,
-            [&] { m_state->data()->deathMatchPlayerTwoReady()->setPlayerReady(true); });
+            [&] {
+                m_state->data()->deathMatchPlayerTwoReady()->setPlayerReady(true);
+                m_state->arduinoClient()->setP2SpotLight(true);
+    });
 
     // Screen changing buttons
     connect(ui->dmprStart, &QPushButton::clicked,
@@ -811,14 +817,15 @@ void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
     m_state->data()->deathMatchPlayerOneReady()->setDoorClosed(m_state->physicalState()->playerOne()->doorButton()->state());
     m_state->data()->deathMatchPlayerTwoReady()->reset();
     m_state->data()->deathMatchPlayerTwoReady()->setDoorClosed(m_state->physicalState()->playerTwo()->doorButton()->state());
-    m_state->arduinoClient()->setSpotLights(false, false);
+    m_state->arduinoClient()->setP1SpotLight(false);
+    m_state->arduinoClient()->setP2SpotLight(false);
 }
 
 void BattleBoxMainWindow::leaveDMPlayersReadyScreen() {
     m_state->physicalState()->playerOne()->spotLight()->setState(false);
     m_state->physicalState()->playerTwo()->spotLight()->setState(false);
-    m_state->arduinoClient()->setSpotLights(false, false);
-
+    m_state->arduinoClient()->setP1SpotLight(false);
+    m_state->arduinoClient()->setP2SpotLight(false);
 }
 
 void BattleBoxMainWindow::enterDMRunningScreen() {

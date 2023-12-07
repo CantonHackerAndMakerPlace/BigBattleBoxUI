@@ -10,10 +10,6 @@ PlayerWinsWidget::PlayerWinsWidget(QWidget *parent)
     , m_winner("spongebob")
 {
     ui->setupUi(this);
-    const QUrl url(u"qrc:/qmlproject/qmlproject/main.qml"_qs);
-    ui->scene->engine()->addImportPath(QString(BOX2DQML_ROOT) + "/bin/lib");
-    ui->scene->rootContext()->setContextProperty("mainWidget", this);
-    ui->scene->setSource(url);
 }
 
 PlayerWinsWidget::~PlayerWinsWidget() {
@@ -37,6 +33,7 @@ QString PlayerWinsWidget::winner() {
 
 void PlayerWinsWidget::setWinner(QString name) {
     m_winner = name;
+    ui->titleLabel->setText(m_winner + "\n WINS!!!");
     emit winnerChanged(m_winner);
 }
 
