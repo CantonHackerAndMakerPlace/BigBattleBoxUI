@@ -583,9 +583,11 @@ QEasingCurve Interpolation::easingCurve() const {
     return curve;
 }
 
-
 void Interpolation::setCurve(Curve curve) {
-
+    if (m_data != curve) {
+        m_data = curve;
+        emit curveChanged(m_data);
+    }
 }
 
 void Interpolation::setAmplitude(qreal amplitude) {

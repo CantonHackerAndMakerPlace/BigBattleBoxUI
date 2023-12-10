@@ -122,9 +122,7 @@ void BattleBoxMainWindow::initializeSystemConfigurationScreen() {
     // Configure the system configuration screen. This may require
     // things like back buttons, and access to the current data
     connect(ui->configuration, &ConfigurationWidget::clickedBack,
-        [&] {
-            m_state->screen()->changeToGameSelectScreen();
-        });
+            m_state->screen(), &Screen::changeToGameSelectScreen);
     ui->configuration->init(m_state, m_mediaScreen);
 }
 
@@ -137,20 +135,17 @@ void BattleBoxMainWindow::initMediaDialog() {
 void BattleBoxMainWindow::initGameSelectScreen() {
     // Slot Connections.
     connect(ui->dmConfigButton, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToDMConfigScreen();
-        });
+            m_state->screen(), &Screen::changeToDMConfigScreen);
     connect(ui->soccerConfigButton, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToSoccerConfigScreen();
-        });
+            m_state->screen(), &Screen::changeToSoccerConfigScreen);
     connect(ui->systemConfigurationButton, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToConfigurationScreen();
-        });
+            m_state->screen(), &Screen::changeToConfigurationScreen);
 }
 
 void BattleBoxMainWindow::initQuickSelectWidgets() {
+
+    // TODO: Move some this into the application state.
+
     // Setting up directory watcher for quick loading for both
     // death match and soccer.
     connect(m_dirWatcher, &QFileSystemWatcher::directoryChanged,
@@ -172,13 +167,9 @@ void BattleBoxMainWindow::initDeathMatchConfigScreen() {
             this, &BattleBoxMainWindow::on_dmCfgLoadButton_clicked);
 
     connect(ui->dmStart, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToDMPlayersReadyScreen();
-        });
+            m_state->screen(), &Screen::changeToDMPlayersReadyScreen);
     connect(ui->dmCancel, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToGameSelectScreen();
-        });
+            m_state->screen(), &Screen::changeToGameSelectScreen);
     connect(ui->dmCfgReset, &QPushButton::clicked,
             m_state->data(), &BattleBoxViewModel::resetDeathMatchConfig);
 
@@ -259,13 +250,9 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
 
     // Screen changing buttons
     connect(ui->dmprStart, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToDMCountDownScreen();
-        });
+            m_state->screen(), &Screen::changeToDMCountDownScreen);
     connect(ui->dmprCancel, &QPushButton::clicked,
-        [&] {
-            m_state->screen()->changeToDMConfigScreen();
-        });
+            m_state->screen(), &Screen::changeToDMConfigScreen);
     // Connecting battle box to UI screen
 
     // Connecting player one to battle box UI screen controls
@@ -430,31 +417,20 @@ void BattleBoxMainWindow::initDeathMatchRunningScreen() {
     });
     // Naviaging buttons
     connect(ui->dmrBackToDMConfigButton, &QPushButton::clicked,
-            [&] {
-                m_state->screen()->changeToDMConfigScreen();
-            });
+            m_state->screen(), &Screen::changeToDMConfigScreen);
     connect(ui->dmrRestartMatchButton, &QPushButton::clicked,
-            [&] {
-                m_state->screen()->changeToDMPlayersReadyScreen();
-            });
+            m_state->screen(), &Screen::changeToDMPlayersReadyScreen);
     connect(ui->dmrCancel, &QPushButton::clicked,
-            [&] {
-                m_state->screen()->changeToGameSelectScreen();
-            });
+            m_state->screen(), &Screen::changeToGameSelectScreen);
 }
 
 void BattleBoxMainWindow::initDeathMatchWinnerScreen() {
     connect(ui->dmwRestartButton, &QPushButton::clicked,
-            [&] {
-                m_state->screen()->changeToDMPlayersReadyScreen();
-//                setCurrentScreen(Screen::DMPlayersReadyScreen);
-            });
+            m_state->screen(), &Screen::changeToDMPlayersReadyScreen);
     connect(ui->dmwToDMCButton, &QPushButton::clicked,
-            [&] {
-                m_state->screen()->changeToDMConfigScreen();
-            });
+            m_state->screen(), &Screen::changeToDMConfigScreen);
     connect(ui->dmwToGameSelectButton, &QPushButton::clicked,
-            [&] { m_state->screen()->changeToGameSelectScreen(); });
+            m_state->screen(), &Screen::changeToGameSelectScreen);
     connect(m_state->data(), &BattleBoxViewModel::notifyDeathMatchWinnerChanged,
             [&](QString arg) {
         ui->dmWinnerDisplayLabel->setText(QString("%1\nWINS!!").arg(arg));
@@ -732,6 +708,7 @@ void BattleBoxMainWindow::initSoccerGameOverScreen() {
 
 }
 
+// TODO: Move this into the application state instead of here.
 void BattleBoxMainWindow::loadQuickLoadFiles(QString dir) {
     QDir directory(dir);
     auto files = directory.entryList();
@@ -753,6 +730,7 @@ void BattleBoxMainWindow::loadQuickLoadFiles(QString dir) {
     }
 }
 
+// TODO: Move this into the application state.
 void BattleBoxMainWindow::on_dmCfgSaveButton_clicked() {
     auto fileName = QFileDialog::getSaveFileName(
         this,
@@ -762,6 +740,7 @@ void BattleBoxMainWindow::on_dmCfgSaveButton_clicked() {
     this->m_state->data()->deathMatchConfig()->saveToFile(fileName);
 }
 
+// TODO: Move this into the application state.
 void BattleBoxMainWindow::on_dmCfgLoadButton_clicked() {
     auto fileName = QFileDialog::getOpenFileName(
         this,
@@ -813,6 +792,8 @@ void BattleBoxMainWindow::leaveDMCountDownScreen() {
 
 void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
     ui->mainDisplay->setCurrentWidget(ui->deathMatchPlayersReady);
+    // TODO: Refactor everything from here into the application state and attach it to
+    // the signal in a different way. This shouldn't be part of the main window code base.
     m_state->data()->deathMatchPlayerOneReady()->reset();
     m_state->data()->deathMatchPlayerOneReady()->setDoorClosed(m_state->physicalState()->playerOne()->doorButton()->state());
     m_state->data()->deathMatchPlayerTwoReady()->reset();
@@ -822,6 +803,8 @@ void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
 }
 
 void BattleBoxMainWindow::leaveDMPlayersReadyScreen() {
+    // TODO: Refactor everything from here into the application state and attach it to
+    // the signal in a different way. This shouldn't be part of the main window code base.
     m_state->physicalState()->playerOne()->spotLight()->setState(false);
     m_state->physicalState()->playerTwo()->spotLight()->setState(false);
     m_state->arduinoClient()->setP1SpotLight(false);
@@ -859,15 +842,22 @@ void BattleBoxMainWindow::leaveSoccerPlayersReadyScreen() {
 }
 
 void BattleBoxMainWindow::enterSoccerPlayersReadyScreen() {
+    // TODO: Refactor everything from here into the application state and attach it to
+    // the signal in a different way. This shouldn't be part of the main window code base.
     m_state->data()->resetSoccerTeamOneReady();
     m_state->data()->resetSoccerTeamTwoReady();
+
+    // This is not part of the application state.
     ui->mainDisplay->setCurrentWidget(ui->soccerPlayersReady);
 
 }
 
 void BattleBoxMainWindow::enterSoccerRunningScreen() {
-    // Loading new soccer match data
+    // TODO: Refactor everything from here into the application state and attach it to
+    // the signal in a different way. This shouldn't be part of the main window code base.
     m_state->data()->soccerMatch()->loadSoccerConfig(m_state->data()->soccerConfig());
+
+    // Loading new soccer match data
     ui->srStackedWidget->setCurrentWidget(ui->srRunningWidget);
     ui->mainDisplay->setCurrentWidget(ui->soccerRunning);
     ui->srRunningWidget->start();
@@ -932,10 +922,12 @@ void BattleBoxMainWindow::dmprUpdateP2DoorText(QString arg) {
     }
 }
 
+// TODO: Refactor this into ApplicationState.
 void BattleBoxMainWindow::updateQuickLoadFiles(QString dir) {
     loadQuickLoadFiles(dir);
 }
 
+// TODO: Refactor this into ApplicationState.
 void BattleBoxMainWindow::on_soccerCfgSaveButton_clicked() {
     auto fileName = QFileDialog::getSaveFileName(
         this,
@@ -945,6 +937,7 @@ void BattleBoxMainWindow::on_soccerCfgSaveButton_clicked() {
     m_state->data()->soccerConfig()->saveToFile(fileName);
 }
 
+// TODO: Refactor this into ApplicationState.
 void BattleBoxMainWindow::on_soccerCfgLoadButton_clicked() {
     auto fileName = QFileDialog::getOpenFileName(
         this,

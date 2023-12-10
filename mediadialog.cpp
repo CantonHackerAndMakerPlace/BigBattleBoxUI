@@ -360,13 +360,10 @@ void MediaDialog::enterDMWinnerDisplayScreen(QString playerName) {
     qDebug() << "Entering DM Winner screen";
     this->showWinnerScreen("confetti/main.qml", playerName);
     ui->mainDisplay->setCurrentWidget(ui->deathMatchWinnerPage);
-
-//    ui->dmWinnerWidget->start();
 }
 
 void MediaDialog::leaveDMWinnerDisplayScreen() {
     qDebug() << "Leaving DM Winner screen";
-//    ui->dmWinnerWidget->stop();
 }
 
 void MediaDialog::enterSoccerConfigScreen() {

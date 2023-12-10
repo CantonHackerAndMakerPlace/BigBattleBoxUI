@@ -68,7 +68,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>4</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="gameSelection">
          <property name="sizePolicy">
@@ -1042,8 +1042,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>383</width>
-                 <height>558</height>
+                 <width>1065</width>
+                 <height>609</height>
                 </rect>
                </property>
                <property name="styleSheet">
