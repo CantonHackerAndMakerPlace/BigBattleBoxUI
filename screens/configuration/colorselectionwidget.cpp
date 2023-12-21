@@ -16,7 +16,7 @@ ColorSelectionWidget::ColorSelectionWidget(QWidget *parent) :
     qDebug() << "Style sheet " << ui->colorWidgetDisplay->styleSheet();
     connect(ui->changeColorButton, &QPushButton::clicked,
             [&](bool) {
-                auto newColor =QColorDialog::getColor(m_currentColor, this, "Select a color", QColorDialog::DontUseNativeDialog);
+                auto newColor = QColorDialog::getColor(m_currentColor, this, "Select a color", QColorDialog::DontUseNativeDialog).convertTo(QColor::Spec::Rgb);
                 qDebug() << "newColor = " << newColor.name();
                 setColor(newColor);
             }

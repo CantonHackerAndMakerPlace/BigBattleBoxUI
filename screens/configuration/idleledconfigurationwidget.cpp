@@ -8,7 +8,18 @@ IdleLedConfigurationWidget::IdleLedConfigurationWidget(QWidget *parent) :
     ui->setupUi(this);
 }
 
-IdleLedConfigurationWidget::~IdleLedConfigurationWidget()
-{
+IdleLedConfigurationWidget::~IdleLedConfigurationWidget() {
     delete ui;
+}
+
+void IdleLedConfigurationWidget::init(ApplicationState *state) {
+    assert(m_state && "Can't initialize twice");
+    m_state = state;
+    connect(ui->colorSelectorWidget, &ColorSelectionWidget::colorChanged,
+            [&](QColor color) {
+                qDebug() << "Spec of color: " << color.spec();
+
+                m_state->arduinoClient()->p1SetColor(color);
+            }
+    );
 }

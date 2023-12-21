@@ -35,7 +35,12 @@
       <number>0</number>
      </property>
      <item row="0" column="0">
-      <widget class="QListWidget" name="interpolationSelector"/>
+      <widget class="QListWidget" name="interpolationSelector">
+       <property name="styleSheet">
+        <string notr="true">
+</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

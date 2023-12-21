@@ -170,7 +170,7 @@ void ArduinoClient::p1SetPixel(QColor color, int index) {
 }
 
 void ArduinoClient::p1SetColor(QColor color) {
-    auto p1Fill = computePlayerTwoFill(0, m_config->playerOneLedCount().value());
+    auto p1Fill = computePlayerOneFill(0, m_config->playerOneLedCount().value());
     m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
     m_messanger->sendLEDShow(0);
 }
@@ -218,7 +218,7 @@ void ArduinoClient::onConnected() {
             m_config->playerTwoLedCount().value());
 
     // Turn all of the lights on approx 1/2 brightness and make them white.
-    m_messanger->sendLEDAllSetBrightness(100);
+    m_messanger->sendLEDAllSetBrightness(15);
     m_messanger->sendLEDAllWhite();
     m_messanger->sendLEDAllShow();
 }

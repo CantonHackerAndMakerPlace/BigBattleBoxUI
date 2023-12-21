@@ -9,14 +9,16 @@ InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent) :
     ui->setupUi(this);
     for (auto &curveInfo : Interpolation::CurveData) {
         QIcon icon;
-        icon.addFile(curveInfo.imageLocation, QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(curveInfo.imageLocation, QSize(100, 100), QIcon::Normal, QIcon::Off);
         if (icon.isNull()) {
             qDebug() << "Failed to load image: "<< curveInfo.imageLocation;
         }
         auto item = new QListWidgetItem(ui->interpolationSelector);
         item->setIcon(icon);
         item->setText(curveInfo.name);
+        item->setToolTip(curveInfo.description);
     }
+    ui->interpolationSelector->setIconSize(QSize(100, 100));
 }
 
 InterpolationSelectorWidget::~InterpolationSelectorWidget()

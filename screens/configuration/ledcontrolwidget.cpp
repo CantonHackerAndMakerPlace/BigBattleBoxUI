@@ -33,6 +33,7 @@ LEDControlWidget::~LEDControlWidget() {
 void LEDControlWidget::init(ApplicationState *state) {
     m_state = state;
     ui->generalLedConfigurationWidget->init(m_state);
+    ui->idleScreenWidget->init(m_state);
     // TODO: This may also need some kind of flag to prevent navigation in the
     // event that we have unsaved changes.
 
