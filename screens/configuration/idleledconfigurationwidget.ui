@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InterpolationSelectorWidget</class>
- <widget class="QWidget" name="InterpolationSelectorWidget">
+ <class>IdleLedConfigurationWidget</class>
+ <widget class="QWidget" name="IdleLedConfigurationWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>521</width>
-    <height>220</height>
+    <width>729</width>
+    <height>406</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,16 +31,28 @@
    </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
      <item row="0" column="0">
-      <widget class="QListWidget" name="interpolationSelector"/>
+      <widget class="QLabel" name="titleLabel">
+       <property name="text">
+        <string>Idel Screen LED Configuration</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="InterpolationSelectorWidget" name="widget" native="true"/>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>InterpolationSelectorWidget</class>
+   <extends>QWidget</extends>
+   <header>screens/configuration/interpolationselectorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

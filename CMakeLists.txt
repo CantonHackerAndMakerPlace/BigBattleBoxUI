@@ -125,6 +125,16 @@ set(PROJECT_SOURCES
     physical_state/ledalgo/ledalgo.cpp
     physical_state/ledalgo/breath.h
     physical_state/ledalgo/breath.cpp
+    physical_state/ledalgo/countdownfill.h
+    physical_state/ledalgo/countdownfill.cpp
+    physical_state/ledalgo/blink.h
+    physical_state/ledalgo/blink.cpp
+    physical_state/ledalgo/cylon.h
+    physical_state/ledalgo/cylon.cpp
+    physical_state/ledalgo/rampup.h
+    physical_state/ledalgo/rampup.cpp
+    physical_state/ledalgo/solidcolors.h
+    physical_state/ledalgo/solidcolors.cpp
 
     app_state/applicationstate.h
     app_state/applicationstate.cpp
@@ -165,6 +175,9 @@ set(PROJECT_SOURCES
     screens/configuration/ledcontrolwidget.ui
     screens/configuration/interpolationselectorwidget.h
     screens/configuration/interpolationselectorwidget.cpp
+    screens/configuration/idleledconfigurationwidget.h
+    screens/configuration/idleledconfigurationwidget.cpp
+    screens/configuration/idleledconfigurationwidget.ui
 
     screens/configuration/interpolationselectorwidget.ui
     screens/configuration/generalledconfigurationwidget.h
@@ -235,6 +248,7 @@ qt_add_qml_module(BattleBox
 
         qmlproject/cannon/sounds/cannon.wav
         qmlproject/cannon/sounds/gear.wav
+
 )
 
 

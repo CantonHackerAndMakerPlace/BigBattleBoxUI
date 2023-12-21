@@ -84,47 +84,47 @@ constexpr const char* DescriptionOutBounce = "Easing curve for a bounce (exponen
 constexpr const char* DescriptionInOutBounce = "Easing curve for a bounce (exponentially decaying parabolic bounce) function easing in/out: acceleration until halfway, then deceleration.";
 constexpr const char* DescriptionOutInBounce = "Easing curve for a bounce (exponentially decaying parabolic bounce) function easing out/in: deceleration until halfway, then acceleration.";
 
-constexpr const char* ImageUriLinear = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-linear.png";
-constexpr const char* ImageUriInQuad = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inquad.png";
-constexpr const char* ImageUriOutQuad = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outquad.png";
-constexpr const char* ImageUriInOutQuad = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutquad.png";
-constexpr const char* ImageUriOutInQuad = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinquad.png";
-constexpr const char* ImageUriInCubic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-incubic.png";
-constexpr const char* ImageUriOutCubic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outcubic.png";
-constexpr const char* ImageUriInOutCubic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutcubic.png";
-constexpr const char* ImageUriOutInCubic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outincubic.png";
-constexpr const char* ImageUriInQuart = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inquart.png";
-constexpr const char* ImageUriOutQuart = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outquart.png";
-constexpr const char* ImageUriInOutQuart = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutquart.png";
-constexpr const char* ImageUriOutInQuart = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinquart.png";
-constexpr const char* ImageUriInQuint = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inquint.png";
-constexpr const char* ImageUriOutQuint = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outquint.png";
-constexpr const char* ImageUriInOutQuint = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutquint.png";
-constexpr const char* ImageUriOutInQuint = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinquint.png";
-constexpr const char* ImageUriInSine = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-insine.png";
-constexpr const char* ImageUriOutSine = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outsine.png";
-constexpr const char* ImageUriInOutSine = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutsine.png";
-constexpr const char* ImageUriOutInSine = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinsine.png";
-constexpr const char* ImageUriInExpo = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inexpo.png";
-constexpr const char* ImageUriOutExpo = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outexpo.png";
-constexpr const char* ImageUriInOutExpo = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutexpo.png";
-constexpr const char* ImageUriOutInExpo = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinexpo.png";
-constexpr const char* ImageUriInCirc = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-incirc.png";
-constexpr const char* ImageUriOutCirc = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outcirc.png";
-constexpr const char* ImageUriInOutCirc = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutcirc.png";
-constexpr const char* ImageUriOutInCirc = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outincirc.png";
-constexpr const char* ImageUriInElastic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inelastic.png";
-constexpr const char* ImageUriOutElastic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outelastic.png";
-constexpr const char* ImageUriInOutElastic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutelastic.png";
-constexpr const char* ImageUriOutInElastic = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinelastic.png";
-constexpr const char* ImageUriInBack = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inback.png";
-constexpr const char* ImageUriOutBack = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outback.png";
-constexpr const char* ImageUriInOutBack = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutback.png";
-constexpr const char* ImageUriOutInBack = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinback.png";
-constexpr const char* ImageUriInBounce = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inbounce.png";
-constexpr const char* ImageUriOutBounce = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outbounce.png";
-constexpr const char* ImageUriInOutBounce = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutbounce.png";
-constexpr const char* ImageUriOutInBounce = "qrc:/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinbounce.png";
+constexpr const char* ImageUriLinear = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-linear.png";
+constexpr const char* ImageUriInQuad = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inquad.png";
+constexpr const char* ImageUriOutQuad = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outquad.png";
+constexpr const char* ImageUriInOutQuad = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutquad.png";
+constexpr const char* ImageUriOutInQuad = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinquad.png";
+constexpr const char* ImageUriInCubic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-incubic.png";
+constexpr const char* ImageUriOutCubic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outcubic.png";
+constexpr const char* ImageUriInOutCubic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutcubic.png";
+constexpr const char* ImageUriOutInCubic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outincubic.png";
+constexpr const char* ImageUriInQuart = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inquart.png";
+constexpr const char* ImageUriOutQuart = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outquart.png";
+constexpr const char* ImageUriInOutQuart = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutquart.png";
+constexpr const char* ImageUriOutInQuart = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinquart.png";
+constexpr const char* ImageUriInQuint = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inquint.png";
+constexpr const char* ImageUriOutQuint = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outquint.png";
+constexpr const char* ImageUriInOutQuint = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutquint.png";
+constexpr const char* ImageUriOutInQuint = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinquint.png";
+constexpr const char* ImageUriInSine = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-insine.png";
+constexpr const char* ImageUriOutSine = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outsine.png";
+constexpr const char* ImageUriInOutSine = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutsine.png";
+constexpr const char* ImageUriOutInSine = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinsine.png";
+constexpr const char* ImageUriInExpo = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inexpo.png";
+constexpr const char* ImageUriOutExpo = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outexpo.png";
+constexpr const char* ImageUriInOutExpo = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutexpo.png";
+constexpr const char* ImageUriOutInExpo = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinexpo.png";
+constexpr const char* ImageUriInCirc = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-incirc.png";
+constexpr const char* ImageUriOutCirc = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outcirc.png";
+constexpr const char* ImageUriInOutCirc = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutcirc.png";
+constexpr const char* ImageUriOutInCirc = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outincirc.png";
+constexpr const char* ImageUriInElastic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inelastic.png";
+constexpr const char* ImageUriOutElastic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outelastic.png";
+constexpr const char* ImageUriInOutElastic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutelastic.png";
+constexpr const char* ImageUriOutInElastic = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinelastic.png";
+constexpr const char* ImageUriInBack = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inback.png";
+constexpr const char* ImageUriOutBack = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outback.png";
+constexpr const char* ImageUriInOutBack = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutback.png";
+constexpr const char* ImageUriOutInBack = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinback.png";
+constexpr const char* ImageUriInBounce = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inbounce.png";
+constexpr const char* ImageUriOutBounce = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outbounce.png";
+constexpr const char* ImageUriInOutBounce = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-inoutbounce.png";
+constexpr const char* ImageUriOutInBounce = ":/battlebox/LEDInterpolation/resources/LEDInterpolation/qeasingcurve-outinbounce.png";
 
 
 Interpolation::Interpolation(Curve data, qreal ampliatude,QObject *parent)
@@ -194,6 +194,17 @@ std::optional<Interpolation::Curve> Interpolation::getByName(QString name) {
     }
     // Getting the info out of the CurveData and returing the correct Curve value.
     return std::optional<Interpolation::Curve>(CurveData[*iter].value);
+}
+
+Interpolation::CurveInfo *Interpolation::getCurveInfoByCurve(Curve c) {
+    auto name = getName(c);
+    auto iter = NameToIndex.find(name);
+    if (iter == NameToIndex.end()) {
+        // This is logically unreachable.
+        return nullptr;
+    }
+    // Returning a pointer to the curve info.
+    return &CurveData[*iter];
 }
 
 QString Interpolation::getDescription(Interpolation::Curve curve) {
@@ -285,7 +296,7 @@ QString Interpolation::getDescription(Interpolation::Curve curve) {
     }
 }
 
-QString getResourceImage(Interpolation::Curve curve) {
+QString Interpolation::getResourceImage(Interpolation::Curve curve) {
     switch(curve) {
         case Interpolation::Curve::Linear:
         return ImageUriLinear;
@@ -461,10 +472,6 @@ QString Interpolation::getName(Interpolation::Curve curve) {
     default:
         return CurveLinear;
     }
-}
-
-QString Interpolation::getResourceImage(Curve curve) {
-    return "";
 }
 
 

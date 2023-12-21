@@ -53,6 +53,9 @@ public:
     /// Returns the long name of a curve
     static QString getName(Curve curve);
 
+    /// Returns a pointer to the curve info associated with provided curve.
+    static CurveInfo *getCurveInfoByCurve(Curve c);
+
     static QEasingCurve::Type intoEasingCurveType(Curve curve);
 
     explicit Interpolation(Curve data = Curve::Linear, qreal ampliatude = 1.0, QObject *parent = nullptr);

@@ -134,7 +134,7 @@
        <widget class="QWidget" name="soccerMatchLightsWidget"/>
        <widget class="QWidget" name="soccerWinningPlayerLightsWidget"/>
        <widget class="QWidget" name="deathMatchWinningPlayerLightsWidget"/>
-       <widget class="QWidget" name="idleScreenWidget"/>
+       <widget class="IdleLedConfigurationWidget" name="idleScreenWidget"/>
        <widget class="QWidget" name="deathMatchConfigLightsWidget"/>
       </widget>
      </item>
@@ -147,6 +147,12 @@
    <class>GeneralLEDConfigurationWidget</class>
    <extends>QWidget</extends>
    <header>generalledconfigurationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>IdleLedConfigurationWidget</class>
+   <extends>QWidget</extends>
+   <header>idleledconfigurationwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

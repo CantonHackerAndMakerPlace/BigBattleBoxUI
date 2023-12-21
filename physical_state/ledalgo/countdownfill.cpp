@@ -1,0 +1,48 @@
+#include "countdownfill.h"
+
+CountDownFill::CountDownFill(int duration,
+              int brightness,
+              QEasingCurve easingCurve,
+              QColor p1ConsumedColor,
+              QColor p1Countolor,
+              QColor p1FinalColor,
+              int p1FinalColorBrightness,
+              QColor p2ConsumedColor,
+              QColor p2CountColor,
+              QColor p2FinalColor,
+              int p2FinalColorBrightness,
+              bool unifiedLedStrips)
+    :m_duration(duration * 1000),
+    m_brightness(brightness),
+    m_easingCurve(easingCurve),
+    m_p1ConsumedColor(p1ConsumedColor),
+    m_p1Countolor(p1Countolor),
+    m_p1FinalColor(p1FinalColor),
+    m_p1FinalColorBrightness(p1FinalColorBrightness),
+    m_p2ConsumedColor(p2ConsumedColor),
+    m_p2CountColor(p2CountColor),
+    m_p2FinalColor(p2FinalColor),
+    m_p2FinalColorBrightness(p2FinalColorBrightness),
+    m_unifiedLedStrips(unifiedLedStrips)
+{ }
+
+
+void CountDownFill::start(GeneralLEDConfiguration *generalConfig) {
+
+}
+
+void CountDownFill::updateConfig(GeneralLEDConfiguration *generalConfig) {
+
+}
+
+void CountDownFill::update(qint64 elapsedTime, ArduinoMessanger *messanger) {
+
+}
+
+bool CountDownFill::loops() const {
+    return true;
+}
+
+bool CountDownFill::isFinished() const {
+    return false;
+}

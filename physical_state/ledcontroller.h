@@ -116,7 +116,13 @@ public slots:
     void solidColors(QColor p1Color, int p1brightness, QColor p2Color, int p2brightness, bool unified);
 
     /// Ramp up to a brightness using the specified colors.
-    void rampUp(int minBrightness, int maxBrightness, bool unified);
+    void rampUp(QColor p1Color,
+                int p1MinBrightness,
+                int p1MaxBrightness,
+                QColor p2Color,
+                int p2MinBrightness,
+                int p2MaxBrightness,
+                bool unified);
 private slots:
 
     void onTimeout();

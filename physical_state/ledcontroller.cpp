@@ -33,7 +33,6 @@ LEDController::LEDController(ArduinoClient *client, QObject *parent)
 void LEDController::onTimeout() {
     if (!m_isReady) {
         switch(m_state){
-
         case LEDPattern::Off:
         case LEDPattern::Breath:
         case LEDPattern::CountDownFill:
@@ -70,7 +69,7 @@ void LEDController::CountDownFill(int duration,
                    QColor p2CountColor,
                    QColor p2FinalColor,
                    int p2FinalColorBrightness,
-                                  bool unifiedLedStrips) {
+                   bool unifiedLedStrips) {
 
 }
 
@@ -89,7 +88,7 @@ void LEDController::blink(int numberOfBlinks,
            int p2OffColorBrightness,
            QColor p2FinalColor,
            int p2FinalColorBrightness,
-                          bool unified) {
+           bool unified) {
 
 }
 
@@ -116,6 +115,12 @@ void LEDController::solidColors(QColor p1Color, int p1brightness, QColor p2Color
 }
 
 /// Ramp up to a brightness using the specified colors.
-void LEDController::rampUp(int minBrightness, int maxBrightness, bool unified) {
+void LEDController::rampUp(QColor p1Color,
+                           int p1MinBrightness,
+                           int p1MaxBrightness,
+                           QColor p2Color,
+                           int p2MinBrightness,
+                           int p2MaxBrightness,
+                           bool unified) {
 
 }
