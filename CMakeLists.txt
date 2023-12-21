@@ -184,6 +184,10 @@ set(PROJECT_SOURCES
     screens/configuration/generalledconfigurationwidget.cpp
     screens/configuration/generalledconfigurationwidget.ui
 
+    screens/configuration/colorselectionwidget.h
+    screens/configuration/colorselectionwidget.cpp
+    screens/configuration/colorselectionwidget.ui
+
     # other custom
     widgets/RangeSlider.h
     widgets/RangeSlider.cpp
@@ -248,7 +252,6 @@ qt_add_qml_module(BattleBox
 
         qmlproject/cannon/sounds/cannon.wav
         qmlproject/cannon/sounds/gear.wav
-
 )
 
 

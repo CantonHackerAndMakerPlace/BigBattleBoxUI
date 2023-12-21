@@ -31,6 +31,9 @@
    </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="0">
+      <widget class="InterpolationSelectorWidget" name="widget" native="true"/>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="titleLabel">
        <property name="text">
@@ -39,7 +42,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="InterpolationSelectorWidget" name="widget" native="true"/>
+      <widget class="ColorSelectionWidget" name="colorSelectorWidget" native="true"/>
      </item>
     </layout>
    </item>
@@ -50,6 +53,12 @@
    <class>InterpolationSelectorWidget</class>
    <extends>QWidget</extends>
    <header>screens/configuration/interpolationselectorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>colorselectionwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
