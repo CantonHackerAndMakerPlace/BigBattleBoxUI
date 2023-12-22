@@ -31,18 +31,40 @@
    </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="ColorSelectionWidget" name="colorSelectorWidget" native="true"/>
+     </item>
      <item row="2" column="0">
-      <widget class="InterpolationSelectorWidget" name="widget" native="true"/>
+      <widget class="InterpolationSelectorWidget" name="interpolationWidget" native="true">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="titleLabel">
+       <property name="minimumSize">
+        <size>
+         <width>500</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Idel Screen LED Configuration</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="ColorSelectionWidget" name="colorSelectorWidget" native="true"/>
+     <item row="3" column="0">
+      <widget class="BrightnessSelectionWidget" name="brightnessRangeWidget" native="true"/>
      </item>
     </layout>
    </item>
@@ -59,6 +81,12 @@
    <class>ColorSelectionWidget</class>
    <extends>QWidget</extends>
    <header>colorselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BrightnessSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>brightnessselectionwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

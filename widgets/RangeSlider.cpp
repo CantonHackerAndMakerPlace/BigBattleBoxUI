@@ -58,7 +58,7 @@ void RangeSlider::paintEvent(QPaintEvent* aEvent)
     else
         backgroundRect = QRectF((width() - scSliderBarHeight) / 2, scLeftRightMargin, scSliderBarHeight, height() - scLeftRightMargin*2);
 
-    QPen pen(Qt::gray, 0.8);
+    QPen pen(Qt::green, 0.8);
     painter.setPen(pen);
 //    painter.setRenderHint(QPainter::Qt4CompatiblePainting);
     QBrush backgroundBrush(QColor(0xD0, 0xD0, 0xD0));
@@ -111,7 +111,7 @@ QRectF RangeSlider::secondHandleRect() const
 QRectF RangeSlider::handleRect(int aValue) const
 {
     if(orientation == Qt::Horizontal)
-        return QRect(aValue, (height()-scHandleSideLength) / 2, scHandleSideLength, scHandleSideLength);
+        return QRect(aValue, 10, 1, 1);
     else
         return QRect((width()-scHandleSideLength) / 2, aValue, scHandleSideLength, scHandleSideLength);
 }

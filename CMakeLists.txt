@@ -188,9 +188,14 @@ set(PROJECT_SOURCES
     screens/configuration/colorselectionwidget.cpp
     screens/configuration/colorselectionwidget.ui
 
-    # other custom
+    # other custom widgets
     widgets/RangeSlider.h
     widgets/RangeSlider.cpp
+    widgets/brightnessrangeslider.h
+    widgets/brightnessrangeslider.cpp
+    widgets/brightnessselectionwidget.h
+    widgets/brightnessselectionwidget.cpp
+    widgets/brightnessselectionwidget.ui
 
     defaultrestorable.h
     defaultrestorable.cpp

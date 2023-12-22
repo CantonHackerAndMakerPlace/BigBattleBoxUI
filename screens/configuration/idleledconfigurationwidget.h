@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <app_state/applicationstate.h>
+class BrightnessRangeSlider;
 
 namespace Ui {
 class IdleLedConfigurationWidget;
