@@ -48,6 +48,14 @@ BrightnessSelectionWidget::~BrightnessSelectionWidget() {
     delete ui;
 }
 
+int BrightnessSelectionWidget::currentMin() const {
+    return m_slider->minimumPosition();
+}
+
+int BrightnessSelectionWidget::currentMax() const {
+    return m_slider->maximumPosition();
+}
+
 void BrightnessSelectionWidget::setMinValue(int value) {
     m_slider->setMinimumPosition(value);
 }

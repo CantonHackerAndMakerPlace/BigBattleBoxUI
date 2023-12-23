@@ -19,25 +19,49 @@ InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent) :
         item->setToolTip(curveInfo.description);
     }
     ui->interpolationSelector->setIconSize(QSize(100, 100));
+    ui->interpolationSelector->item(0)->setSelected(true);
+    connect(ui->interpolationSelector, &QListWidget::currentItemChanged,
+            [&](QListWidgetItem *current, QListWidgetItem *){
+                qDebug() << "Current item selection changed: "<< current->text();
+                auto name = Interpolation::getByName(current->text());
+                if (name.has_value()) {
+                    emit curveSelectionChanged(name.value());
+                } else {
+                    qDebug() << "Received invalid interpolation selection";
+                }
+            });
 }
 
-InterpolationSelectorWidget::~InterpolationSelectorWidget()
-{
+InterpolationSelectorWidget::~InterpolationSelectorWidget() {
     delete ui;
 }
 
 Interpolation::CurveInfo *InterpolationSelectorWidget::getCurveInfo() const {
-    return Interpolation::getCurveInfoByCurve(m_selectedCurve);
+    auto info = Interpolation::getByName(ui->interpolationSelector->currentItem()->text());
+    if(info.has_value()) {
+        return Interpolation::getCurveInfoByCurve(info.value());
+    } else {
+        // Logically impossible.
+        return nullptr;
+    }
+
 }
 
 Interpolation::Curve InterpolationSelectorWidget::getCurve() const {
-    return m_selectedCurve;
+    return getCurveInfo()->value;
 }
 
-void InterpolationSelectorWidget::setCurveSelection(Interpolation::CurveInfo *) {
-
-}
-
-void InterpolationSelectorWidget::setCurveSelection(Interpolation::Curve) {
-
+void InterpolationSelectorWidget::setCurveSelection(Interpolation::Curve curve) {
+//    qDebug() << "Curve being requested!" << (int)curve;
+//    auto info = Interpolation::getCurveInfoByCurve(curve);
+//    if (!info ) {
+//        assert(!"Info not set");
+//    }
+//    qDebug() << "Curve name: " << info;
+    auto items = ui->interpolationSelector->findItems(Interpolation::getName(curve), Qt::MatchExactly);
+    if (items.size() != 1) {
+        assert(!"Big problem unable to locate curve");
+    }
+    items.front()->setSelected(true);
+    qDebug() << "Selecting interpolation: " << items.front()->text();
 }

@@ -203,6 +203,13 @@ set(PROJECT_SOURCES
     integerobject.h
     integerobject.cpp
 
+    interpolationcurveobject.h
+    interpolationcurveobject.cpp
+    colorobject.h
+    colorobject.cpp
+    booleanobject.h
+    booleanobject.cpp
+
     main.cpp
 )
 

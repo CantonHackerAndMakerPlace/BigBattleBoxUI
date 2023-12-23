@@ -3,6 +3,11 @@
 
 #include <QObject>
 #include <QColor>
+#include "app_state/led/interpolation.h"
+#include "integerobject.h"
+#include "colorobject.h"
+#include "booleanobject.h"
+#include "interpolationcurveobject.h"
 
 class DefaultRestorableInt : public QObject
 {
@@ -10,7 +15,7 @@ class DefaultRestorableInt : public QObject
 
 public:
     /// Sets the current and previous value to initialValue.
-    explicit DefaultRestorableInt(int initalValue, int defaultValue, QObject *parent = nullptr);
+    explicit DefaultRestorableInt(int defaultValue, QObject *parent = nullptr);
 
     /// Returns the current value.
     int value() const;
@@ -24,6 +29,8 @@ public:
 
     /// Returns true if the previous and current value are different.
     bool hasChange() const;
+
+    DefaultRestorableInt& operator=(IntegerObject const& other);
 
 public slots:
 
@@ -54,6 +61,112 @@ private:
     int m_prev;
 };
 
+class DefaultRestorableCurve: public QObject
+{
+    Q_OBJECT
+
+public:
+    /// Sets the current and previous value to initialValue.
+    explicit DefaultRestorableCurve(Interpolation::Curve defaultValue, QObject *parent = nullptr);
+
+    /// Returns the current value.
+    Interpolation::Curve value() const;
+
+    /// Returns the previous value that the value can be
+    /// restored to.
+    Interpolation::Curve previousValue() const;
+
+    /// Returns the default value.
+    Interpolation::Curve defaultValue() const;
+
+    /// Returns true if the previous and current value are different.
+    bool hasChange() const;
+
+    DefaultRestorableCurve& operator=(InterpolationCurveObject const& other);
+
+
+public slots:
+
+    /// Save the current value and saves it as the previous value.
+    void saveValue();
+
+    /// Set the previous value.
+    void setPreviousValue(Interpolation::Curve previousValue);
+
+    /// Sets current and previous value.
+    void setCurrentAndPreviousValue(Interpolation::Curve value);
+
+    /// Restores value to the previous value
+    void restorePreviousValue();
+
+    /// Sets the current value to the previous and the current to the
+    /// default value.
+    void restoreDefaultValue();
+
+    /// Save the current value into previous and set the current
+    /// value to the provided.
+    void setValue(Interpolation::Curve value);
+signals:
+    void valueChanged(Interpolation::Curve value);
+private:
+    Interpolation::Curve m_defaultValue;
+    Interpolation::Curve m_cur;
+    Interpolation::Curve m_prev;
+};
+
+
+class DefaultRestorableBool: public QObject
+{
+    Q_OBJECT
+
+public:
+    /// Sets the current and previous value to initialValue.
+    explicit DefaultRestorableBool(bool defaultValue, QObject *parent = nullptr);
+
+    /// Returns the current value.
+    bool value() const;
+
+    /// Returns the previous value that the value can be
+    /// restored to.
+    bool previousValue() const;
+
+    /// Returns the default value.
+    bool defaultValue() const;
+
+    /// Returns true if the previous and current value are different.
+    bool hasChange() const;
+
+    DefaultRestorableBool& operator=(BooleanObject const& other);
+
+
+public slots:
+
+    /// Save the current value and saves it as the previous value.
+    void saveValue();
+
+    /// Set the previous value.
+    void setPreviousValue(bool previousValue);
+
+    /// Sets current and previous value.
+    void setCurrentAndPreviousValue(bool value);
+
+    /// Restores value to the previous value
+    void restorePreviousValue();
+
+    /// Sets the current value to the previous and the current to the
+    /// default value.
+    void restoreDefaultValue();
+
+    /// Save the current value into previous and set the current
+    /// value to the provided.
+    void setValue(bool value);
+signals:
+    void valueChanged(bool value);
+private:
+    bool m_defaultValue;
+    bool m_cur;
+    bool m_prev;
+};
 
 class DefaultRestorableString: public QObject
 {
@@ -61,7 +174,7 @@ class DefaultRestorableString: public QObject
 
 public:
     /// Sets the current and previous value to initialValue.
-    explicit DefaultRestorableString(QString const& initalValue, QString const& defaultValue, QObject *parent = nullptr);
+    explicit DefaultRestorableString(QString const& defaultValue, QObject *parent = nullptr);
 
     /// Returns the current value.
     QString const& value() const;
@@ -110,7 +223,7 @@ class DefaultRestorableQReal: public QObject
 
 public:
     /// Sets the current and previous value to initialValue.
-    explicit DefaultRestorableQReal(qreal initalValue, qreal defaultValue, QObject *parent = nullptr);
+    explicit DefaultRestorableQReal(qreal defaultValue, QObject *parent = nullptr);
 
     /// Returns the current value.
     qreal value() const;
@@ -159,7 +272,7 @@ class DefaultRestorableQColor: public QObject
 
 public:
     /// Sets the current and previous value to initialValue.
-    explicit DefaultRestorableQColor(QColor initalValue, QColor defaultValue, QObject *parent = nullptr);
+    explicit DefaultRestorableQColor(QColor defaultValue, QObject *parent = nullptr);
 
     /// Returns the current value.
     QColor const& value() const;
@@ -173,6 +286,8 @@ public:
 
     /// Returns true if the previous and current value are different.
     bool hasChange() const;
+
+    DefaultRestorableQColor& operator=(ColorObject const& other);
 public slots:
     /// Save the current value and saves it as the previous value.
     void saveValue();

@@ -1,4 +1,5 @@
 #include "interpolation.h"
+#include <QDebug>
 
 constexpr const char* CurveLinear = "Linear";
 constexpr const char* CurveInQuad = "InQuad";
@@ -182,7 +183,11 @@ QVector<Interpolation::CurveInfo> Interpolation::buildCurveData() {
 QVector<Interpolation::CurveInfo> Interpolation::CurveData = Interpolation::buildCurveData();
 
 QHash<QString, int> Interpolation::buildIndexMap() {
-    return QHash<QString, int>();
+    QHash<QString, int> ret;
+    for(auto info : CurveData) {
+        ret.insert(info.name, (int)info.value);
+    }
+    return ret;
 }
 QHash<QString, int> Interpolation::NameToIndex = Interpolation::buildIndexMap();
 
@@ -198,6 +203,8 @@ std::optional<Interpolation::Curve> Interpolation::getByName(QString name) {
 
 Interpolation::CurveInfo *Interpolation::getCurveInfoByCurve(Curve c) {
     auto name = getName(c);
+    qDebug() << "What's my name?" << name;
+    qDebug() << "Number of thing: " << NameToIndex.size();
     auto iter = NameToIndex.find(name);
     if (iter == NameToIndex.end()) {
         // This is logically unreachable.
@@ -292,6 +299,7 @@ QString Interpolation::getDescription(Interpolation::Curve curve) {
     case Interpolation::Curve::OutInBounce:
         return DescriptionOutInBounce;
     default:
+        assert(!"Invalid curve value!");
         return "";
     }
 }

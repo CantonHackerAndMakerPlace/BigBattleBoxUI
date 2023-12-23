@@ -31,11 +31,75 @@
    </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0">
-      <widget class="ColorSelectionWidget" name="colorSelectorWidget" native="true"/>
+     <item row="3" column="1">
+      <widget class="InterpolationSelectorWidget" name="p2InterpolationWidget" native="true"/>
      </item>
-     <item row="2" column="0">
-      <widget class="InterpolationSelectorWidget" name="interpolationWidget" native="true">
+     <item row="5" column="0" colspan="2">
+      <widget class="QWidget" name="widget" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="saveButton">
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="cancelButton">
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Cancel</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="defaultButton">
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Default</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="InterpolationSelectorWidget" name="p1InterpolationWidget" native="true">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -44,7 +108,13 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="2" column="0">
+      <widget class="ColorSelectionWidget" name="p1ColorSelectorWidget" native="true"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="ColorSelectionWidget" name="p2ColorSelectorWidget" native="true"/>
+     </item>
+     <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="titleLabel">
        <property name="minimumSize">
         <size>
@@ -63,8 +133,59 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="BrightnessSelectionWidget" name="brightnessRangeWidget" native="true"/>
+     <item row="4" column="1">
+      <widget class="BrightnessSelectionWidget" name="p2BrightnessRangeWidget" native="true"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="BrightnessSelectionWidget" name="p1BrightnessRangeWidget" native="true"/>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QWidget" name="widget_2" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="durationLabel">
+            <property name="text">
+             <string>Duration</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="cycleDurationSpinBox">
+            <property name="suffix">
+             <string>ms</string>
+            </property>
+            <property name="maximum">
+             <number>50000</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="linkLabel">
+            <property name="text">
+             <string>Use same Settings for
+ both lights</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="linkCheckBox">
+            <property name="text">
+             <string>Link</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </item>
     </layout>
    </item>

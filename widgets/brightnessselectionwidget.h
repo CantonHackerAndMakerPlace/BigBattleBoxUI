@@ -16,6 +16,9 @@ public:
     explicit BrightnessSelectionWidget(QWidget *parent = nullptr);
     ~BrightnessSelectionWidget();
 
+    int currentMin() const;
+    int currentMax() const;
+
 public slots:
     void setMinValue(int value);
     void setMaxValue(int value);

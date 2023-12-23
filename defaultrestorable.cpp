@@ -2,10 +2,10 @@
 
 
 // DefaultRestorableInt
-DefaultRestorableInt::DefaultRestorableInt(int initalValue, int defaultValue, QObject *parent)
+DefaultRestorableInt::DefaultRestorableInt(int defaultValue, QObject *parent)
     : m_defaultValue(defaultValue)
-    , m_cur(initalValue)
-    , m_prev(initalValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
 { }
 
 int DefaultRestorableInt::value() const {
@@ -58,11 +58,144 @@ void DefaultRestorableInt::setValue(int value) {
     }
 }
 
-// DefaultRestorableString
-DefaultRestorableString::DefaultRestorableString(QString const& initalValue, QString const& defaultValue, QObject *parent)
+DefaultRestorableInt& DefaultRestorableInt::operator=(IntegerObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
+}
+
+
+// DefaultRestorableCurve
+DefaultRestorableCurve::DefaultRestorableCurve(Interpolation::Curve defaultValue, QObject *parent)
     : m_defaultValue(defaultValue)
-    , m_cur(initalValue)
-    , m_prev(initalValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
+{ }
+
+Interpolation::Curve DefaultRestorableCurve::value() const {
+    return m_cur;
+}
+
+Interpolation::Curve DefaultRestorableCurve::previousValue() const {
+    return m_prev;
+}
+
+Interpolation::Curve DefaultRestorableCurve::defaultValue() const {
+    return m_defaultValue;
+}
+
+bool DefaultRestorableCurve::hasChange() const {
+    return m_cur != m_prev;
+}
+
+void DefaultRestorableCurve::saveValue() {
+    m_prev = m_cur;
+}
+
+void DefaultRestorableCurve::setPreviousValue(Interpolation::Curve previousValue) {
+    m_prev = previousValue;
+}
+
+void DefaultRestorableCurve::setCurrentAndPreviousValue(Interpolation::Curve value) {
+    setPreviousValue(value);
+    setValue(value);
+}
+
+void DefaultRestorableCurve::restorePreviousValue() {
+    if (m_prev != m_cur) {
+        m_cur = m_prev;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableCurve::restoreDefaultValue() {
+    if (m_cur != m_defaultValue) {
+        m_cur = m_defaultValue;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableCurve::setValue(Interpolation::Curve value) {
+    if (m_cur != value) {
+        m_cur = value;
+        emit valueChanged(m_cur);
+    }
+}
+
+DefaultRestorableCurve& DefaultRestorableCurve::operator=(InterpolationCurveObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
+}
+
+// DefaultRestorableBool
+DefaultRestorableBool::DefaultRestorableBool(bool defaultValue, QObject *parent)
+    : m_defaultValue(defaultValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
+{ }
+
+bool DefaultRestorableBool::value() const {
+    return m_cur;
+}
+
+bool DefaultRestorableBool::previousValue() const {
+    return m_prev;
+}
+
+bool DefaultRestorableBool::defaultValue() const {
+    return m_defaultValue;
+}
+
+bool DefaultRestorableBool::hasChange() const {
+    return m_cur != m_prev;
+}
+
+void DefaultRestorableBool::saveValue() {
+    m_prev = m_cur;
+}
+
+void DefaultRestorableBool::setPreviousValue(bool previousValue) {
+    m_prev = previousValue;
+}
+
+void DefaultRestorableBool::setCurrentAndPreviousValue(bool value) {
+    setPreviousValue(value);
+    setValue(value);
+}
+
+void DefaultRestorableBool::restorePreviousValue() {
+    if (m_prev != m_cur) {
+        m_cur = m_prev;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableBool::restoreDefaultValue() {
+    if (m_cur != m_defaultValue) {
+        m_cur = m_defaultValue;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableBool::setValue(bool value) {
+    if (m_cur != value) {
+        m_cur = value;
+        emit valueChanged(m_cur);
+    }
+}
+
+DefaultRestorableBool& DefaultRestorableBool::operator=(BooleanObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
+}
+
+// DefaultRestorableString
+DefaultRestorableString::DefaultRestorableString(QString const& defaultValue, QObject *parent)
+    : m_defaultValue(defaultValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
 { }
 
 QString const& DefaultRestorableString::value() const {
@@ -117,10 +250,10 @@ void DefaultRestorableString::setValue(QString const& value) {
 
 // DefaultRestorableQReal
 
-DefaultRestorableQReal::DefaultRestorableQReal(qreal initalValue, qreal defaultValue, QObject *parent)
+DefaultRestorableQReal::DefaultRestorableQReal(qreal defaultValue, QObject *parent)
     : m_defaultValue(defaultValue)
-    , m_cur(initalValue)
-    , m_prev(initalValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
 { }
 
 qreal DefaultRestorableQReal::value() const {
@@ -176,10 +309,10 @@ void DefaultRestorableQReal::setValue(qreal value) {
 // DefaultRestorableQColor
 
 
-DefaultRestorableQColor::DefaultRestorableQColor(QColor initalValue, QColor defaultValue, QObject *parent)
+DefaultRestorableQColor::DefaultRestorableQColor(QColor defaultValue, QObject *parent)
     : m_defaultValue(defaultValue)
-    , m_cur(initalValue)
-    , m_prev(initalValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
 { }
 
 QColor const& DefaultRestorableQColor::value() const {
@@ -230,4 +363,10 @@ void DefaultRestorableQColor::setValue(QColor const& value) {
         m_cur = value;
         emit valueChanged(m_cur);
     }
+}
+
+DefaultRestorableQColor& DefaultRestorableQColor::operator=(ColorObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
 }

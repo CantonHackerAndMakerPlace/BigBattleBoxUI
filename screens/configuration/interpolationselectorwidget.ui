@@ -39,6 +39,9 @@
        <property name="styleSheet">
         <string notr="true"/>
        </property>
+       <property name="selectionRectVisible">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="0" column="0">

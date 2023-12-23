@@ -18,18 +18,15 @@ public:
 
     Interpolation::CurveInfo *getCurveInfo() const;
     Interpolation::Curve getCurve() const;
-
+    void init();
 public slots:
-    void setCurveSelection(Interpolation::CurveInfo *);
     void setCurveSelection(Interpolation::Curve);
 
 signals:
-    void curveSelectionChanged(Interpolation::CurveInfo *);
+    void curveSelectionChanged(Interpolation::Curve);
 
 private:
     Ui::InterpolationSelectorWidget *ui;
-    Interpolation::Curve m_defaultCurve = Interpolation::Curve::Linear;
-    Interpolation::Curve m_selectedCurve = m_defaultCurve;
 };
 
 #endif // INTERPOLATIONSELECTORWIDGET_H
