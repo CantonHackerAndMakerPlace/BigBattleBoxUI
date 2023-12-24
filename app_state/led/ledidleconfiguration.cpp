@@ -8,11 +8,11 @@ LEDIdleConfiguration::LEDIdleConfiguration(QObject *parent)
     , m_p1Interpolation(Interpolation::Curve::Linear, "LEDIdleConfig/p1/interpolation")
     , m_p1MinBrightness(10, "LEDIdleConfig/p1/minBrightness")
     , m_p1MaxBrightness(100, "LEDIdleConfig/p1/maxBrightness")
-    , m_p1Color(QColor::fromRgb(255,0,0), "LEDIdleConfig/p1/color")
+    , m_p1Color(Qt::red, "LEDIdleConfig/p1/color")
     , m_p2Interpolation(Interpolation::Curve::Linear, "LEDIdleConfig/p2/interpolation")
     , m_p2MinBrightness(10, "LEDIdleConfig/p2/minBrightness")
     , m_p2MaxBrightness(100, "LEDIdleConfig/p2/maxBrightness")
-    , m_p2Color(QColor::fromRgb(0,0,255), "LEDIdleConfig/p2/color")
+    , m_p2Color(Qt::blue, "LEDIdleConfig/p2/color")
 { }
 
 void LEDIdleConfiguration::loadSettings(QSettings *settings) {

@@ -80,6 +80,7 @@ void IdleLedConfigurationWidget::attachColor(
             colorSelectorWidget, &ColorSelectionWidget::setColor);
     connect(colorSelectorWidget, &ColorSelectionWidget::colorChanged,
             &color, &DefaultRestorableQColor::setValue);
+    colorSelectorWidget->setColor(color.value());
 }
 
 void IdleLedConfigurationWidget::attachMinBrightness(

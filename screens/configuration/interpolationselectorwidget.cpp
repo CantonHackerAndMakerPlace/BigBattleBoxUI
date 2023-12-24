@@ -20,11 +20,13 @@ InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent) :
     }
     ui->interpolationSelector->setIconSize(QSize(100, 100));
     ui->interpolationSelector->item(0)->setSelected(true);
+    ui->selectionLabel->setText(QString("Selected: %1").arg(ui->interpolationSelector->item(0)->text()));
     connect(ui->interpolationSelector, &QListWidget::currentItemChanged,
             [&](QListWidgetItem *current, QListWidgetItem *){
                 qDebug() << "Current item selection changed: "<< current->text();
                 auto name = Interpolation::getByName(current->text());
                 if (name.has_value()) {
+                    ui->selectionLabel->setText(QString("Selected: %1").arg(current->text()));
                     emit curveSelectionChanged(name.value());
                 } else {
                     qDebug() << "Received invalid interpolation selection";
@@ -52,16 +54,11 @@ Interpolation::Curve InterpolationSelectorWidget::getCurve() const {
 }
 
 void InterpolationSelectorWidget::setCurveSelection(Interpolation::Curve curve) {
-//    qDebug() << "Curve being requested!" << (int)curve;
-//    auto info = Interpolation::getCurveInfoByCurve(curve);
-//    if (!info ) {
-//        assert(!"Info not set");
-//    }
-//    qDebug() << "Curve name: " << info;
     auto items = ui->interpolationSelector->findItems(Interpolation::getName(curve), Qt::MatchExactly);
+
     if (items.size() != 1) {
         assert(!"Big problem unable to locate curve");
     }
-    items.front()->setSelected(true);
+    ui->interpolationSelector->setCurrentItem(items.front());
     qDebug() << "Selecting interpolation: " << items.front()->text();
 }
