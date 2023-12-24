@@ -67,6 +67,13 @@ BattleBoxMainWindow::BattleBoxMainWindow(QWidget *parent)
     m_state->data()->saveSettings();
 }
 
+void BattleBoxMainWindow::closeEvent(QCloseEvent *event) {
+    qDebug() << "Received a close event!";
+    m_state->physicalState()->connectionManager()->blockingSendData("LEDAllSetBrightness 0");
+    m_state->physicalState()->connectionManager()->blockingSendData("LEDAllShow");
+    QMainWindow::closeEvent(event);
+}
+
 BattleBoxMainWindow::~BattleBoxMainWindow() {
     delete ui;
 }

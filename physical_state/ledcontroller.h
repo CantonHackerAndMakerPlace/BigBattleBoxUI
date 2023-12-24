@@ -22,33 +22,6 @@ class LEDController : public QObject
 {
     Q_OBJECT
 public:
-
-    enum class LEDPattern {
-        /// No pattern turn the brightness to zero when changed.
-        Off,
-
-        /// Using the configuration raise the brightness from the min to the max
-        /// over the specified amount of time and back to the min again in a loop.
-        Breath,
-
-        /// This is a count down fillup pattern. As time elapses we must fill up the LEDs
-        /// until we reached the end of the strop then stop.
-        CountDownFill,
-
-        /// Turn LED off and on as configured.
-        Blink,
-
-        /// A set of lights moves moves across the light strop and back again, as configured.
-        Cylon,
-
-        /// Set the solid LED color as configured.
-        SolidColors,
-
-        /// Ramp up to a specified starting brightness to a single brightness,
-        /// this is 1/2 a breath
-        RampUp,
-    };
-    Q_ENUM(LEDPattern);
     explicit LEDController(ArduinoClient *client, QObject *parent = nullptr);
 
 public slots:
@@ -134,8 +107,7 @@ private:
     /// the first message signal, this means that additional messages
     /// may need ot be sent.
     bool m_isFirstMessageAfterReady = false;
-    /// The current pattern that should be, being displayed.
-    LEDPattern m_state = LEDPattern::Off;
+
     /// Timer used to sned messages after some amount of time has elapsed.
     QTimer *m_timer;
 

@@ -8,7 +8,7 @@ LEDController::LEDController(ArduinoClient *client, QObject *parent)
     , m_timer(new QTimer(this))
     , m_client(client)
 {
-    // Connecting to the messagint timer.
+    // Connecting to the messaging timer.
     connect(m_timer, &QTimer::timeout,
             this, &LEDController::onTimeout);
 
@@ -31,18 +31,7 @@ LEDController::LEDController(ArduinoClient *client, QObject *parent)
 
 
 void LEDController::onTimeout() {
-    if (!m_isReady) {
-        switch(m_state){
-        case LEDPattern::Off:
-        case LEDPattern::Breath:
-        case LEDPattern::CountDownFill:
-        case LEDPattern::Blink:
-        case LEDPattern::Cylon:
-        case LEDPattern::SolidColors:
-        case LEDPattern::RampUp:
-            break;
-        }
-    }
+
 }
 
 

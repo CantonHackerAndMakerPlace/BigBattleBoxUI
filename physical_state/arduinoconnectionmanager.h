@@ -27,6 +27,7 @@ private slots:
     void errorOccurred(QSerialPort::SerialPortError error);
 public slots:
     bool sendData(QString data);
+    bool blockingSendData(QString data);
 signals:
     void availableSerialPortsChanged(const QStringList &port);
     void addedCOMPorts(const QStringList& port);

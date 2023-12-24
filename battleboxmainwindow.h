@@ -32,6 +32,7 @@ public:
     void connectPlayerName();
 
 public:
+    void closeEvent(QCloseEvent *event);
     DeathMatchConfig *deathMatchConfig() const;
 private:
 

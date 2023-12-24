@@ -160,6 +160,7 @@ bool ArduinoConnectionManager::sendData(QString data) {
     data.append('\n');
     auto dataArray = data.toLocal8Bit();
     auto written = m_conn->write(dataArray);
+    m_conn->waitForBytesWritten(100);
     if (written != dataArray.size()) {
         qDebug() << "Failed to write all data into serial connection";
         qWarning() << "Wrote" << written << "of" <<dataArray.size() << "bytes";
@@ -167,6 +168,35 @@ bool ArduinoConnectionManager::sendData(QString data) {
     if (!m_conn->flush() ) {
         qWarning() << "flush failed and returned false?";
     }
+    return true;
+}
+
+bool ArduinoConnectionManager::blockingSendData(QString data) {
+    m_readTimer->stop();
+    if (!sendData(data)) {
+        qDebug() << "Failed to write blocking data.";
+        m_readTimer->start(33);
+        return false;
+    }
+//    m_conn->blockSignals(true);
+
+    if(!m_conn->waitForReadyRead(3000)) {
+        qDebug() << "Never received a response";
+        return false;
+    }
+    auto readLength = m_conn->readLine((char*)buffer, BUFFER_SIZE);
+//    m_conn->blockSignals(false);
+    if (readLength < 0) {
+        qDebug() << "Failed to get data during blocking read";
+        m_readTimer->start(33);
+        m_conn->blockSignals(false);
+        return false;
+    }
+    buffer[readLength] = 0;
+    QString response((char*)buffer);
+    qDebug() << "Received data" << response;
+//    emit receivedData(response);
+    m_readTimer->start(33);
     return true;
 }
 
