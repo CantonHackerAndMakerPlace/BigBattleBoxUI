@@ -135,6 +135,8 @@ set(PROJECT_SOURCES
     physical_state/ledalgo/rampup.cpp
     physical_state/ledalgo/solidcolors.h
     physical_state/ledalgo/solidcolors.cpp
+    physical_state/ledalgo/lightoff.h
+    physical_state/ledalgo/lightoff.cpp
 
     app_state/applicationstate.h
     app_state/applicationstate.cpp

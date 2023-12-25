@@ -16,22 +16,18 @@ SolidColors::SolidColors(
 
 }
 
-void SolidColors::start(GeneralLEDConfiguration *generalConfig) {
+void SolidColors::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
 
 }
 
-void SolidColors::updateConfig(GeneralLEDConfiguration *generalConfig) {
-
-}
-
-void SolidColors::update(qint64 elapsedTime, ArduinoMessanger *messanger) {
+void SolidColors::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) {
 
 }
 
 bool SolidColors::loops() const {
-    return true;
+    return false;
 }
 
 bool SolidColors::isFinished() const {
-    return false;
+    return true;
 }

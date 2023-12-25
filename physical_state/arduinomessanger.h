@@ -118,7 +118,7 @@ private:
     std::size_t m_maxMessages = 10000;
     std::size_t m_timeOutMs = 100;
     std::size_t m_messagePollingInterval = 5;
-    std::size_t m_firstMsgTimeOut = 10000;
+    std::size_t m_firstMsgTimeOut = 1000;
     QTimer *m_messagingTimeoutHandler;
     QTimer *m_messageSender;
     MsgState m_messagingState;

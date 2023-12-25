@@ -37,15 +37,11 @@ Blink::Blink(int numberOfBlinks,
 
 }
 
-void Blink::start(GeneralLEDConfiguration *generalConfig) {
+void Blink::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
 
 }
 
-void Blink::updateConfig(GeneralLEDConfiguration *generalConfig) {
-
-}
-
-void Blink::update(qint64 elapsedTime, ArduinoMessanger *messanger) {
+void Blink::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) {
 
 }
 

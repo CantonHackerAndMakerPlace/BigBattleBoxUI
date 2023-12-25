@@ -27,15 +27,12 @@ CountDownFill::CountDownFill(int duration,
 { }
 
 
-void CountDownFill::start(GeneralLEDConfiguration *generalConfig) {
+void CountDownFill::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
 
 }
 
-void CountDownFill::updateConfig(GeneralLEDConfiguration *generalConfig) {
 
-}
-
-void CountDownFill::update(qint64 elapsedTime, ArduinoMessanger *messanger) {
+void CountDownFill::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) {
 
 }
 

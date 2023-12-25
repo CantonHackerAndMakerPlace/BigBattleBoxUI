@@ -10,11 +10,13 @@
 #include <chrono>
 
 #include <physical_state/ledalgo/ledalgo.h>
-
+#include <app_state/led/ledconfiguration.h>
 
 class QTimer;
 class GeneralLEDConfiguration;
 class ArduinoClient;
+
+using LEDAlgoPointerType = std::shared_ptr<LEDAlgo>;
 
 /// The LEDController is responsible for sending information to the
 /// arduino through the messanger in order to construct light patterns.
@@ -22,7 +24,7 @@ class LEDController : public QObject
 {
     Q_OBJECT
 public:
-    explicit LEDController(ArduinoClient *client, QObject *parent = nullptr);
+    explicit LEDController(LEDConfiguration *config, ArduinoClient *client, QObject *parent = nullptr);
 
 public slots:
     /// Enter the off state.
@@ -30,16 +32,21 @@ public slots:
 
     /// Enter the breath state. Breath is always unified and both p1 and p2 are always
     /// the same color.
-    void breath(int minBrightness,
-                int maxBrightness,
-                int duration,
-                QEasingCurve easingCurve,
-                QColor color);
+    void breath(int duration,
+                int p1MinBrightness,
+                int p1MaxBrightness,
+                QColor p1Color,
+                QEasingCurve p1EasingCurve,
+                int p2MinBrightness,
+                int p2MaxBrightness,
+                QColor p2Color,
+                QEasingCurve p2EasingCurve5,
+                bool unified);
 
     /// Consumes the underlying color and fills up the LED strips either independently
     /// or together. The unified parameter will ignore p1 color settings and just use
     /// p1 settings for the entire strip.
-    void CountDownFill(int duration,
+    void countDownFill(int duration,
                        int brightness,
                        QEasingCurve easingCurve,
                        QColor p1ConsumedColor,
@@ -89,20 +96,46 @@ public slots:
     void solidColors(QColor p1Color, int p1brightness, QColor p2Color, int p2brightness, bool unified);
 
     /// Ramp up to a brightness using the specified colors.
-    void rampUp(QColor p1Color,
+    void rampUp(int duration,
+                QColor p1Color,
                 int p1MinBrightness,
                 int p1MaxBrightness,
                 QColor p2Color,
                 int p2MinBrightness,
                 int p2MaxBrightness,
                 bool unified);
+
+    void canSendMessages();
+    void unableToSendMessages();
+
+    // light transition slots.
+    void enterConfigurationScreen();
+    void enterGameSelectScreen();
+    void enterDMConfigScreen();
+    void enterDMCountDownScreen();
+    void postEnterDMCountDownScreen();
+    void enterDMPlayersReadyScreen();
+    void enterDMRunningScreen();
+    void enterDMWinnerDisplayScreen(QString playerName);
+    void enterSoccerConfigScreen();
+    void enterSoccerPlayersReadyScreen();
+    void enterSoccerRunningScreen();
+    void enterSoccerCountDownScreen();
+    void enterSoccerGameOverScreen();
+
+    // This must be connected inside of the battlebox main window I think.
+    void DMCDstart3();
+    void DMCDstart2();
+    void DMCDstart1();
+    void DMCDstartFight();
 private slots:
 
-    void onTimeout();
+    void onTick();
 
 private:
     /// Indicates that we should send messages to the arduino.
     bool m_isReady = false;
+
     /// Indicates if this is the first message after we have received
     /// the first message signal, this means that additional messages
     /// may need ot be sent.
@@ -112,7 +145,7 @@ private:
     QTimer *m_timer;
 
     /// A time stamp for when the LED display was started.
-    QDateTime m_startState;
+    QDateTime m_startTime;
 
     /// Used to send messages to the arduino
     ArduinoClient *m_client;
@@ -120,9 +153,9 @@ private:
     /// The general LED configuration. This is used in order to
     /// configure any underlying algorithms based on the number
     /// of lights and orientation.
-    GeneralLEDConfiguration *m_generalConfig;
+    LEDConfiguration *m_config;
 
-    std::shared_ptr<LEDAlgo> m_algo;
+    LEDAlgoPointerType m_algo;
 };
 
 #endif // LEDCONTROLLER_H

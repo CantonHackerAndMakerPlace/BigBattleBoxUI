@@ -388,11 +388,12 @@ void ArduinoMessanger::sendLEDAllFill(int r, int g, int b, int index, int count)
 }
 
 void ArduinoMessanger::sendLEDAllFill(QColor color, int index, int count) {
+    auto reformattedColor = color.convertTo(QColor::Spec::Rgb);
     sendMessage(MsgKind::LEDAllFill,
                 QString("LEDAllFill %1 %2 %3 %4 %5")
-                    .arg(QString::number(color.blue()),
-                         QString::number(color.red()),
-                         QString::number(color.green()),
+                    .arg(QString::number(reformattedColor.blue()),
+                         QString::number(reformattedColor.red()),
+                         QString::number(reformattedColor.green()),
                          QString::number(index),
                          QString::number(count))
                 );
@@ -409,12 +410,13 @@ void ArduinoMessanger::sendLEDAllSetPixelColor(int index, int r, int g, int b) {
 }
 
 void ArduinoMessanger::sendLEDAllSetPixelColor(int index, QColor color) {
+    auto reformattedColor = color.convertTo(QColor::Spec::Rgb);
     sendMessage(MsgKind::LEDAllSetPixelColor,
                 QString("LEDAllSetPixelColor %1 %2 %3 %4")
                     .arg(QString::number(index),
-                         QString::number(color.blue()),
-                         QString::number(color.red()),
-                         QString::number(color.green())
+                         QString::number(reformattedColor.blue()),
+                         QString::number(reformattedColor.red()),
+                         QString::number(reformattedColor.green())
                          )
                 );
 }
@@ -450,7 +452,8 @@ void ArduinoMessanger::sendLEDFill(int position, int r, int g, int b, int index,
 }
 
 void ArduinoMessanger::sendLEDFill(int position, QColor color, int index, int count) {
-    sendLEDFill(position, color.red(), color.green(), color.blue(), index, count);
+    auto reformattedColor = color.convertTo(QColor::Spec::Rgb);
+    sendLEDFill(position, reformattedColor.red(), reformattedColor.green(), reformattedColor.blue(), index, count);
 }
 
 void ArduinoMessanger::sendLEDSetPixelColor(int position, int index, int r, int g, int b) {
@@ -465,7 +468,8 @@ void ArduinoMessanger::sendLEDSetPixelColor(int position, int index, int r, int 
 }
 
 void ArduinoMessanger::sendLEDSetPixelColor(int position, int index, QColor color) {
-    sendLEDSetPixelColor(position, index, color.red(), color.green(), color.blue());
+    auto reformattedColor = color.convertTo(QColor::Spec::Rgb);
+    sendLEDSetPixelColor(position, index, reformattedColor.red(), reformattedColor.green(), reformattedColor.blue());
 
 }
 

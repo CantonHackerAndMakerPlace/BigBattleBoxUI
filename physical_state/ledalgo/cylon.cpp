@@ -26,15 +26,11 @@ Cylon::Cylon(int startIndex,
 
 }
 
-void Cylon::start(GeneralLEDConfiguration *generalConfig) {
+void Cylon::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
 
 }
 
-void Cylon::updateConfig(GeneralLEDConfiguration *generalConfig) {
-
-}
-
-void Cylon::update(qint64 elapsedTime, ArduinoMessanger *messanger) {
+void Cylon::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) {
 
 }
 

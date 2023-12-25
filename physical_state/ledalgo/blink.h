@@ -25,21 +25,18 @@ public:
           bool unified);
 
     /// Send the initial configuration and begin the algorithm.
-    virtual void start(GeneralLEDConfiguration *generalConfig);
-
-    /// Used to snapshot the LED configuration after start is called.
-    virtual void updateConfig(GeneralLEDConfiguration *generalConfig);
+    virtual void start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) override;
 
     /// This is called ever 33 ish ms in to interpolate the algorithm and send messages to the arduino.
-    virtual void update(qint64 elapsedTime, ArduinoMessanger *messanger);
+    virtual void update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) override;
 
     /// should return true if the algorithm is designed to loop and not designed
     /// to complete after some amount of time.
-    virtual bool loops() const;
+    virtual bool loops() const override;
 
     /// Returns true for algorithms who don't loop, and have completed their
     /// evaluation and have haulted evaluation.
-    virtual bool isFinished() const;
+    virtual bool isFinished() const override;
 
 private:
     int m_numberOfBlinks;

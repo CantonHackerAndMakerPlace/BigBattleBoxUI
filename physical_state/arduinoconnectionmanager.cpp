@@ -178,14 +178,12 @@ bool ArduinoConnectionManager::blockingSendData(QString data) {
         m_readTimer->start(33);
         return false;
     }
-//    m_conn->blockSignals(true);
 
     if(!m_conn->waitForReadyRead(3000)) {
         qDebug() << "Never received a response";
         return false;
     }
     auto readLength = m_conn->readLine((char*)buffer, BUFFER_SIZE);
-//    m_conn->blockSignals(false);
     if (readLength < 0) {
         qDebug() << "Failed to get data during blocking read";
         m_readTimer->start(33);
@@ -195,7 +193,6 @@ bool ArduinoConnectionManager::blockingSendData(QString data) {
     buffer[readLength] = 0;
     QString response((char*)buffer);
     qDebug() << "Received data" << response;
-//    emit receivedData(response);
     m_readTimer->start(33);
     return true;
 }

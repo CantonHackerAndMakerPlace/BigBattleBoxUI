@@ -3,3 +3,12 @@
 LEDAlgo::LEDAlgo() { }
 
 LEDAlgo::~LEDAlgo() { }
+
+
+bool LEDAlgo::wasStarted() const {
+    return m_hasBeenStarted;
+}
+
+void LEDAlgo::setWasStarted(bool wasStarted) {
+    m_hasBeenStarted = wasStarted;
+}

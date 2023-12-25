@@ -7,10 +7,11 @@ ApplicationState::ApplicationState(QObject *parent)
     , m_physicalState(new BattleBoxPhysicalState(this))
     , m_ledConfig(new LEDConfiguration(this))
     , m_arduinoClient(new ArduinoClient(m_ledConfig->generalLEDConfiguration(), m_physicalState->messanger(), this))
-    , m_ledController(new LEDController(m_arduinoClient, this))
+    , m_ledController(new LEDController(m_ledConfig, m_arduinoClient, this))
 {
     initSettings();
     initBattleBoxState();
+    initLightPatternControls();
 }
 
 void ApplicationState::initSettings() {
@@ -84,16 +85,35 @@ void ApplicationState::initBattleBoxState() {
             [](QStringList msg) {
                 qDebug() << "Received new serial ports" << msg;
             });
+    connect(m_physicalState, &BattleBoxPhysicalState::arduinoReadyForSendReceive,
+            m_ledController, &LEDController::canSendMessages);
+
+    connect(m_physicalState, &BattleBoxPhysicalState::disconnectedFromArduino,
+            m_ledController, &LEDController::unableToSendMessages);
+
     auto port = m_model->settings()->value("arduino/com_port", "/dev/ttyACM0").toString();
     m_physicalState->connectionManager()->connectToSerialPort(port);
 }
 
-void ApplicationState::onArduinoConnection() {
-    qDebug() << "Called onArduinoConnection";
-
-    // When we connect to the arduino we must send the LED
-    // configuration settings
-
+void ApplicationState::initLightPatternControls() {
+    // Connecting the LED transition to the LED controller.
+#define SCREEN_CONNECT(NAME)\
+    connect(m_screen, &Screen::NAME,\
+            m_ledController, &LEDController::NAME);
+    SCREEN_CONNECT(enterConfigurationScreen);
+    SCREEN_CONNECT(enterGameSelectScreen);
+    SCREEN_CONNECT(enterDMConfigScreen);
+    SCREEN_CONNECT(enterDMCountDownScreen);
+    SCREEN_CONNECT(postEnterDMCountDownScreen)
+    SCREEN_CONNECT(enterDMPlayersReadyScreen);
+    SCREEN_CONNECT(enterDMRunningScreen);
+    SCREEN_CONNECT(enterDMWinnerDisplayScreen);
+    SCREEN_CONNECT(enterSoccerConfigScreen);
+    SCREEN_CONNECT(enterSoccerPlayersReadyScreen);
+    SCREEN_CONNECT(enterSoccerRunningScreen);
+    SCREEN_CONNECT(enterSoccerCountDownScreen);
+    SCREEN_CONNECT(enterSoccerGameOverScreen);
+#undef SCREEN_CONNECT
 }
 
 LEDConfiguration *ApplicationState::ledConfig() const {

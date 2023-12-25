@@ -2,114 +2,284 @@
 #include <physical_state/arduinoclient.h>
 #include <QTimer>
 #include <physical_state/ledalgo/breath.h>
+#include "ledalgo/blink.h"
+#include "ledalgo/cylon.h"
+#include "ledalgo/breath.h"
+#include "ledalgo/countdownfill.h"
+#include "ledalgo/lightoff.h"
+#include "ledalgo/rampup.h"
+#include "ledalgo/solidcolors.h"
+#include "app_state/led/interpolation.h"
 
-LEDController::LEDController(ArduinoClient *client, QObject *parent)
+LEDController::LEDController(LEDConfiguration *config, ArduinoClient *client, QObject *parent)
     : QObject{parent}
     , m_timer(new QTimer(this))
     , m_client(client)
+    , m_config(config)
 {
     // Connecting to the messaging timer.
     connect(m_timer, &QTimer::timeout,
-            this, &LEDController::onTimeout);
-
-    // Handling connect and disconnect for the arduino.
-
-    // TODO: We may need additional code here in order to re-initialize
-    // any of the state before we can continue.
-    connect(m_client, &ArduinoClient::connected,
-            [&] { m_isReady = true; });
-
-    connect(m_client, &ArduinoClient::disconnected,
-            [&] { m_isReady = false; });
-
-    // Must wait for the arduino to fully connect and we have receive the fist status message.
-    // Otherwise we risk having to re-send everything.
+            this, &LEDController::onTick);
 
     // Try for 30 msg per second.
     m_timer->start(33);
 }
 
 
-void LEDController::onTimeout() {
-
+void LEDController::onTick() {
+    if (m_isReady && m_algo) {
+        // If the algorithm has been started and we no longer need to
+        // loop or is finished we can simply exit.
+        if (m_algo->wasStarted() && (!m_algo->loops() || m_algo->isFinished() )) {
+            return;
+        }
+        if (!m_algo->wasStarted()) {
+            // Recording the current date and time and starting the evaluation.
+            m_startTime = QDateTime::currentDateTime();
+            m_algo->start(m_config->generalLEDConfiguration(), m_client);
+            m_algo->setWasStarted(true);
+        }
+        auto elapsed = QDateTime::currentDateTime() - m_startTime;
+        m_algo->update(m_config->generalLEDConfiguration(), elapsed.count(), m_client);
+    }
 }
 
 
 void LEDController::off() {
-
+    m_algo = LEDAlgoPointerType(new LightsOff());
 }
 
-void LEDController::breath(int minBrightness,
-            int maxBrightness,
-            int duration,
-            QEasingCurve easingCurve,
-                           QColor color) {
-
+void LEDController::breath(int duration,
+                           int p1MinBrightness,
+                           int p1MaxBrightness,
+                           QColor p1Color,
+                           QEasingCurve p1EasingCurve,
+                           int p2MinBrightness,
+                           int p2MaxBrightness,
+                           QColor p2Color,
+                           QEasingCurve p2EasingCurve,
+                           bool unified)
+{
+    m_algo = LEDAlgoPointerType(new Breath(duration,
+                                           p1MinBrightness,
+                                           p1MaxBrightness,
+                                           p1Color,
+                                           p1EasingCurve,
+                                           p2MinBrightness,
+                                           p2MaxBrightness,
+                                           p2Color,
+                                           p2EasingCurve,
+                                           unified));
 }
 
-void LEDController::CountDownFill(int duration,
-                   int brightness,
-                   QEasingCurve easingCurve,
-                   QColor p1ConsumedColor,
-                   QColor p1Countolor,
-                   QColor p1FinalColor,
-                   int p1FinalColorBrightness,
-                   QColor p2ConsumedColor,
-                   QColor p2CountColor,
-                   QColor p2FinalColor,
-                   int p2FinalColorBrightness,
-                   bool unifiedLedStrips) {
-
+void LEDController::countDownFill(int duration,
+                                  int brightness,
+                                  QEasingCurve easingCurve,
+                                  QColor p1ConsumedColor,
+                                  QColor p1Countolor,
+                                  QColor p1FinalColor,
+                                  int p1FinalColorBrightness,
+                                  QColor p2ConsumedColor,
+                                  QColor p2CountColor,
+                                  QColor p2FinalColor,
+                                  int p2FinalColorBrightness,
+                                  bool unifiedLedStrips)
+{
+    m_algo = LEDAlgoPointerType(new CountDownFill(duration,
+                                                  brightness,
+                                                  easingCurve,
+                                                  p1ConsumedColor,
+                                                  p1Countolor,
+                                                  p1FinalColor,
+                                                  p1FinalColorBrightness,
+                                                  p2ConsumedColor,
+                                                  p2CountColor,
+                                                  p2FinalColor,
+                                                  p2FinalColorBrightness,
+                                                  unifiedLedStrips));
 }
 
 void LEDController::blink(int numberOfBlinks,
-           int onDuration,
-           int offDuration,
-           QColor p1OnColor,
-           int p1ColorBrightness,
-           QColor p1OffColor,
-           int p1OffColorBrightness,
-           QColor p1FinalColor,
-           int p1FinalColorBrightness,
-           QColor p2OnColor,
-           int p2ColorBrightness,
-           QColor p2OffColor,
-           int p2OffColorBrightness,
-           QColor p2FinalColor,
-           int p2FinalColorBrightness,
-           bool unified) {
+                          int onDuration,
+                          int offDuration,
+                          QColor p1OnColor,
+                          int p1ColorBrightness,
+                          QColor p1OffColor,
+                          int p1OffColorBrightness,
+                          QColor p1FinalColor,
+                          int p1FinalColorBrightness,
+                          QColor p2OnColor,
+                          int p2ColorBrightness,
+                          QColor p2OffColor,
+                          int p2OffColorBrightness,
+                          QColor p2FinalColor,
+                          int p2FinalColorBrightness,
+                          bool unified)
+{
+    m_algo = LEDAlgoPointerType(new Blink(numberOfBlinks,
+                                          onDuration,
+                                          offDuration,
+                                          p1OnColor,
+                                          p1ColorBrightness,
+                                          p1OffColor,
+                                          p1OffColorBrightness,
+                                          p1FinalColor,
+                                          p1FinalColorBrightness,
+                                          p2OnColor,
+                                          p2ColorBrightness,
+                                          p2OffColor,
+                                          p2OffColorBrightness,
+                                          p2FinalColor,
+                                          p2FinalColorBrightness,
+                                          unified));
 
 }
 
 
 /// Enter the sweaping eye state.
 void LEDController::cylon(int startIndex,
-           int stopIndex,
-           int eyeLength,
-           int duration,
-           int brightness,
-           QEasingCurve interpolationCurve,
-           QColor p1foregroundColor,
-           QColor p1backgroundColor,
-           QColor p2foregroundColor,
-           QColor p2backgroundColor,
-           bool unified) {
+                          int stopIndex,
+                          int eyeLength,
+                          int duration,
+                          int brightness,
+                          QEasingCurve interpolationCurve,
+                          QColor p1foregroundColor,
+                          QColor p1backgroundColor,
+                          QColor p2foregroundColor,
+                          QColor p2backgroundColor,
+                          bool unified) {
+    m_algo = LEDAlgoPointerType(new Cylon(startIndex,
+                                          stopIndex,
+                                          eyeLength,
+                                          duration,
+                                          brightness,
+                                          interpolationCurve,
+                                          p1foregroundColor,
+                                          p1backgroundColor,
+                                          p2foregroundColor,
+                                          p2backgroundColor,
+                                          unified));
 
 }
 
 /// Enters the solid colors state where don't do anything but display a
 /// specififc color at a specified brightness.
-void LEDController::solidColors(QColor p1Color, int p1brightness, QColor p2Color, int p2brightness, bool unified) {
-
+void LEDController::solidColors(QColor p1Color,
+                                int p1brightness,
+                                QColor p2Color,
+                                int p2brightness,
+                                bool unified)
+{
+    m_algo = LEDAlgoPointerType(new SolidColors(p1Color, p1brightness, p2Color, p2brightness, unified));
 }
 
 /// Ramp up to a brightness using the specified colors.
-void LEDController::rampUp(QColor p1Color,
+void LEDController::rampUp(int duration,
+                           QColor p1Color,
                            int p1MinBrightness,
                            int p1MaxBrightness,
                            QColor p2Color,
                            int p2MinBrightness,
                            int p2MaxBrightness,
-                           bool unified) {
+                           bool unified)
+{
+    m_algo = LEDAlgoPointerType(new RampUp(duration,
+                                           p1Color,
+                                           p1MinBrightness,
+                                           p1MaxBrightness,
+                                           p2Color,
+                                           p2MinBrightness,
+                                           p2MaxBrightness,
+                                           unified));
+}
+
+void LEDController::canSendMessages() {
+    m_isReady = true;
+}
+
+void LEDController::unableToSendMessages() {
+    m_isReady = false;
+}
+
+// Handling for LED transitions.
+void LEDController::enterConfigurationScreen() {
 
 }
+
+void LEDController::enterGameSelectScreen() {
+    qDebug() << "Entered game selection screen setting breath as the current algorithm";
+    auto idleConfig = m_config->idleConfiguration();
+    auto p1Interpolation = Interpolation::intoEasingCurveType(idleConfig->p1Interpolation().value());
+    auto p2Interpolation = Interpolation::intoEasingCurveType(idleConfig->p2Interpolation().value());
+    breath(idleConfig->cycleDuration().value(),
+           idleConfig->p1MinBrightness().value(),
+           idleConfig->p1MaxBrightness().value(),
+           idleConfig->p1Color().value(),
+           p1Interpolation,
+           idleConfig->p2MinBrightness().value(),
+           idleConfig->p2MaxBrightness().value(),
+           idleConfig->p2Color().value(),
+           p2Interpolation,
+           idleConfig->useP1ForBoth().value());
+}
+
+void LEDController::enterDMConfigScreen() {
+
+}
+
+void LEDController::enterDMCountDownScreen() {
+
+}
+
+void LEDController::postEnterDMCountDownScreen() {
+
+}
+
+void LEDController::enterDMPlayersReadyScreen() {
+
+}
+
+void LEDController::enterDMRunningScreen() {
+
+}
+
+void LEDController::enterDMWinnerDisplayScreen(QString playerName) {
+
+}
+
+void LEDController::enterSoccerConfigScreen() {
+
+}
+
+void LEDController::enterSoccerPlayersReadyScreen() {
+
+}
+
+void LEDController::enterSoccerRunningScreen() {
+
+}
+
+void LEDController::enterSoccerCountDownScreen() {
+
+}
+
+void LEDController::enterSoccerGameOverScreen() {
+
+}
+
+void LEDController::DMCDstart3() {
+
+}
+
+void LEDController::DMCDstart2() {
+
+}
+
+void LEDController::DMCDstart1() {
+
+}
+
+void LEDController::DMCDstartFight() {
+
+}
+

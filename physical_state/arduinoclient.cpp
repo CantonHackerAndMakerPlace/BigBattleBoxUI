@@ -78,7 +78,7 @@ ArduinoClient::FillInfo ArduinoClient::computePlayerTwoFill(int providedIndex, i
     }
 }
 
-void ArduinoClient::contigiousSetPixel(QColor color, int index){
+void ArduinoClient::contigiousSetPixel(QColor color, int index, bool show) {
     //        m_messanger->
     if (index >= m_config->playerOneLedCount().value()) {
         // Sending to player two
@@ -88,10 +88,12 @@ void ArduinoClient::contigiousSetPixel(QColor color, int index){
         int computedIndex = computePlayerTwoIndex(index);
         m_messanger->sendLEDSetPixelColor(0, computedIndex, color);
     }
-    m_messanger->sendLEDAllShow();
+    if (show) {
+        m_messanger->sendLEDAllShow();
+    }
 }
 
-void ArduinoClient::contigiousFill(QColor color, int index, int count) {
+void ArduinoClient::contigiousFill(QColor color, int index, int count, bool show) {
     // Building the fill command for player two.
     if ((index + count) > m_config->playerOneLedCount().value()) {
         int p2Count = (index + count) - m_config->playerOneLedCount().value();
@@ -114,30 +116,33 @@ void ArduinoClient::contigiousFill(QColor color, int index, int count) {
         auto p1Fill = computePlayerTwoFill(index, computedCount);
         m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
     }
-    m_messanger->sendLEDAllShow();
+    if (show) {
+        m_messanger->sendLEDAllShow();
+    }
 }
 
-void ArduinoClient::mirroredSetPixel(QColor color, int index) {
+void ArduinoClient::mirroredSetPixel(QColor color, int index, bool show) {
     int p1Index = computePlayerOneIndex(index);
     int p2Index = computePlayerTwoIndex(index);
 
     m_messanger->sendLEDSetPixelColor(0, p1Index, color);
     m_messanger->sendLEDSetPixelColor(1, p2Index, color);
-
-    m_messanger->sendLEDAllShow();
+    if (show)
+        m_messanger->sendLEDAllShow();
 }
 
-void ArduinoClient::mirroredFill(QColor color, int index, int count) {
+void ArduinoClient::mirroredFill(QColor color, int index, int count, bool show) {
     auto p1Fill = computePlayerTwoFill(index, count);
     m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
 
     auto p2Fill = computePlayerTwoFill(index, count);
     m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
 
-    m_messanger->sendLEDAllShow();
+    if (show)
+        m_messanger->sendLEDAllShow();
 }
 
-void ArduinoClient::setGlobalColor(QColor color) {
+void ArduinoClient::setGlobalColor(QColor color, bool show) {
     auto p1Fill = computePlayerTwoFill(0, m_config->playerOneLedCount().value());
     m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
 
@@ -147,53 +152,62 @@ void ArduinoClient::setGlobalColor(QColor color) {
     m_messanger->sendLEDAllShow();
 }
 
-void ArduinoClient::setAllBrightness(int brightness) {
+void ArduinoClient::setAllBrightness(int brightness, bool show) {
     m_messanger->sendLEDAllSetBrightness(brightness);
-    m_messanger->sendLEDAllShow();
+    if (show)
+        m_messanger->sendLEDAllShow();
 }
 
-void ArduinoClient::p1SetBrightness(int brightness) {
+void ArduinoClient::p1SetBrightness(int brightness, bool show) {
     m_messanger->sendLEDSetBrightness(0, brightness);
-    m_messanger->sendLEDAllShow();
+    if (show)
+        m_messanger->sendLEDAllShow();
 }
 
-void ArduinoClient::p1Fill(QColor color, int index, int count) {
+void ArduinoClient::p1Fill(QColor color, int index, int count, bool show) {
     auto fill = computePlayerOneFill(index, count);
     m_messanger->sendLEDFill(0, color, fill.index, fill.count);
-    m_messanger->sendLEDShow(0);
+    if (show)
+        m_messanger->sendLEDShow(0);
 }
 
-void ArduinoClient::p1SetPixel(QColor color, int index) {
+void ArduinoClient::p1SetPixel(QColor color, int index, bool show) {
     auto newIndex = computePlayerOneIndex(index);
     m_messanger->sendLEDSetPixelColor(0, newIndex, color);
-    m_messanger->sendLEDShow(0);
+    if (show)
+        m_messanger->sendLEDShow(0);
 }
 
-void ArduinoClient::p1SetColor(QColor color) {
+void ArduinoClient::p1SetColor(QColor color, bool show) {
     auto p1Fill = computePlayerOneFill(0, m_config->playerOneLedCount().value());
     m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
     m_messanger->sendLEDShow(0);
 }
 
-void ArduinoClient::setP2Brightness(int brightness) {
-    m_messanger->sendLEDShow(1);
+void ArduinoClient::p2SetBrightness(int brightness, bool show) {
+    m_messanger->sendLEDSetBrightness(0, brightness);
+    if (show)
+        m_messanger->sendLEDShow(1);
 }
 
-void ArduinoClient::p2Fill(QColor color, int index, int count) {
+void ArduinoClient::p2Fill(QColor color, int index, int count, bool show) {
     auto fill = computePlayerTwoFill(index, count);
     m_messanger->sendLEDFill(1, color, fill.index, fill.count);
     m_messanger->sendLEDShow(1);
 }
 
-void ArduinoClient::p2SetPixel(QColor color, int index) {
+void ArduinoClient::p2SetPixel(QColor color, int index, bool show) {
     auto newIndex = computePlayerTwoIndex(index);
     m_messanger->sendLEDSetPixelColor(1, newIndex, color);
-    m_messanger->sendLEDShow(1);
+    if (show)
+        m_messanger->sendLEDShow(1);
 }
 
-void ArduinoClient::p2SetColor(QColor color) {
+void ArduinoClient::p2SetColor(QColor color, bool show) {
     auto p2Fill = computePlayerTwoFill(0, m_config->playerTwoLedCount().value());
     m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
+    if (show)
+        m_messanger->sendLEDShow(1);
 }
 
 void ArduinoClient::setSpotLights(bool p1, bool p2) {
@@ -207,6 +221,7 @@ void ArduinoClient::setP2SpotLight(bool v) {
     m_messanger->sendSetP2SpotLight(v);
 }
 
+// NOTE: This should probably move somewhere else.
 void ArduinoClient::onConnected() {
     // Sending messages to updating the current LED configuration.
     m_messanger->sendLEDReconfig(0,
@@ -216,9 +231,4 @@ void ArduinoClient::onConnected() {
     m_messanger->sendLEDReconfig(1,
             m_config->playerTwoLedPin().value(),
             m_config->playerTwoLedCount().value());
-
-    // Turn all of the lights on approx 1/2 brightness and make them white.
-    m_messanger->sendLEDAllSetBrightness(15);
-    m_messanger->sendLEDAllWhite();
-    m_messanger->sendLEDAllShow();
 }

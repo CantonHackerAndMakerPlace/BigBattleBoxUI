@@ -46,8 +46,8 @@ private:
     void initSettings();
     void attachSettingToSwitch(PhysicalButton *button, const char* settingsKey);
     void initBattleBoxState();
-public slots:
-    void onArduinoConnection();
+
+    void initLightPatternControls();
 
 private:
     Screen *m_screen;

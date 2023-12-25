@@ -28,40 +28,36 @@ public:
     GeneralLEDConfiguration *generalLEDConfig() const;
     ArduinoMessanger *messanger() const;
 
-    // NOTE: we may eventually have to handle the special case of translating computer
-    // monitor colors into LED colors (eventually). If we have to it should be done here.
-
-    // NOTE: There is no show in this case because I didn't want there to be.
 
     /// Functions for treating the entire set of pixels as a single strand
-    void contigiousSetPixel(QColor color, int index);
-    void contigiousFill(QColor color, int index, int count);
+    void contigiousSetPixel(QColor color, int index, bool show = true);
+    void contigiousFill(QColor color, int index, int count, bool show= true);
 
     /// Sets both strips the same way.
-    void mirroredSetPixel(QColor color, int index);
-    void mirroredFill(QColor color, int index, int count);
+    void mirroredSetPixel(QColor color, int index, bool show = true);
+    void mirroredFill(QColor color, int index, int count, bool show = true);
 
-    // Functions that can be used by both the global and mirrored
-    // and contiguous.
-    void setGlobalColor(QColor color);
-    void setAllBrightness(int brightness);
-
+    /// Functions that can be used by both the global and mirrored
+    /// and contiguous.
+    void setGlobalColor(QColor color, bool show = true);
+    void setAllBrightness(int brightness, bool show = true);
 
     /// Player 1 specific led comands
-    void p1SetBrightness(int brightness);
-    void p1Fill(QColor color, int index, int count);
-    void p1SetPixel(QColor color, int index);
-    void p1SetColor(QColor color);
+    void p1SetBrightness(int brightness, bool show = true);
+    void p1Fill(QColor color, int index, int count, bool show = true);
+    void p1SetPixel(QColor color, int index, bool show = true);
+    void p1SetColor(QColor color, bool show = true);
 
     /// Player 2 specific led commands.
-    void setP2Brightness(int brightness);
-    void p2Fill(QColor color, int index, int count);
-    void p2SetPixel(QColor color, int index);
-    void p2SetColor(QColor color);
+    void p2SetBrightness(int brightness, bool show = true);
+    void p2Fill(QColor color, int index, int count, bool show = true);
+    void p2SetPixel(QColor color, int index, bool show = true);
+    void p2SetColor(QColor color, bool show = true);
 
     void setSpotLights(bool p1, bool p2);
     void setP1SpotLight(bool v);
     void setP2SpotLight(bool v);
+
 private:
     /// Figure out based on the LED light orientation the index inside of the LED
     /// strand that corresponds to a zero relative index.

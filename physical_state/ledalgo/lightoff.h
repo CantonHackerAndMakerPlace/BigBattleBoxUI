@@ -1,19 +1,16 @@
-#ifndef SOLIDCOLORS_H
-#define SOLIDCOLORS_H
+#ifndef LIGHTOFF_H
+#define LIGHTOFF_H
 
 #include "ledalgo.h"
 
-class SolidColors : public LEDAlgo
+class LightsOff : public LEDAlgo
 {
 public:
-    SolidColors(QColor p1Color,
-                int p1brightness,
-                QColor p2Color,
-                int p2brightness,
-                bool unified);
+    LightsOff();
 
     /// Send the initial configuration and begin the algorithm.
     virtual void start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) override;
+
 
     /// This is called ever 33 ish ms in to interpolate the algorithm and send messages to the arduino.
     virtual void update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) override;
@@ -26,11 +23,7 @@ public:
     /// evaluation and have haulted evaluation.
     virtual bool isFinished() const override;
 private:
-    QColor m_p1Color;
-    int m_p1brightness;
-    QColor m_p2Color;
-    int m_p2brightness;
-    bool m_unified;
+    bool m_isFinished = false;
 };
 
-#endif // SOLIDCOLORS_H
+#endif // LIGHTOFF_H
