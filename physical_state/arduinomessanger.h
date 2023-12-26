@@ -116,7 +116,7 @@ private:
     bool m_receivedFirstMessageAftrerConnection = false;
     ArduinoConnectionManager *m_conn;
     std::size_t m_maxMessages = 10000;
-    std::size_t m_timeOutMs = 100;
+    std::size_t m_timeOutMs = 300;
     std::size_t m_messagePollingInterval = 5;
     std::size_t m_firstMsgTimeOut = 1000;
     QTimer *m_messagingTimeoutHandler;

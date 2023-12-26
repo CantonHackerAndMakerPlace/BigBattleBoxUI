@@ -69,6 +69,7 @@ BattleBoxMainWindow::BattleBoxMainWindow(QWidget *parent)
 
 void BattleBoxMainWindow::closeEvent(QCloseEvent *event) {
     qDebug() << "Received a close event!";
+    m_state->physicalState()->connectionManager()->consumeUntilQuiet(1000);
     m_state->physicalState()->connectionManager()->blockingSendData("LEDAllSetBrightness 0");
     m_state->physicalState()->connectionManager()->blockingSendData("LEDAllShow");
     QMainWindow::closeEvent(event);

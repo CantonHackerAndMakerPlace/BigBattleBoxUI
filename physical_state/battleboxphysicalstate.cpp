@@ -20,26 +20,22 @@ BattleBoxPhysicalState::BattleBoxPhysicalState(QObject *parent)
     connect(m_messanger, &ArduinoMessanger::receivedFirstResponse,
         this, &BattleBoxPhysicalState::arduinoReadyForSendReceive);
 
-    connect(m_messanger, &ArduinoMessanger::receivedMessageToSend,
-            [&] (MsgKind kind, QString content){
-        qDebug() << "Received a message to send:" << content;
-            });
+//    connect(m_messanger, &ArduinoMessanger::receivedMessageToSend,
+//            [&] (MsgKind kind, QString content){
+//            });
     connect(m_messanger, &ArduinoMessanger::receivedFirstResponse,
             [&] {
                 qDebug() << "Received first arduino response";
             });
-    connect(m_messanger, &ArduinoMessanger::receivedMessageResponse,
-            [&] (MsgKind kind, QString content) {
-        qDebug() << "Received Arduino response:" << content;
-            });
-    connect(m_messanger, &ArduinoMessanger::sentMessage,
-            [&] (MsgKind kind, QString content) {
-                qDebug() << "Sending message:" << content;
-            });
-    connect(m_messanger, &ArduinoMessanger::abandonedMessage,
-            [&] (MsgKind kind, QString content) {
-                qDebug() << "Abandoning message:" << content;
-            });
+//    connect(m_messanger, &ArduinoMessanger::receivedMessageResponse,
+//            [&] (MsgKind kind, QString content) {});
+//    connect(m_messanger, &ArduinoMessanger::sentMessage,
+//            [&] (MsgKind kind, QString content) {
+//            });
+//    connect(m_messanger, &ArduinoMessanger::abandonedMessage,
+//            [&] (MsgKind kind, QString content) {
+//                qWarning() << "Abandoning message:" << content;
+//            });
 
 
     // TODO: Add additional logging here so I can track the arduino
@@ -53,132 +49,132 @@ BattleBoxPhysicalState::BattleBoxPhysicalState(QObject *parent)
     connect(m_connectionManager, &ArduinoConnectionManager::receivedData,
             this, &BattleBoxPhysicalState::parseData);
 
-    connect(playerOne()->readyButton(), &PhysicalButton::stateChanged,
-            [](bool newState) {
-        if (newState) {
-            qDebug() << "Released p1 ready button";
-        } else {
-            qDebug() << "Pressed p1 ready button";
-        }
-    });
+//    connect(playerOne()->readyButton(), &PhysicalButton::stateChanged,
+//            [](bool newState) {
+//        if (newState) {
+//            qDebug() << "Released p1 ready button";
+//        } else {
+//            qDebug() << "Pressed p1 ready button";
+//        }
+//    });
 
-    connect(playerOne()->readyButton(), &PhysicalButton::switchKindChanged,
-            [](PhysicalButton::SwitchConfig kind) {
-        switch(kind) {
-        case PhysicalButton::SwitchConfig::NormallyOpen:
-            qDebug() << "Setting p1 ready button switch kind to NO";
-            break;
-        case PhysicalButton::SwitchConfig::NormallyClosed:
-            qDebug() << "Setting p1 ready button switch kind to NC";
-            break;
-        }
-    });
+//    connect(playerOne()->readyButton(), &PhysicalButton::switchKindChanged,
+//            [](PhysicalButton::SwitchConfig kind) {
+//        switch(kind) {
+//        case PhysicalButton::SwitchConfig::NormallyOpen:
+//            qDebug() << "Setting p1 ready button switch kind to NO";
+//            break;
+//        case PhysicalButton::SwitchConfig::NormallyClosed:
+//            qDebug() << "Setting p1 ready button switch kind to NC";
+//            break;
+//        }
+//    });
 
-    connect(playerOne()->doorButton(), &PhysicalButton::stateChanged,
-            [](bool newState) {
-        if (newState) {
-            qDebug() << "Released p1 door button";
-        } else {
-            qDebug() << "Pressed p1 door button";
-        }
-    });
+//    connect(playerOne()->doorButton(), &PhysicalButton::stateChanged,
+//            [](bool newState) {
+//        if (newState) {
+//            qDebug() << "Released p1 door button";
+//        } else {
+//            qDebug() << "Pressed p1 door button";
+//        }
+//    });
 
-    connect(playerOne()->doorButton(), &PhysicalButton::switchKindChanged,
-            [](PhysicalButton::SwitchConfig kind) {
-        switch(kind) {
-        case PhysicalButton::SwitchConfig::NormallyOpen:
-            qDebug() << "Setting p1 door button switch kind to NO";
-            break;
-        case PhysicalButton::SwitchConfig::NormallyClosed:
-            qDebug() << "Setting p1 door button switch kind to NC";
-            break;
-        }
-    });
+//    connect(playerOne()->doorButton(), &PhysicalButton::switchKindChanged,
+//            [](PhysicalButton::SwitchConfig kind) {
+//        switch(kind) {
+//        case PhysicalButton::SwitchConfig::NormallyOpen:
+//            qDebug() << "Setting p1 door button switch kind to NO";
+//            break;
+//        case PhysicalButton::SwitchConfig::NormallyClosed:
+//            qDebug() << "Setting p1 door button switch kind to NC";
+//            break;
+//        }
+//    });
 
-    connect(playerOne()->conceedButton(), &PhysicalButton::stateChanged,
-            [](bool newState) {
-        if (newState) {
-            qDebug() << "Released p1 quit button";
-        } else {
-            qDebug() << "Pressed p1 quit button";
-        }
-    });
+//    connect(playerOne()->conceedButton(), &PhysicalButton::stateChanged,
+//            [](bool newState) {
+//        if (newState) {
+//            qDebug() << "Released p1 quit button";
+//        } else {
+//            qDebug() << "Pressed p1 quit button";
+//        }
+//    });
 
-    connect(playerOne()->conceedButton(), &PhysicalButton::switchKindChanged,
-            [](PhysicalButton::SwitchConfig kind) {
-        switch(kind) {
-        case PhysicalButton::SwitchConfig::NormallyOpen:
-            qDebug() << "Setting p1 conceed button switch kind to NO";
-            break;
-        case PhysicalButton::SwitchConfig::NormallyClosed:
-            qDebug() << "Setting p1 conceed button switch kind to NC";
-            break;
-        }
-    });
+//    connect(playerOne()->conceedButton(), &PhysicalButton::switchKindChanged,
+//            [](PhysicalButton::SwitchConfig kind) {
+//        switch(kind) {
+//        case PhysicalButton::SwitchConfig::NormallyOpen:
+//            qDebug() << "Setting p1 conceed button switch kind to NO";
+//            break;
+//        case PhysicalButton::SwitchConfig::NormallyClosed:
+//            qDebug() << "Setting p1 conceed button switch kind to NC";
+//            break;
+//        }
+//    });
 
 
-    connect(playerTwo()->readyButton(), &PhysicalButton::stateChanged,
-            [](bool newState) {
-        if (newState) {
-            qDebug() << "Released p2 ready button";
-        } else {
-            qDebug() << "Pressed p2 ready button";
-        }
-    });
+//    connect(playerTwo()->readyButton(), &PhysicalButton::stateChanged,
+//            [](bool newState) {
+//        if (newState) {
+//            qDebug() << "Released p2 ready button";
+//        } else {
+//            qDebug() << "Pressed p2 ready button";
+//        }
+//    });
 
-    connect(playerTwo()->readyButton(), &PhysicalButton::switchKindChanged,
-            [](PhysicalButton::SwitchConfig kind) {
-        switch(kind) {
-        case PhysicalButton::SwitchConfig::NormallyOpen:
-            qDebug() << "Setting p2 ready button switch kind to NO";
-            break;
-        case PhysicalButton::SwitchConfig::NormallyClosed:
-            qDebug() << "Setting p2 ready button switch kind to NC";
-            break;
-        }
-    });
+//    connect(playerTwo()->readyButton(), &PhysicalButton::switchKindChanged,
+//            [](PhysicalButton::SwitchConfig kind) {
+//        switch(kind) {
+//        case PhysicalButton::SwitchConfig::NormallyOpen:
+//            qDebug() << "Setting p2 ready button switch kind to NO";
+//            break;
+//        case PhysicalButton::SwitchConfig::NormallyClosed:
+//            qDebug() << "Setting p2 ready button switch kind to NC";
+//            break;
+//        }
+//    });
 
-    connect(playerTwo()->doorButton(), &PhysicalButton::stateChanged,
-            [](bool newState) {
-        if (newState) {
-            qDebug() << "Released p2 door button";
-        } else {
-            qDebug() << "Pressed p2 door button";
-        }
-    });
+//    connect(playerTwo()->doorButton(), &PhysicalButton::stateChanged,
+//            [](bool newState) {
+//        if (newState) {
+//            qDebug() << "Released p2 door button";
+//        } else {
+//            qDebug() << "Pressed p2 door button";
+//        }
+//    });
 
-    connect(playerTwo()->doorButton(), &PhysicalButton::switchKindChanged,
-            [](PhysicalButton::SwitchConfig kind) {
-        switch(kind) {
-        case PhysicalButton::SwitchConfig::NormallyOpen:
-            qDebug() << "Setting p2 door button switch kind to NO";
-            break;
-        case PhysicalButton::SwitchConfig::NormallyClosed:
-            qDebug() << "Setting p2 door button switch kind to NC";
-            break;
-        }
-    });
+//    connect(playerTwo()->doorButton(), &PhysicalButton::switchKindChanged,
+//            [](PhysicalButton::SwitchConfig kind) {
+//        switch(kind) {
+//        case PhysicalButton::SwitchConfig::NormallyOpen:
+//            qDebug() << "Setting p2 door button switch kind to NO";
+//            break;
+//        case PhysicalButton::SwitchConfig::NormallyClosed:
+//            qDebug() << "Setting p2 door button switch kind to NC";
+//            break;
+//        }
+//    });
 
-    connect(playerTwo()->conceedButton(), &PhysicalButton::stateChanged,
-            [](bool newState) {
-        if (newState) {
-            qDebug() << "Released p2 quit button";
-        } else {
-            qDebug() << "Pressed p2 quit button";
-        }
-    });
+//    connect(playerTwo()->conceedButton(), &PhysicalButton::stateChanged,
+//            [](bool newState) {
+//        if (newState) {
+//            qDebug() << "Released p2 quit button";
+//        } else {
+//            qDebug() << "Pressed p2 quit button";
+//        }
+//    });
 
-    connect(playerTwo()->conceedButton(), &PhysicalButton::switchKindChanged,
-            [](PhysicalButton::SwitchConfig kind) {
-        switch(kind) {
-        case PhysicalButton::SwitchConfig::NormallyOpen:
-            qDebug() << "Setting p2 conceed button switch kind to NO";
-            break;
-        case PhysicalButton::SwitchConfig::NormallyClosed:
-            qDebug() << "Setting p2 conceed button switch kind to NC";
-            break;
-        }
-    });
+//    connect(playerTwo()->conceedButton(), &PhysicalButton::switchKindChanged,
+//            [](PhysicalButton::SwitchConfig kind) {
+//        switch(kind) {
+//        case PhysicalButton::SwitchConfig::NormallyOpen:
+//            qDebug() << "Setting p2 conceed button switch kind to NO";
+//            break;
+//        case PhysicalButton::SwitchConfig::NormallyClosed:
+//            qDebug() << "Setting p2 conceed button switch kind to NC";
+//            break;
+//        }
+//    });
 
 }
 
@@ -239,7 +235,6 @@ namespace {
 }
 
 void BattleBoxPhysicalState::parseData(QString data) {
-    qDebug() << "Handling arduino data";
     QJsonParseError err;
     auto document = QJsonDocument::fromJson(data.toUtf8(), &err);
     if (err.error) {

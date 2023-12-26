@@ -343,7 +343,6 @@ void ArduinoMessanger::sendStatus() {
 
 void ArduinoMessanger::sendSpotLightsOn() {
     sendMessage(MsgKind::SpotLightsOn, "SpotLightsOn");
-
 }
 
 void ArduinoMessanger::sendSpotLightsOff() {

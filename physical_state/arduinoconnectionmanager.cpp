@@ -1,4 +1,6 @@
 #include "physical_state/arduinoconnectionmanager.h"
+#include <QThread>
+#include <QDateTime>
 #include <QTimer>
 #include <set>
 #include <iterator>
@@ -15,7 +17,7 @@ ArduinoConnectionManager::ArduinoConnectionManager(QObject *parent)
 
     connect(m_conn, &QSerialPort::errorOccurred,
             this, &ArduinoConnectionManager::errorOccurred);
-    m_conn->setBaudRate(9600);
+    m_conn->setBaudRate(921600);
     checkSerialPorts();
     connect(m_updateTimer, &QTimer::timeout,
             this, &ArduinoConnectionManager::checkSerialPorts);
@@ -148,7 +150,6 @@ void ArduinoConnectionManager::checkSerialBuffer() {
 
         buffer[readLength] = 0;
         QString response((char*)buffer);
-        qDebug() << "Received data" << response;
         emit receivedData(response);
     }
 }
@@ -162,7 +163,7 @@ bool ArduinoConnectionManager::sendData(QString data) {
     auto written = m_conn->write(dataArray);
     m_conn->waitForBytesWritten(100);
     if (written != dataArray.size()) {
-        qDebug() << "Failed to write all data into serial connection";
+        qWarning() << "Failed to write all data into serial connection";
         qWarning() << "Wrote" << written << "of" <<dataArray.size() << "bytes";
     }
     if (!m_conn->flush() ) {
@@ -174,27 +175,42 @@ bool ArduinoConnectionManager::sendData(QString data) {
 bool ArduinoConnectionManager::blockingSendData(QString data) {
     m_readTimer->stop();
     if (!sendData(data)) {
-        qDebug() << "Failed to write blocking data.";
         m_readTimer->start(33);
         return false;
     }
 
     if(!m_conn->waitForReadyRead(3000)) {
-        qDebug() << "Never received a response";
         return false;
     }
+
     auto readLength = m_conn->readLine((char*)buffer, BUFFER_SIZE);
     if (readLength < 0) {
-        qDebug() << "Failed to get data during blocking read";
         m_readTimer->start(33);
         m_conn->blockSignals(false);
         return false;
     }
     buffer[readLength] = 0;
     QString response((char*)buffer);
-    qDebug() << "Received data" << response;
     m_readTimer->start(33);
     return true;
+}
+
+void ArduinoConnectionManager::consumeUntilQuiet(int quietTimeMs) {
+    QDateTime previousTimePoint = QDateTime::currentDateTime();
+    while((QDateTime::currentDateTime() - previousTimePoint).count() < quietTimeMs) {
+        if (!m_conn->canReadLine()) {
+            QThread::msleep(50);
+        } else {
+            // if we can read the line then we consume that line and reset
+            // the previous time and exit.
+            previousTimePoint = QDateTime::currentDateTime();
+            auto readLength = m_conn->readLine((char*)buffer, BUFFER_SIZE);
+            if (readLength < 0) {
+                qDebug() << "Failed to get data";
+                continue;
+            }
+        }
+    }
 }
 
 void ArduinoConnectionManager::errorOccurred(QSerialPort::SerialPortError e) {

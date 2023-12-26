@@ -48,30 +48,36 @@ void Breath::update(GeneralLEDConfiguration*, qint64 elapsedTime, ArduinoClient 
     // percentage of the duration.
     qreal percentageOfTimeElapsed = (cycleTime * 1.0) / (m_duration * 1.0);
 
+    // Mapping progress using easing curve function.
+    qreal p1CurveValue = m_p1EasingCurve.valueForProgress(percentageOfTimeElapsed);
+
+    // Converting to a brightness value.
+    int p1BrightnessMagnatude = m_p1MaxBrightness - m_p1MinBrightness;
+
     // We need to calculate the current brightness value.
     if (inOrOut) {
-        // Mapping progress using easing curve function.
-        qreal p1CurveValue = m_p1EasingCurve.valueForProgress(percentageOfTimeElapsed);
-
-        // Converting to a brightness value.
-        int p1BrightnessMagnatude = m_p1MaxBrightness - m_p1MinBrightness;
 
         // Moving the new brightness back into the correct domain between min and max.
         // Because some of the curves don't always result in a positive value we allow
         // values to go below the min but we limit that value to being zero.
         int p1NewBrightness = std::min(m_p1MaxBrightness, std::max(0, int(floor(p1BrightnessMagnatude * p1CurveValue)) + m_p1MinBrightness));
-        qDebug() << "p1NewBrightness = " << p1NewBrightness;
         if (m_unified) {
             client->setAllBrightness(p1NewBrightness);
         } else {
             qDebug() <<"Skipping non unified implementation for now.";
             // Converting player twos breath using their own curve.
-            qreal p2CurveValue = m_p2EasingCurve.valueForProgress(percentageOfTimeElapsed);
+//            qreal p2CurveValue = m_p2EasingCurve.valueForProgress(percentageOfTimeElapsed);
         }
     } else {
-        qDebug() << "handling breath out case instead of breath in.";
-    }
+//        qDebug() << "handling breath out case instead of breath in.";
+        // Converting from counting up to counting down.
+        qreal p1InvertedCurveValue = 1.0 - p1CurveValue;
 
+        int p1NewBrightness = std::min(m_p1MaxBrightness, std::max(0, int(floor(p1BrightnessMagnatude * p1InvertedCurveValue)) + m_p1MinBrightness));
+        if (m_unified) {
+            client->setAllBrightness(p1NewBrightness);
+        }
+    }
 }
 
 bool Breath::loops() const { return true; }

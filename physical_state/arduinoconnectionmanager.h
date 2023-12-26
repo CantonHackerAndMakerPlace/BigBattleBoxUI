@@ -28,6 +28,7 @@ private slots:
 public slots:
     bool sendData(QString data);
     bool blockingSendData(QString data);
+    void consumeUntilQuiet(int quietTimeMs);
 signals:
     void availableSerialPortsChanged(const QStringList &port);
     void addedCOMPorts(const QStringList& port);
