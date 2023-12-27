@@ -47,12 +47,13 @@ public slots:
     /// or together. The unified parameter will ignore p1 color settings and just use
     /// p1 settings for the entire strip.
     void countDownFill(int duration,
-                       int brightness,
+                       int p1brightness,
                        QEasingCurve easingCurve,
                        QColor p1ConsumedColor,
-                       QColor p1Countolor,
+                       QColor p1CountColor,
                        QColor p1FinalColor,
                        int p1FinalColorBrightness,
+                       int p2Brightness,
                        QColor p2ConsumedColor,
                        QColor p2CountColor,
                        QColor p2FinalColor,
@@ -67,14 +68,10 @@ public slots:
                int p1ColorBrightness,
                QColor p1OffColor,
                int p1OffColorBrightness,
-               QColor p1FinalColor,
-               int p1FinalColorBrightness,
                QColor p2OnColor,
                int p2ColorBrightness,
                QColor p2OffColor,
                int p2OffColorBrightness,
-               QColor p2FinalColor,
-               int p2FinalColorBrightness,
                bool unified);
 
 
@@ -128,6 +125,9 @@ public slots:
     void DMCDstart2();
     void DMCDstart1();
     void DMCDstartFight();
+signals:
+    // Algorithm finished
+    void algoFinished();
 private slots:
 
     void onTick();

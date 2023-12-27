@@ -102,6 +102,8 @@ set(PROJECT_SOURCES
 
     integerobject.h
     integerobject.cpp
+    unificationkindobject.h
+    unificationkindobject.cpp
 
     physical_state/arduinoconnectionmanager.h
     physical_state/arduinoconnectionmanager.cpp
@@ -172,6 +174,11 @@ set(PROJECT_SOURCES
     app_state/led/ledalgoconfig/ledalgoconfig.cpp
     app_state/led/ledalgoconfig/breathconfig.h
     app_state/led/ledalgoconfig/breathconfig.cpp
+    app_state/led/ledalgoconfig/blinkconfig.h
+    app_state/led/ledalgoconfig/blinkconfig.cpp
+    app_state/led/ledalgoconfig/countdownfillconfig.h
+    app_state/led/ledalgoconfig/countdownfillconfig.cpp
+
 
     # Screens directory used for managing individual screen widgets
     screens/configuration/ledcontrolwidget.h
@@ -215,6 +222,9 @@ set(PROJECT_SOURCES
     booleanobject.cpp
     qrealobject.h
     qrealobject.cpp
+
+    algokindobject.h
+    algokindobject.cpp
 
     main.cpp
 )

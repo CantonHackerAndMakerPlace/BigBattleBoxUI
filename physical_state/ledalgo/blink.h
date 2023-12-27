@@ -14,14 +14,10 @@ public:
           int p1ColorBrightness,
           QColor p1OffColor,
           int p1OffColorBrightness,
-          QColor p1FinalColor,
-          int p1FinalColorBrightness,
           QColor p2OnColor,
           int p2ColorBrightness,
           QColor p2OffColor,
           int p2OffColorBrightness,
-          QColor p2FinalColor,
-          int p2FinalColorBrightness,
           bool unified);
 
     /// Send the initial configuration and begin the algorithm.
@@ -46,14 +42,10 @@ private:
     int m_p1ColorBrightness;
     QColor m_p1OffColor;
     int m_p1OffColorBrightness;
-    QColor m_p1FinalColor;
-    int m_p1FinalColorBrightness;
     QColor m_p2OnColor;
     int m_p2ColorBrightness;
     QColor m_p2OffColor;
     int m_p2OffColorBrightness;
-    QColor m_p2FinalColor;
-    int m_p2FinalColorBrightness;
     bool m_unified;
 };
 

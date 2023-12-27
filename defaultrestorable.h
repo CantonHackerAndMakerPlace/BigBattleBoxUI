@@ -8,6 +8,8 @@
 #include "colorobject.h"
 #include "booleanobject.h"
 #include "interpolationcurveobject.h"
+#include "unificationkindobject.h"
+#include "algokindobject.h"
 
 class DefaultRestorableInt : public QObject
 {
@@ -314,6 +316,111 @@ private:
     QColor m_defaultValue;
     QColor m_cur;
     QColor m_prev;
+};
+
+class DefaultRestorableUnificationKind : public QObject
+{
+    Q_OBJECT
+
+public:
+    using Style = UnificationKindObject::Style;
+
+    /// Sets the current and previous value to initialValue.
+    explicit DefaultRestorableUnificationKind(Style defaultValue, QObject *parent = nullptr);
+
+    /// Returns the current value.
+    Style value() const;
+
+    /// Returns the previous value that the value can be
+    /// restored to.
+    Style previousValue() const;
+
+    /// Returns the default value.
+    Style defaultValue() const;
+
+    /// Returns true if the previous and current value are different.
+    bool hasChange() const;
+
+    DefaultRestorableUnificationKind& operator=(UnificationKindObject const& other);
+public slots:
+    /// Save the current value and saves it as the previous value.
+    void saveValue();
+
+    /// Set the previous value.
+    void setPreviousValue(Style previousValue);
+
+    /// Sets current and previous value.
+    void setCurrentAndPreviousValue(Style value);
+
+    /// Restores value to the previous value
+    void restorePreviousValue();
+
+    /// Sets the current value to the previous and the current to the
+    /// default value.
+    void restoreDefaultValue();
+
+    /// Save the current value into previous and set the current
+    /// value to the provided.
+    void setValue(Style value);
+signals:
+    void valueChanged(Style value);
+private:
+    Style m_defaultValue;
+    Style m_cur;
+    Style m_prev;
+};
+
+
+class DefaultRestorableAlgoKind : public QObject
+{
+    Q_OBJECT
+
+public:
+    using AlgoKind = AlgoKindObject::AlgoKind;
+
+    /// Sets the current and previous value to initialValue.
+    explicit DefaultRestorableAlgoKind(AlgoKind defaultValue, QObject *parent = nullptr);
+
+    /// Returns the current value.
+    AlgoKind value() const;
+
+    /// Returns the previous value that the value can be
+    /// restored to.
+    AlgoKind previousValue() const;
+
+    /// Returns the default value.
+    AlgoKind defaultValue() const;
+
+    /// Returns true if the previous and current value are different.
+    bool hasChange() const;
+
+    DefaultRestorableAlgoKind& operator=(AlgoKindObject const& other);
+public slots:
+    /// Save the current value and saves it as the previous value.
+    void saveValue();
+
+    /// Set the previous value.
+    void setPreviousValue(AlgoKind previousValue);
+
+    /// Sets current and previous value.
+    void setCurrentAndPreviousValue(AlgoKind value);
+
+    /// Restores value to the previous value
+    void restorePreviousValue();
+
+    /// Sets the current value to the previous and the current to the
+    /// default value.
+    void restoreDefaultValue();
+
+    /// Save the current value into previous and set the current
+    /// value to the provided.
+    void setValue(AlgoKind value);
+signals:
+    void valueChanged(AlgoKind value);
+private:
+    AlgoKind m_defaultValue;
+    AlgoKind m_cur;
+    AlgoKind m_prev;
 };
 
 #endif // DEFAULTRESTORABLE_H

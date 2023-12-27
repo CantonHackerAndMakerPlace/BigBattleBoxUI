@@ -8,11 +8,12 @@ class CountDownFill : public LEDAlgo
 {
 public:
     CountDownFill(int duration,
-                  int brightness,
+                  int p1brightness,
                   QEasingCurve easingCurve,
                   QColor p1ConsumedColor,
                   QColor p1Countolor,
                   QColor p1FinalColor,
+                  int p2brightness,
                   int p1FinalColorBrightness,
                   QColor p2ConsumedColor,
                   QColor p2CountColor,
@@ -35,12 +36,13 @@ public:
     virtual bool isFinished() const override;
 private:
     qint64 m_duration;
-    int m_brightness;
+    int m_p1Brightness;
     QEasingCurve m_easingCurve;
     QColor m_p1ConsumedColor;
     QColor m_p1Countolor;
     QColor m_p1FinalColor;
     int m_p1FinalColorBrightness;
+    int m_p2Brightness;
     QColor m_p2ConsumedColor;
     QColor m_p2CountColor;
     QColor m_p2FinalColor;

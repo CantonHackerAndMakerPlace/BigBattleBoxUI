@@ -10,11 +10,11 @@
 
 class LEDController;
 
-class BlinkConfig : public QObject
+class BreathConfig : public QObject
 {
     Q_OBJECT
 public:
-    explicit BlinkConfig(QString const& parentKeyPrefix, QObject *parent = nullptr);
+    explicit BreathConfig(QString const& parentKeyPrefix, QObject *parent = nullptr);
 
     /// The time to breath either in or out.
     IntegerObject& cycleDuration();

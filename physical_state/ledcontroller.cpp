@@ -41,6 +41,11 @@ void LEDController::onTick() {
         }
         auto elapsed = QDateTime::currentDateTime() - m_startTime;
         m_algo->update(m_config->generalLEDConfiguration(), elapsed.count(), m_client);
+        if (m_algo->isFinished()) {
+            // We can only do this once so check after update to see if the algorithm
+            // was completed or not.
+            emit algoFinished();
+        }
     }
 }
 
@@ -73,12 +78,13 @@ void LEDController::breath(int duration,
 }
 
 void LEDController::countDownFill(int duration,
-                                  int brightness,
+                                  int p1Brightness,
                                   QEasingCurve easingCurve,
                                   QColor p1ConsumedColor,
                                   QColor p1Countolor,
                                   QColor p1FinalColor,
                                   int p1FinalColorBrightness,
+                                  int p2Brightness,
                                   QColor p2ConsumedColor,
                                   QColor p2CountColor,
                                   QColor p2FinalColor,
@@ -86,12 +92,13 @@ void LEDController::countDownFill(int duration,
                                   bool unifiedLedStrips)
 {
     m_algo = LEDAlgoPointerType(new CountDownFill(duration,
-                                                  brightness,
+                                                  p1Brightness,
                                                   easingCurve,
                                                   p1ConsumedColor,
                                                   p1Countolor,
                                                   p1FinalColor,
                                                   p1FinalColorBrightness,
+                                                  p2Brightness,
                                                   p2ConsumedColor,
                                                   p2CountColor,
                                                   p2FinalColor,
@@ -106,14 +113,10 @@ void LEDController::blink(int numberOfBlinks,
                           int p1ColorBrightness,
                           QColor p1OffColor,
                           int p1OffColorBrightness,
-                          QColor p1FinalColor,
-                          int p1FinalColorBrightness,
                           QColor p2OnColor,
                           int p2ColorBrightness,
                           QColor p2OffColor,
                           int p2OffColorBrightness,
-                          QColor p2FinalColor,
-                          int p2FinalColorBrightness,
                           bool unified)
 {
     m_algo = LEDAlgoPointerType(new Blink(numberOfBlinks,
@@ -123,14 +126,10 @@ void LEDController::blink(int numberOfBlinks,
                                           p1ColorBrightness,
                                           p1OffColor,
                                           p1OffColorBrightness,
-                                          p1FinalColor,
-                                          p1FinalColorBrightness,
                                           p2OnColor,
                                           p2ColorBrightness,
                                           p2OffColor,
                                           p2OffColorBrightness,
-                                          p2FinalColor,
-                                          p2FinalColorBrightness,
                                           unified));
 
 }

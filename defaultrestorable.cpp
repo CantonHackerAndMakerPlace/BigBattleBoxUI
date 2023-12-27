@@ -307,8 +307,6 @@ void DefaultRestorableQReal::setValue(qreal value) {
 }
 
 // DefaultRestorableQColor
-
-
 DefaultRestorableQColor::DefaultRestorableQColor(QColor defaultValue, QObject *parent)
     : m_defaultValue(defaultValue)
     , m_cur(defaultValue)
@@ -366,6 +364,137 @@ void DefaultRestorableQColor::setValue(QColor const& value) {
 }
 
 DefaultRestorableQColor& DefaultRestorableQColor::operator=(ColorObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
+}
+
+
+
+// DefaultRestorableUnificationKind
+DefaultRestorableUnificationKind::DefaultRestorableUnificationKind(Style defaultValue, QObject *parent)
+    : m_defaultValue(defaultValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
+{ }
+
+auto DefaultRestorableUnificationKind::value() const -> Style {
+    return m_cur;
+}
+
+auto DefaultRestorableUnificationKind::previousValue() const -> Style {
+    return m_prev;
+}
+
+auto DefaultRestorableUnificationKind::defaultValue() const -> Style {
+    return m_defaultValue;
+}
+
+bool DefaultRestorableUnificationKind::hasChange() const {
+    return m_cur != m_prev;
+}
+
+void DefaultRestorableUnificationKind::saveValue() {
+    m_prev = m_cur;
+}
+
+void DefaultRestorableUnificationKind::setPreviousValue(Style previousValue) {
+    m_prev = previousValue;
+}
+
+void DefaultRestorableUnificationKind::setCurrentAndPreviousValue(Style value) {
+    setPreviousValue(value);
+    setValue(value);
+}
+
+void DefaultRestorableUnificationKind::restorePreviousValue() {
+    if (m_prev != m_cur) {
+        m_cur = m_prev;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableUnificationKind::restoreDefaultValue() {
+    if (m_cur != m_defaultValue) {
+        m_cur = m_defaultValue;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableUnificationKind::setValue(Style value) {
+    if (m_cur != value) {
+        m_cur = value;
+        emit valueChanged(m_cur);
+    }
+}
+
+DefaultRestorableUnificationKind& DefaultRestorableUnificationKind::operator=(UnificationKindObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
+}
+
+
+
+
+// DefaultRestorableAlgoKind
+DefaultRestorableAlgoKind::DefaultRestorableAlgoKind(AlgoKind defaultValue, QObject *parent)
+    : m_defaultValue(defaultValue)
+    , m_cur(defaultValue)
+    , m_prev(defaultValue)
+{ }
+
+auto DefaultRestorableAlgoKind::value() const -> AlgoKind {
+    return m_cur;
+}
+
+auto DefaultRestorableAlgoKind::previousValue() const -> AlgoKind {
+    return m_prev;
+}
+
+auto DefaultRestorableAlgoKind::defaultValue() const -> AlgoKind {
+    return m_defaultValue;
+}
+
+bool DefaultRestorableAlgoKind::hasChange() const {
+    return m_cur != m_prev;
+}
+
+void DefaultRestorableAlgoKind::saveValue() {
+    m_prev = m_cur;
+}
+
+void DefaultRestorableAlgoKind::setPreviousValue(AlgoKind previousValue) {
+    m_prev = previousValue;
+}
+
+void DefaultRestorableAlgoKind::setCurrentAndPreviousValue(AlgoKind value) {
+    setPreviousValue(value);
+    setValue(value);
+}
+
+void DefaultRestorableAlgoKind::restorePreviousValue() {
+    if (m_prev != m_cur) {
+        m_cur = m_prev;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableAlgoKind::restoreDefaultValue() {
+    if (m_cur != m_defaultValue) {
+        m_cur = m_defaultValue;
+        emit valueChanged(m_cur);
+    }
+}
+
+void DefaultRestorableAlgoKind::setValue(AlgoKind value) {
+    if (m_cur != value) {
+        m_cur = value;
+        emit valueChanged(m_cur);
+    }
+}
+
+DefaultRestorableAlgoKind& DefaultRestorableAlgoKind::operator=(AlgoKindObject const& other) {
     setCurrentAndPreviousValue(other.value());
     m_defaultValue = other.defaultValue();
     return *this;
