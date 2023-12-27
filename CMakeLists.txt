@@ -168,8 +168,8 @@ set(PROJECT_SOURCES
     app_state/led/ledidleconfiguration.cpp
     app_state/led/interpolation.h
     app_state/led/interpolation.cpp
-
-
+    app_state/led/ledalgoconfig/ledalgoconfig.h
+    app_state/led/ledalgoconfig/ledalgoconfig.cpp
 
     # Screens directory used for managing individual screen widgets
     screens/configuration/ledcontrolwidget.h
