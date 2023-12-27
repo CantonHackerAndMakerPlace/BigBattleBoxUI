@@ -22,6 +22,11 @@ public:
     /// Returns the default value associated with the
     /// current instance.
     QColor defaultValue() const;
+
+    /// Implicit conversion operator.
+    inline operator QColor() const {
+        return this->value();
+    }
 public slots:
     /// Sets the current value.
     void setValue(QColor value);

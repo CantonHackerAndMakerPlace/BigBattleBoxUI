@@ -170,6 +170,8 @@ set(PROJECT_SOURCES
     app_state/led/interpolation.cpp
     app_state/led/ledalgoconfig/ledalgoconfig.h
     app_state/led/ledalgoconfig/ledalgoconfig.cpp
+    app_state/led/ledalgoconfig/breathconfig.h
+    app_state/led/ledalgoconfig/breathconfig.cpp
 
     # Screens directory used for managing individual screen widgets
     screens/configuration/ledcontrolwidget.h
@@ -211,6 +213,8 @@ set(PROJECT_SOURCES
     colorobject.cpp
     booleanobject.h
     booleanobject.cpp
+    qrealobject.h
+    qrealobject.cpp
 
     main.cpp
 )
@@ -266,6 +270,7 @@ qt_add_qml_module(BattleBox
 
         qmlproject/cannon/sounds/cannon.wav
         qmlproject/cannon/sounds/gear.wav
+
 )
 
 

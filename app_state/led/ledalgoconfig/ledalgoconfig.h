@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-// TODO: Implement me!
 /// Base class for LED algorithm configuration that will allow for
 /// switching between multiple algorithm configurations.
 class LEDAlgoConfig : public QObject
@@ -17,7 +16,7 @@ public:
 
     };
 
-    explicit LEDAlgoConfig(QString const& parentKey, QObject *parent = nullptr);
+    explicit LEDAlgoConfig(QString const& settingsKeyPrefix, QObject *parent = nullptr);
 
 
 

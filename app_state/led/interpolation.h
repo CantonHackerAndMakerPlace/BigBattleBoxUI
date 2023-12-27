@@ -64,7 +64,7 @@ public:
     Curve curve() const;
 
     /// The amount to multiply the curvature by cannot be zero.
-    qreal apmliatude() const;
+    qreal ampliatude() const;
 
     /// Retrurns the long name of a curve.
     QString name() const;

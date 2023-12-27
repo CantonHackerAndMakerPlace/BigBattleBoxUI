@@ -23,6 +23,11 @@ public:
     /// Returns the default value associated with the
     /// current instance.
     Interpolation::Curve defaultValue() const;
+
+    /// Implicit conversion operator.
+    inline operator Interpolation::Curve() const {
+        return this->value();
+    }
 public slots:
     /// Sets the current value.
     void setValue(Interpolation::Curve value);

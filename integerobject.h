@@ -24,6 +24,11 @@ public:
     /// Returns the default value associated with the
     /// current instance.
     int defaultValue() const;
+
+    /// Implicit conversion operator.
+    inline operator int() const {
+        return this->value();
+    }
 public slots:
     /// Sets the current value.
     void setValue(int value);

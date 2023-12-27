@@ -576,7 +576,7 @@ Interpolation::Curve Interpolation::curve() const {
     return m_data;
 }
 
-qreal Interpolation::apmliatude() const {
+qreal Interpolation::ampliatude() const {
     return m_ampliatude;
 }
 

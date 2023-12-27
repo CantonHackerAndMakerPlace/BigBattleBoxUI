@@ -12,3 +12,7 @@ bool LEDAlgo::wasStarted() const {
 void LEDAlgo::setWasStarted(bool wasStarted) {
     m_hasBeenStarted = wasStarted;
 }
+
+void LEDAlgo::reset() {
+    m_hasBeenStarted = false;
+}

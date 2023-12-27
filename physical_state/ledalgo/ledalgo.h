@@ -30,6 +30,8 @@ public:
 
     bool wasStarted() const;
     void setWasStarted(bool wasStarted);
+
+    virtual void reset();
 protected:
     bool m_hasBeenStarted = false;
 };

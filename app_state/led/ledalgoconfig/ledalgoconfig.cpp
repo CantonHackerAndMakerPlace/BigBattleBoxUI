@@ -1,6 +1,6 @@
 #include "ledalgoconfig.h"
 
-LEDAlgoConfig::LEDAlgoConfig(QObject *parent)
+LEDAlgoConfig::LEDAlgoConfig(QString const& settingsKeyPrefix, QObject *parent)
     : QObject{parent}
 {
 
