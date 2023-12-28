@@ -3,13 +3,15 @@
 
 #include "ledalgo.h"
 
-class RampUp : public LEDAlgo
+class RampUpConfig : public LEDAlgo
 {
 public:
-    RampUp(int duration,
+    RampUpConfig(int duration,
+           QEasingCurve p1InterpolationCurve,
            QColor p1Color,
            int p1MinBrightness,
            int p1MaxBrightness,
+           QEasingCurve p2InterpolationCurve,
            QColor p2Color,
            int p2MinBrightness,
            int p2MaxBrightness,
@@ -30,9 +32,11 @@ public:
     virtual bool isFinished() const override;
 private:
     int m_duration;
+    QEasingCurve m_p1InterpolationCurve;
     QColor m_p1Color;
     int m_p1MinBrightness;
     int m_p1MaxBrightness;
+    QEasingCurve m_p2InterpolationCurve;
     QColor m_p2Color;
     int m_p2MinBrightness;
     int m_p2MaxBrightness;

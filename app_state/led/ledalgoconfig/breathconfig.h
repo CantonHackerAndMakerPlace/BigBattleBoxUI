@@ -55,8 +55,6 @@ public slots:
 
     void init(QSettings *settings);
     void setLEDController(LEDController *);
-signals:
-
 private:
     QString m_settingsPrefix;
     IntegerObject m_duration;

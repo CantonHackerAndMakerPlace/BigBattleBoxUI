@@ -178,6 +178,12 @@ set(PROJECT_SOURCES
     app_state/led/ledalgoconfig/blinkconfig.cpp
     app_state/led/ledalgoconfig/countdownfillconfig.h
     app_state/led/ledalgoconfig/countdownfillconfig.cpp
+    app_state/led/ledalgoconfig/cylonconfig.h
+    app_state/led/ledalgoconfig/cylonconfig.cpp
+    app_state/led/ledalgoconfig/rampupconfig.h
+    app_state/led/ledalgoconfig/rampupconfig.cpp
+    app_state/led/ledalgoconfig/solidcolorconfig.h
+    app_state/led/ledalgoconfig/solidcolorconfig.cpp
 
 
     # Screens directory used for managing individual screen widgets
@@ -280,7 +286,6 @@ qt_add_qml_module(BattleBox
 
         qmlproject/cannon/sounds/cannon.wav
         qmlproject/cannon/sounds/gear.wav
-
 )
 
 

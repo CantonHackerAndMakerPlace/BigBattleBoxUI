@@ -11,6 +11,7 @@
 
 #include <physical_state/ledalgo/ledalgo.h>
 #include <app_state/led/ledconfiguration.h>
+#include "unificationkindobject.h"
 
 class QTimer;
 class GeneralLEDConfiguration;
@@ -58,7 +59,7 @@ public slots:
                        QColor p2CountColor,
                        QColor p2FinalColor,
                        int p2FinalColorBrightness,
-                       bool unifiedLedStrips);
+                       UnificationKindObject::Style unifiedLedStrips);
 
     /// Enter the blink state for the number of blinks and end both with the final color.
     void blink(int numberOfBlinks,
@@ -80,13 +81,14 @@ public slots:
                int stopIndex,
                int eyeLength,
                int duration,
-               int brightness,
+               int p1brightness,
+               int p2brightness,
                QEasingCurve interpolationCurve,
                QColor p1foregroundColor,
                QColor p1backgroundColor,
                QColor p2foregroundColor,
                QColor p2backgroundColor,
-               bool unified);
+               UnificationKindObject::Style unifiedLedStrips);
 
     /// Enters the solid colors state where don't do anything but display a
     /// specififc color at a specified brightness.
@@ -94,9 +96,11 @@ public slots:
 
     /// Ramp up to a brightness using the specified colors.
     void rampUp(int duration,
+                QEasingCurve p1Curve,
                 QColor p1Color,
                 int p1MinBrightness,
                 int p1MaxBrightness,
+                QEasingCurve p2Curve,
                 QColor p2Color,
                 int p2MinBrightness,
                 int p2MaxBrightness,

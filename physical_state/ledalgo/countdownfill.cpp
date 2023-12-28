@@ -12,7 +12,7 @@ CountDownFill::CountDownFill(int duration,
                              QColor p2CountColor,
                              QColor p2FinalColor,
                              int p2FinalColorBrightness,
-                             bool unifiedLedStrips)
+                             UnificationKindObject::Style unificationStyle)
     :m_duration(duration * 1000),
     m_p1Brightness(p1Brightness),
     m_easingCurve(easingCurve),
@@ -25,7 +25,7 @@ CountDownFill::CountDownFill(int duration,
     m_p2CountColor(p2CountColor),
     m_p2FinalColor(p2FinalColor),
     m_p2FinalColorBrightness(p2FinalColorBrightness),
-    m_unifiedLedStrips(unifiedLedStrips)
+    m_unificationStyle(unificationStyle)
 { }
 
 

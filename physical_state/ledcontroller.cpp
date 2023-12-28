@@ -89,7 +89,7 @@ void LEDController::countDownFill(int duration,
                                   QColor p2CountColor,
                                   QColor p2FinalColor,
                                   int p2FinalColorBrightness,
-                                  bool unifiedLedStrips)
+                                  UnificationKindObject::Style unificationKind)
 {
     m_algo = LEDAlgoPointerType(new CountDownFill(duration,
                                                   p1Brightness,
@@ -103,7 +103,7 @@ void LEDController::countDownFill(int duration,
                                                   p2CountColor,
                                                   p2FinalColor,
                                                   p2FinalColorBrightness,
-                                                  unifiedLedStrips));
+                                                  unificationKind));
 }
 
 void LEDController::blink(int numberOfBlinks,
@@ -140,24 +140,26 @@ void LEDController::cylon(int startIndex,
                           int stopIndex,
                           int eyeLength,
                           int duration,
-                          int brightness,
+                          int p1Brightness,
+                          int p2Brightness,
                           QEasingCurve interpolationCurve,
                           QColor p1foregroundColor,
                           QColor p1backgroundColor,
                           QColor p2foregroundColor,
                           QColor p2backgroundColor,
-                          bool unified) {
+                          UnificationKindObject::Style unificationKind) {
     m_algo = LEDAlgoPointerType(new Cylon(startIndex,
                                           stopIndex,
                                           eyeLength,
                                           duration,
-                                          brightness,
+                                          p1Brightness,
+                                          p2Brightness,
                                           interpolationCurve,
                                           p1foregroundColor,
                                           p1backgroundColor,
                                           p2foregroundColor,
                                           p2backgroundColor,
-                                          unified));
+                                          unificationKind));
 
 }
 
@@ -174,18 +176,22 @@ void LEDController::solidColors(QColor p1Color,
 
 /// Ramp up to a brightness using the specified colors.
 void LEDController::rampUp(int duration,
+                           QEasingCurve p1Curve,
                            QColor p1Color,
                            int p1MinBrightness,
                            int p1MaxBrightness,
+                           QEasingCurve p2Curve,
                            QColor p2Color,
                            int p2MinBrightness,
                            int p2MaxBrightness,
                            bool unified)
 {
-    m_algo = LEDAlgoPointerType(new RampUp(duration,
+    m_algo = LEDAlgoPointerType(new RampUpConfig(duration,
+                                           p1Curve,
                                            p1Color,
                                            p1MinBrightness,
                                            p1MaxBrightness,
+                                           p2Curve,
                                            p2Color,
                                            p2MinBrightness,
                                            p2MaxBrightness,

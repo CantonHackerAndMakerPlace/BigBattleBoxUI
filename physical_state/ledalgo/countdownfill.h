@@ -3,6 +3,7 @@
 
 #include "ledalgo.h"
 #include <QObject>
+#include "unificationkindobject.h"
 
 class CountDownFill : public LEDAlgo
 {
@@ -19,7 +20,7 @@ public:
                   QColor p2CountColor,
                   QColor p2FinalColor,
                   int p2FinalColorBrightness,
-                  bool unifiedLedStrips);
+                  UnificationKindObject::Style unificationStyle);
 
     /// Send the initial configuration and begin the algorithm.
     virtual void start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) override;
@@ -47,7 +48,7 @@ private:
     QColor m_p2CountColor;
     QColor m_p2FinalColor;
     int m_p2FinalColorBrightness;
-    bool m_unifiedLedStrips;
+    UnificationKindObject::Style m_unificationStyle;
 };
 
 #endif // COUNTDOWNFILL_H

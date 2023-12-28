@@ -2,6 +2,7 @@
 #define CYLON_H
 
 #include "ledalgo.h"
+#include "unificationkindobject.h"
 
 class Cylon : public LEDAlgo
 {
@@ -10,13 +11,14 @@ public:
         int stopIndex,
         int eyeLength,
         int duration,
-        int brightness,
+        int p1Brightness,
+        int p2Brightness,
         QEasingCurve interpolationCurve,
         QColor p1foregroundColor,
         QColor p1backgroundColor,
         QColor p2foregroundColor,
         QColor p2backgroundColor,
-        bool unified);
+        UnificationKindObject::Style unificationKind);
 
     /// Send the initial configuration and begin the algorithm.
     virtual void start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) override;
@@ -37,13 +39,14 @@ private:
     int m_stopIndex;
     int m_eyeLength;
     int m_duration;
-    int m_brightness;
+    int m_p1Brightness;
+    int m_p2Brightness;
     QEasingCurve m_interpolationCurve;
     QColor m_p1foregroundColor;
     QColor m_p1backgroundColor;
     QColor m_p2foregroundColor;
     QColor m_p2backgroundColor;
-    bool m_unified;
+    UnificationKindObject::Style m_unificationKind;
 };
 
 #endif // CYLON_H
