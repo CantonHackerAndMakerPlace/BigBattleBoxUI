@@ -26,7 +26,6 @@ public:
 public slots:
     void init(ApplicationState *state);
 
-
     void save();
     void cancel();
     void revertToDefault();

@@ -7,6 +7,13 @@ CycleDurationConfigWidget::CycleDurationConfigWidget(QWidget *parent)
     , m_duration(3000)
 {
     ui->setupUi(this);
+    connect(ui->durationSpinBox, &QSpinBox::valueChanged,
+            &m_duration, &DefaultRestorableInt::setValue);
+
+    connect(&m_duration, &DefaultRestorableInt::valueChanged,
+            ui->durationSpinBox, &QSpinBox::setValue);
+
+    ui->durationSpinBox->setValue(m_duration.value());
 }
 
 CycleDurationConfigWidget::~CycleDurationConfigWidget() {

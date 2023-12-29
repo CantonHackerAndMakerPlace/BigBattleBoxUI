@@ -13,6 +13,7 @@ LEDAlgoConfig::LEDAlgoConfig(QString const& settingsKeyPrefix, QObject *parent)
 { }
 
 void LEDAlgoConfig::init(QSettings *settings) {
+    m_algo.attachSettings(settings);
     m_blink->init(settings);
     m_breath->init(settings);
     m_breath->init(settings);

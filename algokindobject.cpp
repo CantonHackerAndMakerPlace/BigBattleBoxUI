@@ -118,7 +118,6 @@ AlgoKindObject::AlgoKindObject(AlgoKind valueAndDefault, QString const& settings
 
 }
 
-
 auto AlgoKindObject::value() const -> AlgoKind{
     return m_value;
 }

@@ -2,9 +2,11 @@
 #include "ui_brightnessselectionwidget.h"
 #include <widgets/brightnessrangeslider.h>
 
-BrightnessSelectionWidget::BrightnessSelectionWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::BrightnessSelectionWidget)
+BrightnessSelectionWidget::BrightnessSelectionWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::BrightnessSelectionWidget)
+    , m_min(10)
+    , m_max(100)
 {
     ui->setupUi(this);
     m_slider = new BrightnessRangeSlider(this);
@@ -15,9 +17,9 @@ BrightnessSelectionWidget::BrightnessSelectionWidget(QWidget *parent) :
 
     // Chaining signals together.
     connect(m_slider, &BrightnessRangeSlider::maximumPositionChanged,
-            this, &BrightnessSelectionWidget::maxValueChanged);
+            &m_max, &DefaultRestorableInt::setValue);
     connect(m_slider, &BrightnessRangeSlider::minimumPositionChanged,
-            this, &BrightnessSelectionWidget::minValueChanged);
+            &m_min, &DefaultRestorableInt::setValue);
 
     // Constantly updating the max value on the spin box.
     connect(m_slider, &BrightnessRangeSlider::maximumPositionChanged,
@@ -38,28 +40,74 @@ BrightnessSelectionWidget::BrightnessSelectionWidget(QWidget *parent) :
     connect(m_slider, &BrightnessRangeSlider::maximumPositionChanged,
             ui->maxValueSpinBox, &QSpinBox::setValue);
 
+    // Connecting default restorables.
+    connect(&m_max, &DefaultRestorableInt::valueChanged,
+            this, &BrightnessSelectionWidget::setMaxValue);
+    connect(this, &BrightnessSelectionWidget::maxValueChanged,
+            &m_max, &DefaultRestorableInt::setValue);
+
+    connect(&m_min, &DefaultRestorableInt::valueChanged,
+            this, &BrightnessSelectionWidget::setMinValue);
+    connect(this, &BrightnessSelectionWidget::minValueChanged,
+            &m_min, &DefaultRestorableInt::setValue);
+
     // Updating the spin box's values
+    m_slider->setMaximumValue(m_max.value());
+    m_slider->setMinimumValue(m_min.value());
     ui->maxValueSpinBox->setValue(m_slider->maximumValue());
     ui->minValueSpinBox->setValue(m_slider->minimumValue());
-
 }
 
 BrightnessSelectionWidget::~BrightnessSelectionWidget() {
     delete ui;
 }
 
-int BrightnessSelectionWidget::currentMin() const {
-    return m_slider->minimumPosition();
+DefaultRestorableInt const& BrightnessSelectionWidget::minBrightness() const {
+    return m_min;
 }
 
-int BrightnessSelectionWidget::currentMax() const {
-    return m_slider->maximumPosition();
+DefaultRestorableInt const& BrightnessSelectionWidget::maxBrightness() const {
+    return m_max;
+}
+
+void BrightnessSelectionWidget::init(IntegerObject *minSetting, IntegerObject *maxSetting) {
+    assert(!m_minSetting && !m_maxSetting && "Cannot be initialized twice");
+    m_minSetting = minSetting;
+    m_maxSetting = maxSetting;
+
+    connect(m_minSetting , &IntegerObject::valueChanged,
+            &m_min, &DefaultRestorableInt::setCurrentAndPreviousValue);
+
+    connect(m_maxSetting, &IntegerObject::valueChanged,
+            &m_max, &DefaultRestorableInt::setCurrentAndPreviousValue);
+    m_min = *m_minSetting;
+    m_max = *m_maxSetting;
+}
+
+void BrightnessSelectionWidget::restorePreviousValue() {
+    m_min.restorePreviousValue();
+    m_max.restorePreviousValue();
+}
+
+void BrightnessSelectionWidget::restoreDefaultValue() {
+    m_min.restoreDefaultValue();
+    m_max.restoreDefaultValue();
+}
+
+void BrightnessSelectionWidget::save() {
+    if(!m_minSetting || !m_maxSetting) {
+        return;
+    }
+    m_minSetting->setValue(m_min.value());
+    m_maxSetting->setValue(m_max.value());
 }
 
 void BrightnessSelectionWidget::setMinValue(int value) {
-    m_slider->setMinimumPosition(value);
+    m_min.setValue(value);
+//    m_slider->setMinimumPosition(value);
 }
 
 void BrightnessSelectionWidget::setMaxValue(int value) {
-    m_slider->setMaximumPosition(value);
+    m_max.setValue(value);
+//    m_slider->setMaximumPosition(value);
 }

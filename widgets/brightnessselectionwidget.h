@@ -2,6 +2,9 @@
 #define BRIGHTNESSSELECTIONWIDGET_H
 
 #include <QWidget>
+#include "defaultrestorable.h"
+#include "integerobject.h"
+
 class BrightnessRangeSlider;
 
 namespace Ui {
@@ -16,10 +19,15 @@ public:
     explicit BrightnessSelectionWidget(QWidget *parent = nullptr);
     ~BrightnessSelectionWidget();
 
-    int currentMin() const;
-    int currentMax() const;
+    DefaultRestorableInt const& minBrightness() const;
+    DefaultRestorableInt const& maxBrightness() const;
 
 public slots:
+    void init(IntegerObject *minSetting, IntegerObject *maxSetting);
+    void restorePreviousValue();
+    void restoreDefaultValue();
+    void save();
+
     void setMinValue(int value);
     void setMaxValue(int value);
 signals:
@@ -28,6 +36,11 @@ signals:
 private:
     Ui::BrightnessSelectionWidget *ui;
     BrightnessRangeSlider *m_slider;
+    DefaultRestorableInt m_min;
+    DefaultRestorableInt m_max;
+    IntegerObject *m_minSetting = nullptr;
+    IntegerObject *m_maxSetting = nullptr;
+
 };
 
 #endif // BRIGHTNESSSELECTIONWIDGET_H

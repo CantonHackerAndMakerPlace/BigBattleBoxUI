@@ -156,6 +156,7 @@ void IdleLedConfigurationWidget::init(ApplicationState *state) {
 
     auto idleConfig = m_state->ledConfig()->idleConfiguration();
     ui->algorithmSelector->init(&idleConfig->algoConfig().getAlgoKind());
+    ui->breathPage->init(idleConfig->algoConfig().getBreath());
 
     // Connecting the ledConfig with the current application state.
 //    connectAppState(m_duration, idleConfig->cycleDuration());
@@ -209,12 +210,14 @@ bool IdleLedConfigurationWidget::hasChanges() const {
 //           m_p2Minimum.hasChange() ||
 //           m_p2Maximum.hasChange() ||
 //           m_p2Curve.hasChange();
-    return false;
+    return ui->algorithmSelector->hasChanges()
+           || ui->breathPage->hasChanges();
 }
 
 void IdleLedConfigurationWidget::save() {
     // Saving data into the configuration.
-
+    ui->algorithmSelector->save();
+    ui->breathPage->save();
 //    auto idleConfig = m_state->ledConfig()->idleConfiguration();
 //    idleConfig->cycleDuration().setValue(m_duration.value());
 //    idleConfig->useP1ForBoth().setValue(m_link.value());
@@ -233,31 +236,14 @@ void IdleLedConfigurationWidget::save() {
 void IdleLedConfigurationWidget::cancel() {
     // Storeing the previous values.
     ui->algorithmSelector->restorePreviousValue();
-//    m_duration.restorePreviousValue();
-//    m_link.restorePreviousValue();
-//    m_p1Color.restorePreviousValue();
-//    m_p1Minimum.restorePreviousValue();
-//    m_p1Maximum.restorePreviousValue();
-//    m_p1Curve.restorePreviousValue();
-//    m_p2Color.restorePreviousValue();
-//    m_p2Minimum.restorePreviousValue();
-//    m_p2Maximum.restorePreviousValue();
-//    m_p2Curve.restorePreviousValue();
+    ui->breathPage->restorePreviousValue();
+
 }
 
 void IdleLedConfigurationWidget::revertToDefault() {
     // Restoring to default values.
     ui->algorithmSelector->restoreDefaultValue();
-//    m_duration.restoreDefaultValue();
-//    m_link.restoreDefaultValue();
-//    m_p1Color.restoreDefaultValue();
-//    m_p1Minimum.restoreDefaultValue();
-//    m_p1Maximum.restoreDefaultValue();
-//    m_p1Curve.restoreDefaultValue();
-//    m_p2Color.restoreDefaultValue();
-//    m_p2Minimum.restoreDefaultValue();
-//    m_p2Maximum.restoreDefaultValue();
-//    m_p2Curve.restoreDefaultValue();
+    ui->breathPage->restoreDefaultValue();
 }
 
 //void IdleLedConfigurationWidget::connectAppState(DefaultRestorableInt &localValue, IntegerObject& configuredValue) {

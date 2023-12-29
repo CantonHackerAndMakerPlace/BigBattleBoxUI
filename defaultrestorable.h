@@ -6,6 +6,7 @@
 #include "app_state/led/interpolation.h"
 #include "integerobject.h"
 #include "colorobject.h"
+#include "qrealobject.h"
 #include "booleanobject.h"
 #include "interpolationcurveobject.h"
 #include "unificationkindobject.h"
@@ -239,6 +240,8 @@ public:
 
     /// Returns true if the previous and current value are different.
     bool hasChange() const;
+
+    DefaultRestorableQReal& operator=(QRealObject const& other);
 public slots:
     /// Save the current value and saves it as the previous value.
     void saveValue();

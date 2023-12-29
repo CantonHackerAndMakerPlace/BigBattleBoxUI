@@ -70,6 +70,9 @@ AlgorithmDropDown::AlgorithmDropDown(QWidget *parent)
     // Chain the value changed event emission.
     connect(&m_value, &DefaultRestorableAlgoKind::valueChanged,
             this, &AlgorithmDropDown::algorithmChanged);
+    m_value.setValue(AlgoKindObject::AlgoKind::Breath);
+    m_value.setValue(AlgoKindObject::AlgoKind::Off);
+    m_value.setValue(AlgoKindObject::AlgoKind::Breath);
 }
 
 AlgorithmDropDown::~AlgorithmDropDown() {

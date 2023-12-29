@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QColorDialog>
+#include "colorobject.h"
+#include "defaultrestorable.h"
 
 namespace Ui {
 class ColorSelectionWidget;
@@ -15,15 +17,18 @@ class ColorSelectionWidget : public QWidget
 public:
     explicit ColorSelectionWidget(QWidget *parent = nullptr);
     ~ColorSelectionWidget();
-
-    QColor getColor() const;
+    bool hasChanges() const;
 public slots:
-    void setColor(QColor color);
-signals:
-    void colorChanged(QColor newColor);
+    void init(ColorObject *color);
+    void restorePreviousValue();
+    void restoreDefaultValue();
+    void save();
+//signals:
+//    void colorChanged(QColor newColor);
 private:
     Ui::ColorSelectionWidget *ui;
-    QColor m_currentColor;
+    DefaultRestorableQColor m_value;
+    ColorObject *m_settingObject = nullptr;
 };
 
 #endif // COLORSELECTIONWIDGET_H

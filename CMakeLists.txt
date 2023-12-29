@@ -223,11 +223,12 @@ set(PROJECT_SOURCES
     screens/configuration/solidcolorconfigwidget.h
     screens/configuration/solidcolorconfigwidget.cpp
     screens/configuration/solidcolorconfigwidget.ui
-
     screens/configuration/cycledurationconfigwidget.h
     screens/configuration/cycledurationconfigwidget.cpp
     screens/configuration/cycledurationconfigwidget.ui
-
+    screens/configuration/unifiedcheckbox.h
+    screens/configuration/unifiedcheckbox.cpp
+    screens/configuration/unifiedcheckbox.ui
 
     # other custom widgets
     widgets/RangeSlider.h

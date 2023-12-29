@@ -272,6 +272,12 @@ bool DefaultRestorableQReal::hasChange() const {
     return m_cur != m_prev;
 }
 
+DefaultRestorableQReal& DefaultRestorableQReal::operator=(QRealObject const& other) {
+    setCurrentAndPreviousValue(other.value());
+    m_defaultValue = other.defaultValue();
+    return *this;
+}
+
 void DefaultRestorableQReal::saveValue() {
     m_prev = m_cur;
 }

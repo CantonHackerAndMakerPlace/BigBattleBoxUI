@@ -16,23 +16,20 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="1">
-      <widget class="QWidget" name="widget_2" native="true"/>
-     </item>
      <item row="2" column="0">
-      <widget class="QWidget" name="widget_3" native="true"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="CycleDurationConfigWidget" name="durationWidget" native="true"/>
+      <widget class="ColorSelectionWidget" name="p1ColorSelectorWidget" native="true"/>
      </item>
      <item row="2" column="1">
-      <widget class="QWidget" name="widget_4" native="true"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QWidget" name="widget_5" native="true"/>
+      <widget class="ColorSelectionWidget" name="p2ColorSelectorWidget" native="true"/>
      </item>
      <item row="3" column="1">
-      <widget class="QWidget" name="widget_6" native="true"/>
+      <widget class="InterpolationSelectorWidget" name="p2InterpolationWidget" native="true"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="InterpolationSelectorWidget" name="p1InterpolationWidget" native="true"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="UnifiedCheckBox" name="unificationCheckBoxWidget" native="true"/>
      </item>
      <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="label">
@@ -47,6 +44,15 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="0">
+      <widget class="CycleDurationConfigWidget" name="durationWidget" native="true"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="BrightnessSelectionWidget" name="p1BrightnessSelector" native="true"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="BrightnessSelectionWidget" name="p2BrightnessSelector" native="true"/>
+     </item>
     </layout>
    </item>
   </layout>
@@ -56,6 +62,30 @@
    <class>CycleDurationConfigWidget</class>
    <extends>QWidget</extends>
    <header>cycledurationconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>colorselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>InterpolationSelectorWidget</class>
+   <extends>QWidget</extends>
+   <header>interpolationselectorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BrightnessSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>brightnessselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UnifiedCheckBox</class>
+   <extends>QWidget</extends>
+   <header>unifiedcheckbox.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

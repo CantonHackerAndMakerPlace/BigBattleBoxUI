@@ -1,9 +1,11 @@
 #include "interpolationselectorwidget.h"
 #include "ui_interpolationselectorwidget.h"
 
-InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::InterpolationSelectorWidget)
+InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::InterpolationSelectorWidget)
+    , m_curve(Interpolation::Curve::Linear)
+    , m_amplitude(1.0)
 {
     // Setting the initial curve to select, this could change.
     ui->setupUi(this);
@@ -23,13 +25,12 @@ InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent) :
     ui->selectionLabel->setText(QString("Selected: %1").arg(ui->interpolationSelector->item(0)->text()));
     connect(ui->interpolationSelector, &QListWidget::currentItemChanged,
             [&](QListWidgetItem *current, QListWidgetItem *){
-                qDebug() << "Current item selection changed: "<< current->text();
                 auto name = Interpolation::getByName(current->text());
                 if (name.has_value()) {
                     ui->selectionLabel->setText(QString("Selected: %1").arg(current->text()));
-                    emit curveSelectionChanged(name.value());
+                    setCurveSelection(name.value());
                 } else {
-                    qDebug() << "Received invalid interpolation selection";
+                    qWarning() << "Received invalid interpolation selection";
                 }
             });
 }
@@ -38,27 +39,58 @@ InterpolationSelectorWidget::~InterpolationSelectorWidget() {
     delete ui;
 }
 
-Interpolation::CurveInfo *InterpolationSelectorWidget::getCurveInfo() const {
-    auto info = Interpolation::getByName(ui->interpolationSelector->currentItem()->text());
-    if(info.has_value()) {
-        return Interpolation::getCurveInfoByCurve(info.value());
-    } else {
-        // Logically impossible.
-        return nullptr;
-    }
-
+DefaultRestorableCurve const& InterpolationSelectorWidget::getCurve() const {
+    return m_curve;
 }
 
-Interpolation::Curve InterpolationSelectorWidget::getCurve() const {
-    return getCurveInfo()->value;
+DefaultRestorableQReal const& InterpolationSelectorWidget::getAmplitude() const {
+    return m_amplitude;
+}
+
+bool InterpolationSelectorWidget::hasChanges() const {
+    return m_curve.hasChange()
+           || m_amplitude.hasChange();
+}
+
+void InterpolationSelectorWidget::init(InterpolationCurveObject *curveObj, QRealObject *amplitudeObj) {
+    assert(!m_curveSetting && "Cannot be initialized twice");
+    assert(!m_amplitudeSetting && "Cannot be initialized twice");
+    m_curveSetting = curveObj;
+    m_amplitudeSetting = amplitudeObj;
+
+    connect(m_curveSetting, &InterpolationCurveObject::valueChanged,
+            &m_curve, &DefaultRestorableCurve::setCurrentAndPreviousValue);
+
+    connect(m_amplitudeSetting, &QRealObject::valueChanged,
+            &m_amplitude, &DefaultRestorableQReal::setCurrentAndPreviousValue);
+    m_curve = *m_curveSetting;
+    m_amplitude = *m_amplitudeSetting;
+}
+
+void InterpolationSelectorWidget::restorePreviousValue() {
+    m_amplitude.restorePreviousValue();
+    m_curve.restorePreviousValue();
+}
+
+void InterpolationSelectorWidget::restoreDefaultValue() {
+    m_amplitude.restoreDefaultValue();
+    m_curve.restoreDefaultValue();
+}
+
+void InterpolationSelectorWidget::save() {
+    if(!m_curveSetting || !m_amplitudeSetting) {
+        return;
+    }
+    m_curveSetting->setValue(m_curve.value());
+    m_amplitudeSetting->setValue(m_amplitude.value());
 }
 
 void InterpolationSelectorWidget::setCurveSelection(Interpolation::Curve curve) {
     auto items = ui->interpolationSelector->findItems(Interpolation::getName(curve), Qt::MatchExactly);
-
     if (items.size() != 1) {
         assert(!"Big problem unable to locate curve");
     }
     ui->interpolationSelector->setCurrentItem(items.front());
     qDebug() << "Selecting interpolation: " << items.front()->text();
+    m_curve.setValue(curve);
 }
