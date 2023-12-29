@@ -30,38 +30,24 @@ public slots:
     void save();
     void cancel();
     void revertToDefault();
+private slots:
+    void setCurrentConfigPage(AlgoKindObject::AlgoKind kind);
 private:
     // Utility functions that may need to be moved eventually.
-    void connectAppState(DefaultRestorableInt& localValue, IntegerObject& configuredValue);
-    void connectAppState(DefaultRestorableBool& localValue, BooleanObject& configuredValue);
-    void connectAppState(DefaultRestorableQColor& localValue, ColorObject& configuredValue);
-    void connectAppState(DefaultRestorableCurve& localValue, InterpolationCurveObject& configuredValue);
+//    void connectAppState(DefaultRestorableInt& localValue, IntegerObject& configuredValue);
+//    void connectAppState(DefaultRestorableBool& localValue, BooleanObject& configuredValue);
+//    void connectAppState(DefaultRestorableQColor& localValue, ColorObject& configuredValue);
+//    void connectAppState(DefaultRestorableCurve& localValue, InterpolationCurveObject& configuredValue);
 
-    void attachColor(DefaultRestorableQColor& color, ColorSelectionWidget *colorSelectorWidget);
-    void attachMinBrightness(DefaultRestorableInt& minValue, BrightnessSelectionWidget *brightnessSelectionWidget);
-    void attachMaxBrightness(DefaultRestorableInt& maxValue, BrightnessSelectionWidget *brightnessSelectionWidget);
+//    void attachColor(DefaultRestorableQColor& color, ColorSelectionWidget *colorSelectorWidget);
+//    void attachMinBrightness(DefaultRestorableInt& minValue, BrightnessSelectionWidget *brightnessSelectionWidget);
+//    void attachMaxBrightness(DefaultRestorableInt& maxValue, BrightnessSelectionWidget *brightnessSelectionWidget);
     void attachCurve(DefaultRestorableCurve& curve, InterpolationSelectorWidget *widget);
+
+
 
     Ui::IdleLedConfigurationWidget *ui;
     ApplicationState *m_state;
-
-    DefaultRestorableInt m_duration;
-
-    DefaultRestorableBool m_link;
-
-    // Player one configurations values
-    DefaultRestorableQColor m_p1Color;
-    DefaultRestorableInt m_p1Minimum;
-    DefaultRestorableInt m_p1Maximum;
-    DefaultRestorableCurve m_p1Curve;
-
-    // Player two configurations values.
-    DefaultRestorableQColor m_p2Color;
-    DefaultRestorableInt m_p2Minimum;
-    DefaultRestorableInt m_p2Maximum;
-    DefaultRestorableCurve m_p2Curve;
-
-
 };
 
 #endif // IDLELEDCONFIGURATIONWIDGET_H

@@ -17,7 +17,9 @@ CountDownFillConfig::CountDownFillConfig(QString const& keyPrefix, QObject *pare
     , m_p2CountColor(Qt::yellow, m_settingsPrefix + "/countdown/p2/countDownColor")
     , m_p2FinalColor(Qt::white, m_settingsPrefix + "/countdown/p2/finalColor")
     , m_p2FinalColorBrightness(100, m_settingsPrefix + "/countdown/p2/finalBrightness")
-{ }
+{
+    qDebug() << "Constructing CountDownFillConfig";
+}
 
 IntegerObject &CountDownFillConfig::duration(){
     return m_duration;
@@ -77,6 +79,8 @@ IntegerObject &CountDownFillConfig::p2FinalColorBrightness() {
 
 
 void CountDownFillConfig::init(QSettings *settings) {
+    assert(settings);
+    qDebug() << "Attaching settings BreathConfig";
     m_duration.attachSettings(settings);
     m_unificationKind.attachSettings(settings);
     m_p1Brightness.attachSettings(settings);

@@ -16,7 +16,9 @@ BreathConfig::BreathConfig(QString const& keyPrefix, QObject *parent)
     , m_p2MinBrightness(10, m_settingsPrefix + "/breath/p2/minBrightness")
     , m_p2MaxBrightness(100, m_settingsPrefix + "/breath/p2/maxBrightness")
     , m_p2Color(Qt::blue, m_settingsPrefix + "/breath/p2/color")
-{ }
+{
+    qDebug() << "Constructing BreathConfig";
+}
 
 IntegerObject& BreathConfig::cycleDuration() {
     return m_duration;
@@ -67,6 +69,7 @@ ColorObject& BreathConfig::p2Color() {
 }
 
 void BreathConfig::init(QSettings *settings) {
+    qDebug() << "Attaching settings BreathConfig";
     m_duration.attachSettings(settings);
     m_unified.attachSettings(settings);
     m_p1Interpolation.attachSettings(settings);

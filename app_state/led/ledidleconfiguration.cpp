@@ -3,69 +3,59 @@
 
 LEDIdleConfiguration::LEDIdleConfiguration(QObject *parent)
     :QObject(parent)
-    , m_duration(3000, "LEDIdleConfig/p1/duration")
-    , m_useP1ForBoth(true, "LEDIdleConfig/useP1ForBoth")
-    , m_p1Interpolation(Interpolation::Curve::Linear, "LEDIdleConfig/p1/interpolation")
-    , m_p1MinBrightness(10, "LEDIdleConfig/p1/minBrightness")
-    , m_p1MaxBrightness(100, "LEDIdleConfig/p1/maxBrightness")
-    , m_p1Color(Qt::red, "LEDIdleConfig/p1/color")
-    , m_p2Interpolation(Interpolation::Curve::Linear, "LEDIdleConfig/p2/interpolation")
-    , m_p2MinBrightness(10, "LEDIdleConfig/p2/minBrightness")
-    , m_p2MaxBrightness(100, "LEDIdleConfig/p2/maxBrightness")
-    , m_p2Color(Qt::blue, "LEDIdleConfig/p2/color")
-{ }
+    , m_algoConfig(new LEDAlgoConfig("IdleConfiguration", this))
+{
+    qDebug() << "Constructing LEDIdleConfiguration";
+}
+
+LEDAlgoConfig &LEDIdleConfiguration::algoConfig() {
+    return *m_algoConfig;
+}
 
 void LEDIdleConfiguration::loadSettings(QSettings *settings) {
+    assert(settings);
+    qDebug() << "Initializing settings for LEDIdleConfiguration";
     // Connecting all of the associated settings values.
-    m_duration.attachSettings(settings);
-    m_useP1ForBoth.attachSettings(settings);
-    m_p1Interpolation.attachSettings(settings);
-    m_p1MinBrightness.attachSettings(settings);
-    m_p1MaxBrightness.attachSettings(settings);
-    m_p1Color.attachSettings(settings);
-    m_p2Interpolation.attachSettings(settings);
-    m_p2MinBrightness.attachSettings(settings);
-    m_p2MaxBrightness.attachSettings(settings);
-    m_p2Color.attachSettings(settings);
+    m_algoConfig->init(settings);
 }
 
 
-IntegerObject& LEDIdleConfiguration::cycleDuration() {
-    return m_duration;
-}
+//IntegerObject& LEDIdleConfiguration::cycleDuration() {
+//    return m_duration;
+//}
 
-BooleanObject& LEDIdleConfiguration::useP1ForBoth() {
-    return m_useP1ForBoth;
-}
+//BooleanObject& LEDIdleConfiguration::useP1ForBoth() {
+//    return m_useP1ForBoth;
+//}
 
-InterpolationCurveObject& LEDIdleConfiguration::p1Interpolation() {
-    return m_p1Interpolation;
-}
+//InterpolationCurveObject& LEDIdleConfiguration::p1Interpolation() {
+//    return m_p1Interpolation;
+//}
 
-IntegerObject& LEDIdleConfiguration::p1MinBrightness() {
-    return m_p1MinBrightness;
-}
+//IntegerObject& LEDIdleConfiguration::p1MinBrightness() {
+//    return m_p1MinBrightness;
+//}
 
-IntegerObject& LEDIdleConfiguration::p1MaxBrightness() {
-    return m_p1MaxBrightness;
-}
+//IntegerObject& LEDIdleConfiguration::p1MaxBrightness() {
+//    return m_p1MaxBrightness;
+//}
 
-ColorObject& LEDIdleConfiguration::p1Color() {
-    return m_p1Color;
-}
+//ColorObject& LEDIdleConfiguration::p1Color() {
+//    return m_p1Color;
+//}
 
-InterpolationCurveObject& LEDIdleConfiguration::p2Interpolation() {
-    return m_p2Interpolation;
-}
+//InterpolationCurveObject& LEDIdleConfiguration::p2Interpolation() {
+//    return m_p2Interpolation;
+//}
 
-IntegerObject& LEDIdleConfiguration::p2MinBrightness() {
-    return m_p2MinBrightness;
-}
+//IntegerObject& LEDIdleConfiguration::p2MinBrightness() {
+//    return m_p2MinBrightness;
+//}
 
-IntegerObject& LEDIdleConfiguration::p2MaxBrightness() {
-    return m_p2MaxBrightness;
-}
+//IntegerObject& LEDIdleConfiguration::p2MaxBrightness() {
+//    return m_p2MaxBrightness;
+//}
 
-ColorObject& LEDIdleConfiguration::p2Color() {
-    return m_p2Color;
-}
+//ColorObject& LEDIdleConfiguration::p2Color() {
+//    return m_p2Color;
+//}

@@ -192,18 +192,42 @@ set(PROJECT_SOURCES
     screens/configuration/ledcontrolwidget.ui
     screens/configuration/interpolationselectorwidget.h
     screens/configuration/interpolationselectorwidget.cpp
+    screens/configuration/interpolationselectorwidget.ui
     screens/configuration/idleledconfigurationwidget.h
     screens/configuration/idleledconfigurationwidget.cpp
     screens/configuration/idleledconfigurationwidget.ui
-
-    screens/configuration/interpolationselectorwidget.ui
     screens/configuration/generalledconfigurationwidget.h
     screens/configuration/generalledconfigurationwidget.cpp
     screens/configuration/generalledconfigurationwidget.ui
-
     screens/configuration/colorselectionwidget.h
     screens/configuration/colorselectionwidget.cpp
     screens/configuration/colorselectionwidget.ui
+    screens/configuration/blinkconfigwidget.h
+    screens/configuration/blinkconfigwidget.cpp
+    screens/configuration/blinkconfigwidget.ui
+    screens/configuration/breathconfigwidget.h
+    screens/configuration/breathconfigwidget.cpp
+    screens/configuration/breathconfigwidget.ui
+    screens/configuration/countdownconfigwidget.h
+    screens/configuration/countdownconfigwidget.cpp
+    screens/configuration/countdownconfigwidget.ui
+    screens/configuration/cylonconfigwidget.h
+    screens/configuration/cylonconfigwidget.cpp
+    screens/configuration/cylonconfigwidget.ui
+    screens/configuration/rampupconfigwidget.h
+    screens/configuration/rampupconfigwidget.cpp
+    screens/configuration/rampupconfigwidget.ui
+    screens/configuration/offconfigwidget.h
+    screens/configuration/offconfigwidget.cpp
+    screens/configuration/offconfigwidget.ui
+    screens/configuration/solidcolorconfigwidget.h
+    screens/configuration/solidcolorconfigwidget.cpp
+    screens/configuration/solidcolorconfigwidget.ui
+
+    screens/configuration/cycledurationconfigwidget.h
+    screens/configuration/cycledurationconfigwidget.cpp
+    screens/configuration/cycledurationconfigwidget.ui
+
 
     # other custom widgets
     widgets/RangeSlider.h
@@ -213,6 +237,10 @@ set(PROJECT_SOURCES
     widgets/brightnessselectionwidget.h
     widgets/brightnessselectionwidget.cpp
     widgets/brightnessselectionwidget.ui
+    widgets/algorithmdropdown.h
+    widgets/algorithmdropdown.cpp
+    widgets/algorithmdropdown.ui
+
 
     defaultrestorable.h
     defaultrestorable.cpp

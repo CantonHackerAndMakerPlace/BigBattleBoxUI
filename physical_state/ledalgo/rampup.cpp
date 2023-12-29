@@ -1,6 +1,6 @@
 #include "rampup.h"
 
-RampUpConfig::RampUpConfig(int duration,
+RampUp::RampUp(int duration,
                QEasingCurve p1InterpolationCurve,
                QColor p1Color,
                int p1MinBrightness,
@@ -24,18 +24,18 @@ RampUpConfig::RampUpConfig(int duration,
 
 }
 
-void RampUpConfig::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
+void RampUp::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
 
 }
 
-void RampUpConfig::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) {
+void RampUp::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) {
 
 }
 
-bool RampUpConfig::loops() const {
+bool RampUp::loops() const {
     return true;
 }
 
-bool RampUpConfig::isFinished() const {
+bool RampUp::isFinished() const {
     return false;
 }

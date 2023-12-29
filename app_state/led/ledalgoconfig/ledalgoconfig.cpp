@@ -4,17 +4,17 @@
 LEDAlgoConfig::LEDAlgoConfig(QString const& settingsKeyPrefix, QObject *parent)
     : QObject{parent}
     , m_algo(AlgoKindObject::AlgoKind::Blink, settingsKeyPrefix + "/algorithmkind")
+    , m_blink(new BlinkConfig(settingsKeyPrefix, this))
     , m_breath(new BreathConfig(settingsKeyPrefix, this))
     , m_countDown(new CountDownFillConfig(settingsKeyPrefix, this))
     , m_cylon(new CylonConfig(settingsKeyPrefix, this))
     , m_rampUp(new RampUpConfig(settingsKeyPrefix, this))
     , m_solidColors(new SolidColorConfig(settingsKeyPrefix, this))
-{
-}
+{ }
 
 void LEDAlgoConfig::init(QSettings *settings) {
-    m_breath->init(settings);
     m_blink->init(settings);
+    m_breath->init(settings);
     m_breath->init(settings);
     m_countDown->init(settings);
     m_cylon->init(settings);

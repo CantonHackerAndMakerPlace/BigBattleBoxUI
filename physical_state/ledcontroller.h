@@ -10,9 +10,9 @@
 #include <chrono>
 
 #include <physical_state/ledalgo/ledalgo.h>
-#include <app_state/led/ledconfiguration.h>
 #include "unificationkindobject.h"
 
+class LEDConfiguration;
 class QTimer;
 class GeneralLEDConfiguration;
 class ArduinoClient;

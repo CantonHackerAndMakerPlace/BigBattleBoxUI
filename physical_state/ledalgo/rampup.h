@@ -3,10 +3,10 @@
 
 #include "ledalgo.h"
 
-class RampUpConfig : public LEDAlgo
+class RampUp : public LEDAlgo
 {
 public:
-    RampUpConfig(int duration,
+    RampUp(int duration,
            QEasingCurve p1InterpolationCurve,
            QColor p1Color,
            int p1MinBrightness,

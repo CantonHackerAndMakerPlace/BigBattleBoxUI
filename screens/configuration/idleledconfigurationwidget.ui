@@ -31,10 +31,7 @@
    </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="1">
-      <widget class="InterpolationSelectorWidget" name="p2InterpolationWidget" native="true"/>
-     </item>
-     <item row="5" column="0" colspan="2">
+     <item row="3" column="0" colspan="2">
       <widget class="QWidget" name="widget" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -98,22 +95,6 @@
        </layout>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="InterpolationSelectorWidget" name="p1InterpolationWidget" native="true">
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="ColorSelectionWidget" name="p1ColorSelectorWidget" native="true"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="ColorSelectionWidget" name="p2ColorSelectorWidget" native="true"/>
-     </item>
      <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="titleLabel">
        <property name="minimumSize">
@@ -133,58 +114,18 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="BrightnessSelectionWidget" name="p2BrightnessRangeWidget" native="true"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="BrightnessSelectionWidget" name="p1BrightnessRangeWidget" native="true"/>
-     </item>
      <item row="1" column="0" colspan="2">
-      <widget class="QWidget" name="widget_2" native="true">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="durationLabel">
-            <property name="text">
-             <string>Duration</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="cycleDurationSpinBox">
-            <property name="suffix">
-             <string>ms</string>
-            </property>
-            <property name="maximum">
-             <number>50000</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="linkLabel">
-            <property name="text">
-             <string>Use same Settings for
- both lights</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="linkCheckBox">
-            <property name="text">
-             <string>Link</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
+      <widget class="AlgorithmDropDown" name="algorithmSelector" native="true"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QStackedWidget" name="configDisplayStack">
+       <widget class="BlinkConfigWidget" name="blinkPage"/>
+       <widget class="BreathConfigWidget" name="breathPage"/>
+       <widget class="CylonConfigWidget" name="cylonPage"/>
+       <widget class="CountDownConfigWidget" name="countDownPage"/>
+       <widget class="SolidColorConfigWidget" name="solidColorPage"/>
+       <widget class="OffConfigWidget" name="offPage"/>
+       <widget class="RampUpConfigWidget" name="rampUpPage"/>
       </widget>
      </item>
     </layout>
@@ -193,21 +134,51 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>InterpolationSelectorWidget</class>
+   <class>AlgorithmDropDown</class>
    <extends>QWidget</extends>
-   <header>screens/configuration/interpolationselectorwidget.h</header>
+   <header>algorithmdropdown.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ColorSelectionWidget</class>
+   <class>BlinkConfigWidget</class>
    <extends>QWidget</extends>
-   <header>colorselectionwidget.h</header>
+   <header>blinkconfigwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>BrightnessSelectionWidget</class>
+   <class>BreathConfigWidget</class>
    <extends>QWidget</extends>
-   <header>brightnessselectionwidget.h</header>
+   <header>breathconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CountDownConfigWidget</class>
+   <extends>QWidget</extends>
+   <header>countdownconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CylonConfigWidget</class>
+   <extends>QWidget</extends>
+   <header>cylonconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OffConfigWidget</class>
+   <extends>QWidget</extends>
+   <header>offconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RampUpConfigWidget</class>
+   <extends>QWidget</extends>
+   <header>rampupconfigwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SolidColorConfigWidget</class>
+   <extends>QWidget</extends>
+   <header>solidcolorconfigwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

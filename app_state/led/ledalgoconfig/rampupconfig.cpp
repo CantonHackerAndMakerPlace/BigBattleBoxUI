@@ -16,9 +16,13 @@ RampUpConfig::RampUpConfig(QString const& keyPrefix, QObject *parent)
     , m_p2MinBrightness(10, m_keyPrefix + "/rampup/p2/minBrightness")
     , m_p2MaxBrightness(255, m_keyPrefix + "/rampup/p2/maxBrightness")
     , m_unified(true, m_keyPrefix + "/rampup/unified")
-{ }
+{
+    qDebug() << "Constructing RampUpConfig";
+}
 
 void RampUpConfig::init(QSettings *settings) {
+    assert(settings);
+    qDebug() << "Attaching settings RampUpConfig";
     m_cycleDuration.attachSettings(settings);
     m_p1Curve.attachSettings(settings);
     m_p1Amplitude.attachSettings(settings);

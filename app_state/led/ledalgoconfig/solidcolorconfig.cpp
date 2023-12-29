@@ -9,10 +9,12 @@ SolidColorConfig::SolidColorConfig(QString const& keyPrefix, QObject *parent)
     , m_p2brightness(100, m_keyPrefix + "/soilid/p1/brightness")
     , m_unified(true, m_keyPrefix + "/soilid/p1/brightness")
 {
-
+    qDebug() << "constructing SolidColorConfig";
 }
 
 void SolidColorConfig::init(QSettings *settings) {
+    assert(settings);
+    qDebug() << "Attaching settings SolidColorConfig";
     m_p1Color.attachSettings(settings);
     m_p1brightness.attachSettings(settings);
     m_p2Color.attachSettings(settings);

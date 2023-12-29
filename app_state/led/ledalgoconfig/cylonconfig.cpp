@@ -16,7 +16,9 @@ CylonConfig::CylonConfig(QString const& keyPrefix, QObject *parent)
     , m_p2foregroundColor(Qt::blue, m_settingsPrefix + "/cylon/p2/foregroundColor")
     , m_p2backgroundColor(Qt::white, m_settingsPrefix + "/cylon/p2/backgroundColor")
     , m_unificationKind(UnificationKindObject::Style::Separate, m_settingsPrefix + "/cylon/unificationKind")
-{ }
+{
+    qDebug() << "Constructing cylonConfig";
+}
 
 IntegerObject &CylonConfig::startIndex() {
     return m_startIndex;
@@ -71,6 +73,8 @@ UnificationKindObject &CylonConfig::unificationKind() {
 }
 
 void CylonConfig::init(QSettings *settings) {
+    assert(settings);
+    qDebug() << "Attaching settings CylonConfig";
     m_startIndex.attachSettings(settings);
     m_stopIndex.attachSettings(settings);
     m_eyeLength.attachSettings(settings);

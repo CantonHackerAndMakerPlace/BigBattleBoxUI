@@ -67,15 +67,15 @@ const char* AlgoKindObject::getDisplayName(AlgoKind algo) {
     switch(algo) {
 
     case AlgoKind::Off:
-        return BLINK_DISPLAY_NAME;
-    case AlgoKind::Blink:
-        return BREATH_DISPLAY_NAME;
-    case AlgoKind::Breath:
-        return CONTDOWN_DISPLAY_NAME;
-    case AlgoKind::CountDown:
-        return CYLON_DISPLAY_NAME;
-    case AlgoKind::Cylon:
         return OFF_DISPLAY_NAME;
+    case AlgoKind::Blink:
+        return BLINK_DISPLAY_NAME;
+    case AlgoKind::Breath:
+        return BREATH_DISPLAY_NAME;
+    case AlgoKind::CountDown:
+        return CONTDOWN_DISPLAY_NAME;
+    case AlgoKind::Cylon:
+        return CYLON_DISPLAY_NAME;
     case AlgoKind::RampUp:
         return RAMPUP_DISPLAY_NAME;
     case AlgoKind::Solid:
@@ -86,19 +86,19 @@ const char* AlgoKindObject::getDisplayName(AlgoKind algo) {
 
 auto AlgoKindObject::fromDisplayName(QString const& name) -> AlgoKind {
     if (name == BLINK_DISPLAY_NAME) {
-        return AlgoKind::Off;
-    }
-    if (name == BREATH_DISPLAY_NAME) {
         return AlgoKind::Blink;
     }
-    if (name == CONTDOWN_DISPLAY_NAME) {
+    if (name == BREATH_DISPLAY_NAME) {
         return AlgoKind::Breath;
     }
-    if (name == CYLON_DISPLAY_NAME) {
+    if (name == CONTDOWN_DISPLAY_NAME) {
         return AlgoKind::CountDown;
     }
-    if (name == OFF_DISPLAY_NAME) {
+    if (name == CYLON_DISPLAY_NAME) {
         return AlgoKind::Cylon;
+    }
+    if (name == OFF_DISPLAY_NAME) {
+        return AlgoKind::Off;
     }
     if (name == RAMPUP_DISPLAY_NAME) {
         return AlgoKind::RampUp;

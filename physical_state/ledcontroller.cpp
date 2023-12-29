@@ -10,6 +10,7 @@
 #include "ledalgo/rampup.h"
 #include "ledalgo/solidcolors.h"
 #include "app_state/led/interpolation.h"
+#include <app_state/led/ledconfiguration.h>
 
 LEDController::LEDController(LEDConfiguration *config, ArduinoClient *client, QObject *parent)
     : QObject{parent}
@@ -186,7 +187,7 @@ void LEDController::rampUp(int duration,
                            int p2MaxBrightness,
                            bool unified)
 {
-    m_algo = LEDAlgoPointerType(new RampUpConfig(duration,
+    m_algo = LEDAlgoPointerType(new RampUp(duration,
                                            p1Curve,
                                            p1Color,
                                            p1MinBrightness,
@@ -213,19 +214,7 @@ void LEDController::enterConfigurationScreen() {
 
 void LEDController::enterGameSelectScreen() {
     qDebug() << "Entered game selection screen setting breath as the current algorithm";
-    auto idleConfig = m_config->idleConfiguration();
-    auto p1Interpolation = Interpolation::intoEasingCurveType(idleConfig->p1Interpolation().value());
-    auto p2Interpolation = Interpolation::intoEasingCurveType(idleConfig->p2Interpolation().value());
-    breath(idleConfig->cycleDuration().value(),
-           idleConfig->p1MinBrightness().value(),
-           idleConfig->p1MaxBrightness().value(),
-           idleConfig->p1Color().value(),
-           p1Interpolation,
-           idleConfig->p2MinBrightness().value(),
-           idleConfig->p2MaxBrightness().value(),
-           idleConfig->p2Color().value(),
-           p2Interpolation,
-           idleConfig->useP1ForBoth().value());
+    m_config->idleConfiguration()->algoConfig().setLEDController(this);
 }
 
 void LEDController::enterDMConfigScreen() {
