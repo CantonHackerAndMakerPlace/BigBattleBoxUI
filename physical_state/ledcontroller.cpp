@@ -9,7 +9,6 @@
 #include "ledalgo/lightoff.h"
 #include "ledalgo/rampup.h"
 #include "ledalgo/solidcolors.h"
-#include "app_state/led/interpolation.h"
 #include <app_state/led/ledconfiguration.h>
 
 LEDController::LEDController(LEDConfiguration *config, ArduinoClient *client, QObject *parent)
@@ -79,32 +78,42 @@ void LEDController::breath(int duration,
 }
 
 void LEDController::countDownFill(int duration,
-                                  int p1Brightness,
-                                  QEasingCurve easingCurve,
-                                  QColor p1ConsumedColor,
-                                  QColor p1Countolor,
-                                  QColor p1FinalColor,
-                                  int p1FinalColorBrightness,
-                                  int p2Brightness,
-                                  QColor p2ConsumedColor,
-                                  QColor p2CountColor,
-                                  QColor p2FinalColor,
-                                  int p2FinalColorBrightness,
-                                  UnificationKindObject::Style unificationKind)
+                                 bool loop,
+                                 int timeBetweenLoop,
+
+                                 QEasingCurve p1EasingCurve,
+                                 int p1Brightness,
+                                 QColor p1ConsumedColor,
+                                 QColor p1Countolor,
+                                 QColor p1FinalColor,
+                                 int p1FinalColorBrightness,
+
+                                 QEasingCurve p2EasingCurve,
+                                 int p2Brightness,
+                                 QColor p2ConsumedColor,
+                                 QColor p2CountColor,
+                                 QColor p2FinalColor,
+                                 int p2FinalColorBrightness,
+                                 UnificationKindObject::Kind unificationStyle)
 {
     m_algo = LEDAlgoPointerType(new CountDownFill(duration,
+                                                  loop,
+                                                  timeBetweenLoop,
+
+                                                  p1EasingCurve,
                                                   p1Brightness,
-                                                  easingCurve,
                                                   p1ConsumedColor,
                                                   p1Countolor,
                                                   p1FinalColor,
                                                   p1FinalColorBrightness,
+
+                                                  p2EasingCurve,
                                                   p2Brightness,
                                                   p2ConsumedColor,
                                                   p2CountColor,
                                                   p2FinalColor,
                                                   p2FinalColorBrightness,
-                                                  unificationKind));
+                                                  unificationStyle));
 }
 
 void LEDController::blink(int numberOfBlinks,
@@ -148,7 +157,7 @@ void LEDController::cylon(int startIndex,
                           QColor p1backgroundColor,
                           QColor p2foregroundColor,
                           QColor p2backgroundColor,
-                          UnificationKindObject::Style unificationKind) {
+                          UnificationKindObject::Kind unificationKind) {
     m_algo = LEDAlgoPointerType(new Cylon(startIndex,
                                           stopIndex,
                                           eyeLength,

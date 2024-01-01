@@ -48,18 +48,21 @@ public slots:
     /// or together. The unified parameter will ignore p1 color settings and just use
     /// p1 settings for the entire strip.
     void countDownFill(int duration,
-                       int p1brightness,
-                       QEasingCurve easingCurve,
+                       bool loop,
+                       int timeBetweenLoop,
+                       QEasingCurve p1EasingCurve,
+                       int p1Brightness,
                        QColor p1ConsumedColor,
-                       QColor p1CountColor,
+                       QColor p1Countolor,
                        QColor p1FinalColor,
                        int p1FinalColorBrightness,
+                       QEasingCurve p2EasingCurve,
                        int p2Brightness,
                        QColor p2ConsumedColor,
                        QColor p2CountColor,
                        QColor p2FinalColor,
                        int p2FinalColorBrightness,
-                       UnificationKindObject::Style unifiedLedStrips);
+                       UnificationKindObject::Kind unificationStyle);
 
     /// Enter the blink state for the number of blinks and end both with the final color.
     void blink(int numberOfBlinks,
@@ -88,7 +91,7 @@ public slots:
                QColor p1backgroundColor,
                QColor p2foregroundColor,
                QColor p2backgroundColor,
-               UnificationKindObject::Style unifiedLedStrips);
+               UnificationKindObject::Kind unifiedLedStrips);
 
     /// Enters the solid colors state where don't do anything but display a
     /// specififc color at a specified brightness.

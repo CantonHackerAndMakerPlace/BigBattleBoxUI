@@ -4,64 +4,64 @@ static constexpr const char* BOTHSAME_NAME = "bothsame";
 static constexpr const char* SEPARATE_NAME = "separate";
 static constexpr const char* SUPERSTRIP_NAME = "superstrip";
 
-const char* UnificationKindObject::getName(Style s) {
+const char* UnificationKindObject::getName(Kind s) {
     switch(s) {
-    case Style::BothSame:
+    case Kind::BothSame:
         return BOTHSAME_NAME;
-    case Style::Separate:
+    case Kind::Separate:
         return SEPARATE_NAME;
-    case Style::SuperStrip:
+    case Kind::SuperStrip:
         return SUPERSTRIP_NAME;
     }
     return BOTHSAME_NAME;
 }
 
-auto UnificationKindObject::fromName(QString const& s) -> std::optional<Style> {
+auto UnificationKindObject::fromName(QString const& s) -> std::optional<Kind> {
     auto name = s.toLower();
     if (name == BOTHSAME_NAME) {
-        return Style::BothSame;
+        return Kind::BothSame;
     }
     if (name == SEPARATE_NAME) {
-        return Style::Separate;
+        return Kind::Separate;
     }
     if (name == SUPERSTRIP_NAME) {
-        return Style::SuperStrip;
+        return Kind::SuperStrip;
     }
-    return std::optional<Style>();
+    return std::optional<Kind>();
 }
 
 static constexpr const char* BOTHSAME_DISPLAY_NAME = "Both LED strips are the same";
 static constexpr const char* SEPARATE_DISPLAY_NAME = "Using individual settings";
 static constexpr const char* SUPERSTRIP_DISPLAY_NAME = "Treat as one large strip";
 
-const char* UnificationKindObject::getDisplayName(Style s) {
+const char* UnificationKindObject::getDisplayName(Kind s) {
     switch(s) {
-
-    case Style::BothSame:
+        
+    case Kind::BothSame:
         return BOTHSAME_DISPLAY_NAME;
-    case Style::Separate:
+    case Kind::Separate:
         return SEPARATE_DISPLAY_NAME;
-    case Style::SuperStrip:
+    case Kind::SuperStrip:
         return SUPERSTRIP_DISPLAY_NAME;
     }
     return BOTHSAME_DISPLAY_NAME;
 }
 
-auto UnificationKindObject::fromDisplayName(QString const& s) -> Style {
+auto UnificationKindObject::fromDisplayName(QString const& s) -> Kind {
     if(s == BOTHSAME_DISPLAY_NAME) {
-        return Style::BothSame;
+        return Kind::BothSame;
     }
     if(s == SEPARATE_DISPLAY_NAME) {
-        return Style::Separate;
+        return Kind::Separate;
     }
     if(s == SUPERSTRIP_DISPLAY_NAME) {
-        return Style::SuperStrip;
+        return Kind::SuperStrip;
     }
     // Default behavior in the event that we don't recognize the display name.
-    return Style::SuperStrip;
+    return Kind::SuperStrip;
 }
 
-UnificationKindObject::UnificationKindObject(Style valueAndDefault, QString const& settingsKey, QObject *parent)
+UnificationKindObject::UnificationKindObject(Kind valueAndDefault, QString const& settingsKey, QObject *parent)
     : QObject{parent}
     , m_value(valueAndDefault)
     , m_default(valueAndDefault)
@@ -70,7 +70,7 @@ UnificationKindObject::UnificationKindObject(Style valueAndDefault, QString cons
 
 }
 
-auto UnificationKindObject::value() const -> Style {
+auto UnificationKindObject::value() const -> Kind {
     return m_value;
 }
 
@@ -78,11 +78,11 @@ QString const& UnificationKindObject::settingsKey() const {
     return m_settingsKey;
 }
 
-auto UnificationKindObject::defaultValue() const -> Style {
+auto UnificationKindObject::defaultValue() const -> Kind {
     return m_default;
 }
 
-void UnificationKindObject::setValue(Style value) {
+void UnificationKindObject::setValue(Kind value) {
     if (m_value != value) {
         m_value = value;
         emit valueChanged(m_value);
@@ -93,7 +93,7 @@ void UnificationKindObject::attachSettings(QSettings *settings) {
     auto defaultValueName = getName(m_default);
     auto loadedSetting = settings->value(m_settingsKey, defaultValueName).value<QString>();
     auto loadedCurve = fromName(loadedSetting);
-    Style style;
+    Kind style;
     if(!loadedCurve.has_value()) {
         qDebug() << "Failed to load value from file for:"
                  << m_settingsKey << "using default value"
@@ -104,7 +104,7 @@ void UnificationKindObject::attachSettings(QSettings *settings) {
         style = loadedCurve.value();
     }
     connect(this, &UnificationKindObject::valueChanged,
-            [=](Style newValue) {
+            [=](Kind newValue) {
                 qDebug() << "Updating " << m_settingsKey << ": " << getName(newValue);
                 settings->setValue(m_settingsKey, getName(newValue));
                 settings->sync();

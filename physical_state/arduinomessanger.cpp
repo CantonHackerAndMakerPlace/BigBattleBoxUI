@@ -306,6 +306,7 @@ void ArduinoMessanger::messageHandler() {
             // Handling case for actually sending a message.
             auto nextMsg = m_messagesToSend.dequeue();
             m_awaitingResponseFor = nextMsg;
+//            qDebug() << "Sending message " << nextMsg.content;
             emit sentMessage(nextMsg.kind, nextMsg.content);
             m_conn->sendData(nextMsg.content);
             m_messagingTimeoutHandler->start(m_timeOutMs);

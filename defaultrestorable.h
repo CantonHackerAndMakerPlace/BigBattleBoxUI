@@ -53,11 +53,15 @@ public slots:
     /// default value.
     void restoreDefaultValue();
 
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(int value);
+
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(int value);
 signals:
     void valueChanged(int value);
+    void defaultValueChanged(int value);
 private:
     int m_defaultValue;
     int m_cur;
@@ -109,8 +113,13 @@ public slots:
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(Interpolation::Curve value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(Interpolation::Curve value);
+
 signals:
     void valueChanged(Interpolation::Curve value);
+    void defaultValueChanged(Interpolation::Curve value);
 private:
     Interpolation::Curve m_defaultValue;
     Interpolation::Curve m_cur;
@@ -163,8 +172,12 @@ public slots:
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(bool value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(bool value);
 signals:
     void valueChanged(bool value);
+    void defaultValueChanged(bool value);
 private:
     bool m_defaultValue;
     bool m_cur;
@@ -211,8 +224,12 @@ public slots:
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(QString const& value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(QString const& value);
 signals:
     void valueChanged(QString const& value);
+    void defaultValueChanged(QString const& value);
 private:
     QString m_defaultValue;
     QString m_cur;
@@ -262,8 +279,12 @@ public slots:
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(qreal value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(qreal value);
 signals:
     void valueChanged(qreal value);
+    void defaultValueChanged(qreal value);
 private:
     qreal m_defaultValue;
     qreal m_cur;
@@ -313,8 +334,12 @@ public slots:
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(QColor const& value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(QColor value);
 signals:
     void valueChanged(QColor const& value);
+    void defaultValueChanged(QColor const &value);
 private:
     QColor m_defaultValue;
     QColor m_cur;
@@ -326,20 +351,20 @@ class DefaultRestorableUnificationKind : public QObject
     Q_OBJECT
 
 public:
-    using Style = UnificationKindObject::Style;
+    using Kind = UnificationKindObject::Kind;
 
     /// Sets the current and previous value to initialValue.
-    explicit DefaultRestorableUnificationKind(Style defaultValue, QObject *parent = nullptr);
+    explicit DefaultRestorableUnificationKind(Kind defaultValue, QObject *parent = nullptr);
 
     /// Returns the current value.
-    Style value() const;
+    Kind value() const;
 
     /// Returns the previous value that the value can be
     /// restored to.
-    Style previousValue() const;
+    Kind previousValue() const;
 
     /// Returns the default value.
-    Style defaultValue() const;
+    Kind defaultValue() const;
 
     /// Returns true if the previous and current value are different.
     bool hasChange() const;
@@ -350,10 +375,10 @@ public slots:
     void saveValue();
 
     /// Set the previous value.
-    void setPreviousValue(Style previousValue);
+    void setPreviousValue(Kind previousValue);
 
     /// Sets current and previous value.
-    void setCurrentAndPreviousValue(Style value);
+    void setCurrentAndPreviousValue(Kind value);
 
     /// Restores value to the previous value
     void restorePreviousValue();
@@ -364,13 +389,17 @@ public slots:
 
     /// Save the current value into previous and set the current
     /// value to the provided.
-    void setValue(Style value);
+    void setValue(Kind value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(Kind value);
 signals:
-    void valueChanged(Style value);
+    void valueChanged(Kind value);
+    void defaultValueChanged(Kind value);
 private:
-    Style m_defaultValue;
-    Style m_cur;
-    Style m_prev;
+    Kind m_defaultValue;
+    Kind m_cur;
+    Kind m_prev;
 };
 
 
@@ -418,8 +447,12 @@ public slots:
     /// Save the current value into previous and set the current
     /// value to the provided.
     void setValue(AlgoKind value);
+
+    /// Sets the default value asscoiated with this object.
+    void setDefaultValue(AlgoKind value);
 signals:
     void valueChanged(AlgoKind value);
+    void defaultValueChanged(AlgoKind value);
 private:
     AlgoKind m_defaultValue;
     AlgoKind m_cur;

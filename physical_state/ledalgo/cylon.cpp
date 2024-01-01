@@ -11,7 +11,7 @@ Cylon::Cylon(int startIndex,
              QColor p1backgroundColor,
              QColor p2foregroundColor,
              QColor p2backgroundColor,
-             UnificationKindObject::Style unificationKind)
+             UnificationKindObject::Kind unificationKind)
     :m_startIndex(startIndex),
     m_stopIndex(stopIndex),
     m_eyeLength(eyeLength),

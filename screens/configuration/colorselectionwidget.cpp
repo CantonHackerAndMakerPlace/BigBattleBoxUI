@@ -16,10 +16,16 @@ ColorSelectionWidget::ColorSelectionWidget(QWidget *parent)
     connect(ui->changeColorButton, &QPushButton::clicked,
             [&](bool) {
                 auto newColor = QColorDialog::getColor(m_value.value(), this, "Select a color", QColorDialog::DontUseNativeDialog).convertTo(QColor::Spec::Rgb);
-                ui->colorWidgetDisplay->setStyleSheet(QString(styleSheetToFmt).arg(m_value.value().name()));
                 m_value.setValue(newColor);
             }
         );
+    connect(&m_value, &DefaultRestorableQColor::defaultValueChanged,
+            this, &ColorSelectionWidget::defaultValueChanged);
+    connect(&m_value, &DefaultRestorableQColor::valueChanged,
+            [&](QColor color) {
+                qDebug() << "Received a color change from " << ui->colorLabel->text();
+                ui->colorWidgetDisplay->setStyleSheet(QString(styleSheetToFmt).arg(m_value.value().name()));
+            });
 }
 
 ColorSelectionWidget::~ColorSelectionWidget() {
@@ -30,8 +36,15 @@ bool ColorSelectionWidget::hasChanges() const {
     return m_value.hasChange();
 }
 
+QString ColorSelectionWidget::title() const {
+    return ui->colorLabel->text();
+}
+
+QColor ColorSelectionWidget::defaultValue() const {
+    return m_value.defaultValue();
+}
+
 void ColorSelectionWidget::init(ColorObject *settingObject) {
-    qDebug() << "Initialzing color thingy!";
     assert(!m_settingObject && "Must not be initialized twice");
     m_settingObject = settingObject;
     connect(m_settingObject, &ColorObject::valueChanged,
@@ -55,14 +68,16 @@ void ColorSelectionWidget::save() {
     m_settingObject->setValue(m_value.value());
 }
 
-//QColor ColorSelectionWidget::getColor() const {
-//    return m_currentColor;
-//}
+void ColorSelectionWidget::setTitle(QString value) {
+    if (value != ui->colorLabel->text()) {
+        ui->colorLabel->setText(value);
+        emit titleChanged(ui->colorLabel->text());
+    }
+}
 
-//void ColorSelectionWidget::setColor(QColor color) {
-//    if (color != m_currentColor) {
-//        m_currentColor = color;
-//        ui->colorWidgetDisplay->setStyleSheet(QString(styleSheetToFmt).arg(m_currentColor.name()));
-//        emit colorChanged(m_currentColor);
-//    }
-//}
+void ColorSelectionWidget::setDefaultValue(QColor value) {
+    qDebug() << "Setting default value for:" << ui->colorLabel->text() << "with value" << value;
+
+    m_value.setDefaultValue(value.convertTo(QColor::Spec::Rgb));
+}
+

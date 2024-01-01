@@ -157,6 +157,7 @@ void IdleLedConfigurationWidget::init(ApplicationState *state) {
     auto idleConfig = m_state->ledConfig()->idleConfiguration();
     ui->algorithmSelector->init(&idleConfig->algoConfig().getAlgoKind());
     ui->breathPage->init(idleConfig->algoConfig().getBreath());
+    ui->countDownPage->init(idleConfig->algoConfig().getCountDownFill());
 
     // Connecting the ledConfig with the current application state.
 //    connectAppState(m_duration, idleConfig->cycleDuration());
@@ -211,13 +212,15 @@ bool IdleLedConfigurationWidget::hasChanges() const {
 //           m_p2Maximum.hasChange() ||
 //           m_p2Curve.hasChange();
     return ui->algorithmSelector->hasChanges()
-           || ui->breathPage->hasChanges();
+           || ui->breathPage->hasChanges()
+           || ui->countDownPage->hasChanges();
 }
 
 void IdleLedConfigurationWidget::save() {
     // Saving data into the configuration.
     ui->algorithmSelector->save();
     ui->breathPage->save();
+    ui->countDownPage->save();
 //    auto idleConfig = m_state->ledConfig()->idleConfiguration();
 //    idleConfig->cycleDuration().setValue(m_duration.value());
 //    idleConfig->useP1ForBoth().setValue(m_link.value());
@@ -237,6 +240,7 @@ void IdleLedConfigurationWidget::cancel() {
     // Storeing the previous values.
     ui->algorithmSelector->restorePreviousValue();
     ui->breathPage->restorePreviousValue();
+    ui->countDownPage->restorePreviousValue();
 
 }
 
@@ -244,6 +248,7 @@ void IdleLedConfigurationWidget::revertToDefault() {
     // Restoring to default values.
     ui->algorithmSelector->restoreDefaultValue();
     ui->breathPage->restoreDefaultValue();
+    ui->countDownPage->restoreDefaultValue();
 }
 
 //void IdleLedConfigurationWidget::connectAppState(DefaultRestorableInt &localValue, IntegerObject& configuredValue) {

@@ -18,7 +18,7 @@ public:
         QColor p1backgroundColor,
         QColor p2foregroundColor,
         QColor p2backgroundColor,
-        UnificationKindObject::Style unificationKind);
+          UnificationKindObject::Kind unificationKind);
 
     /// Send the initial configuration and begin the algorithm.
     virtual void start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) override;
@@ -46,7 +46,7 @@ private:
     QColor m_p1backgroundColor;
     QColor m_p2foregroundColor;
     QColor m_p2backgroundColor;
-    UnificationKindObject::Style m_unificationKind;
+    UnificationKindObject::Kind m_unificationKind;
 };
 
 #endif // CYLON_H

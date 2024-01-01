@@ -241,8 +241,18 @@ set(PROJECT_SOURCES
     widgets/algorithmdropdown.h
     widgets/algorithmdropdown.cpp
     widgets/algorithmdropdown.ui
+    widgets/unificationdropdownwidget.h
+    widgets/unificationdropdownwidget.cpp
+    widgets/unificationdropdownwidget.ui
+    widgets/defaultrestorablecheckbox.h
+    widgets/defaultrestorablecheckbox.cpp
+    widgets/defaultrestorablecheckbox.ui
+    widgets/defaultrestorablespinbox.h
+    widgets/defaultrestorablespinbox.cpp
+    widgets/defaultrestorablespinbox.ui
 
 
+    # Other files.
     defaultrestorable.h
     defaultrestorable.cpp
 

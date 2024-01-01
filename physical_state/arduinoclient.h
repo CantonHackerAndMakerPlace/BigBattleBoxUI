@@ -36,6 +36,7 @@ public:
     /// Sets both strips the same way.
     void mirroredSetPixel(QColor color, int index, bool show = true);
     void mirroredFill(QColor color, int index, int count, bool show = true);
+    void mirroredFill(QColor color, int index, qreal percentage, bool show = true);
 
     /// Functions that can be used by both the global and mirrored
     /// and contiguous.

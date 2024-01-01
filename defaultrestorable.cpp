@@ -58,9 +58,15 @@ void DefaultRestorableInt::setValue(int value) {
     }
 }
 
+void DefaultRestorableInt::setDefaultValue(int value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 DefaultRestorableInt& DefaultRestorableInt::operator=(IntegerObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }
 
@@ -122,9 +128,15 @@ void DefaultRestorableCurve::setValue(Interpolation::Curve value) {
     }
 }
 
+void DefaultRestorableCurve::setDefaultValue(Interpolation::Curve value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 DefaultRestorableCurve& DefaultRestorableCurve::operator=(InterpolationCurveObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }
 
@@ -185,9 +197,15 @@ void DefaultRestorableBool::setValue(bool value) {
     }
 }
 
+void DefaultRestorableBool::setDefaultValue(bool value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 DefaultRestorableBool& DefaultRestorableBool::operator=(BooleanObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }
 
@@ -248,6 +266,13 @@ void DefaultRestorableString::setValue(QString const& value) {
     }
 }
 
+void DefaultRestorableString::setDefaultValue(QString const& value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 // DefaultRestorableQReal
 
 DefaultRestorableQReal::DefaultRestorableQReal(qreal defaultValue, QObject *parent)
@@ -272,9 +297,15 @@ bool DefaultRestorableQReal::hasChange() const {
     return m_cur != m_prev;
 }
 
+void DefaultRestorableQReal::setDefaultValue(qreal value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 DefaultRestorableQReal& DefaultRestorableQReal::operator=(QRealObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }
 
@@ -369,30 +400,34 @@ void DefaultRestorableQColor::setValue(QColor const& value) {
     }
 }
 
+void DefaultRestorableQColor::setDefaultValue(QColor value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 DefaultRestorableQColor& DefaultRestorableQColor::operator=(ColorObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }
 
-
-
 // DefaultRestorableUnificationKind
-DefaultRestorableUnificationKind::DefaultRestorableUnificationKind(Style defaultValue, QObject *parent)
+DefaultRestorableUnificationKind::DefaultRestorableUnificationKind(Kind defaultValue, QObject *parent)
     : m_defaultValue(defaultValue)
     , m_cur(defaultValue)
     , m_prev(defaultValue)
 { }
 
-auto DefaultRestorableUnificationKind::value() const -> Style {
+auto DefaultRestorableUnificationKind::value() const -> Kind {
     return m_cur;
 }
 
-auto DefaultRestorableUnificationKind::previousValue() const -> Style {
+auto DefaultRestorableUnificationKind::previousValue() const -> Kind {
     return m_prev;
 }
 
-auto DefaultRestorableUnificationKind::defaultValue() const -> Style {
+auto DefaultRestorableUnificationKind::defaultValue() const -> Kind {
     return m_defaultValue;
 }
 
@@ -404,13 +439,20 @@ void DefaultRestorableUnificationKind::saveValue() {
     m_prev = m_cur;
 }
 
-void DefaultRestorableUnificationKind::setPreviousValue(Style previousValue) {
+void DefaultRestorableUnificationKind::setPreviousValue(Kind previousValue) {
     m_prev = previousValue;
 }
 
-void DefaultRestorableUnificationKind::setCurrentAndPreviousValue(Style value) {
+void DefaultRestorableUnificationKind::setCurrentAndPreviousValue(Kind value) {
     setPreviousValue(value);
     setValue(value);
+}
+
+void DefaultRestorableUnificationKind::setDefaultValue(Kind value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
 }
 
 void DefaultRestorableUnificationKind::restorePreviousValue() {
@@ -427,7 +469,7 @@ void DefaultRestorableUnificationKind::restoreDefaultValue() {
     }
 }
 
-void DefaultRestorableUnificationKind::setValue(Style value) {
+void DefaultRestorableUnificationKind::setValue(Kind value) {
     if (m_cur != value) {
         m_cur = value;
         emit valueChanged(m_cur);
@@ -436,7 +478,6 @@ void DefaultRestorableUnificationKind::setValue(Style value) {
 
 DefaultRestorableUnificationKind& DefaultRestorableUnificationKind::operator=(UnificationKindObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }
 
@@ -500,8 +541,14 @@ void DefaultRestorableAlgoKind::setValue(AlgoKind value) {
     }
 }
 
+void DefaultRestorableAlgoKind::setDefaultValue(AlgoKind value) {
+    if (m_defaultValue != value) {
+        m_defaultValue = value;
+        emit defaultValueChanged(m_defaultValue);
+    }
+}
+
 DefaultRestorableAlgoKind& DefaultRestorableAlgoKind::operator=(AlgoKindObject const& other) {
     setCurrentAndPreviousValue(other.value());
-    m_defaultValue = other.defaultValue();
     return *this;
 }

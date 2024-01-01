@@ -48,10 +48,24 @@
       <widget class="CycleDurationConfigWidget" name="durationWidget" native="true"/>
      </item>
      <item row="4" column="0">
-      <widget class="BrightnessSelectionWidget" name="p1BrightnessSelector" native="true"/>
+      <widget class="BrightnessSelectionWidget" name="p1BrightnessSelector" native="true">
+       <property name="defaultMinimum" stdset="0">
+        <number>10</number>
+       </property>
+       <property name="defaultMaximum" stdset="0">
+        <number>45</number>
+       </property>
+      </widget>
      </item>
      <item row="4" column="1">
-      <widget class="BrightnessSelectionWidget" name="p2BrightnessSelector" native="true"/>
+      <widget class="BrightnessSelectionWidget" name="p2BrightnessSelector" native="true">
+       <property name="defaultMinimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="defaultMaximum" stdset="0">
+        <number>60</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

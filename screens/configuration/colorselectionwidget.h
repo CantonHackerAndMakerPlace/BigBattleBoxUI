@@ -13,18 +13,24 @@ class ColorSelectionWidget;
 class ColorSelectionWidget : public QWidget
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
+    Q_PROPERTY(QColor defaultValue READ defaultValue WRITE setDefaultValue NOTIFY defaultValueChanged)
 public:
     explicit ColorSelectionWidget(QWidget *parent = nullptr);
     ~ColorSelectionWidget();
     bool hasChanges() const;
+    QString title() const;
+    QColor defaultValue() const;
 public slots:
     void init(ColorObject *color);
     void restorePreviousValue();
     void restoreDefaultValue();
     void save();
-//signals:
-//    void colorChanged(QColor newColor);
+    void setTitle(QString title);
+    void setDefaultValue(QColor value);
+signals:
+    void titleChanged(QString title);
+    void defaultValueChanged(QColor value);
 private:
     Ui::ColorSelectionWidget *ui;
     DefaultRestorableQColor m_value;

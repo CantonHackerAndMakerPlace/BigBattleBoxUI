@@ -14,6 +14,10 @@ BrightnessSelectionWidget::BrightnessSelectionWidget(QWidget *parent)
     m_slider->setRange(0, 255);
     ui->mainGrid->addWidget(m_slider, 2, 0, 1, 3);
 
+    connect(&m_min, &DefaultRestorableInt::defaultValueChanged,
+              this, &BrightnessSelectionWidget::defaultMinimumChanged);
+    connect(&m_max, &DefaultRestorableInt::defaultValueChanged,
+            this, &BrightnessSelectionWidget::defaultMaximumChanged);
 
     // Chaining signals together.
     connect(m_slider, &BrightnessRangeSlider::maximumPositionChanged,
@@ -70,6 +74,14 @@ DefaultRestorableInt const& BrightnessSelectionWidget::maxBrightness() const {
     return m_max;
 }
 
+int BrightnessSelectionWidget::defaultMinimum() const {
+    return m_min.defaultValue();
+}
+
+int BrightnessSelectionWidget::defaultMaximum() const {
+    return m_max.defaultValue();
+}
+
 void BrightnessSelectionWidget::init(IntegerObject *minSetting, IntegerObject *maxSetting) {
     assert(!m_minSetting && !m_maxSetting && "Cannot be initialized twice");
     m_minSetting = minSetting;
@@ -104,10 +116,18 @@ void BrightnessSelectionWidget::save() {
 
 void BrightnessSelectionWidget::setMinValue(int value) {
     m_min.setValue(value);
-//    m_slider->setMinimumPosition(value);
 }
 
 void BrightnessSelectionWidget::setMaxValue(int value) {
     m_max.setValue(value);
-//    m_slider->setMaximumPosition(value);
+}
+
+void BrightnessSelectionWidget::setDefaultMinimum(int value) {
+    m_min.setValue(value);
+    m_min.setDefaultValue(value);
+}
+
+void BrightnessSelectionWidget::setDefaultMaximum(int value) {
+    m_max.setValue(value);
+    m_max.setDefaultValue(value);
 }
