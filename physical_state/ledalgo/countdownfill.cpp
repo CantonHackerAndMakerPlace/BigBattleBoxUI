@@ -104,7 +104,7 @@ qint64 CountDownFill::computeCurrentLoopIteration(qint64 elapsedTime) {
     if (m_loop) {
         return elapsedTime / (m_duration + m_timeBetweenLoops);
     } else {
-        if (m_duration > elapsedTime) {
+        if (m_duration <= elapsedTime) {
             return 1;
         } else {
             return 0;
