@@ -9,8 +9,8 @@ void LightsOff::start(GeneralLEDConfiguration *, ArduinoClient *client) { }
 
 void LightsOff::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *client) {
     // Setting all of the lighjts to white and setting the brightness to zero.
-    client->setGlobalColor(QColor(Qt::white), false);
-    client->setAllBrightness(0);
+    client->setGlobalColor(QColor(Qt::white));
+    client->setAllBrightness(0, true);
     m_isFinished = true;
 }
 

@@ -26,13 +26,13 @@ Breath::Breath(int duration,
 
 void Breath::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
     if (m_unified) {
-        client->setGlobalColor(m_p1Color, false);
-        client->setAllBrightness(m_p1MinBrightness);
+        client->setGlobalColor(m_p1Color);
+        client->setAllBrightness(m_p1MinBrightness, true);
     } else {
-        client->p1SetColor(m_p1Color, false);
-        client->p2SetColor(m_p2Color, false);
-        client->p1SetBrightness(m_p1MinBrightness, false);
-        client->p2SetBrightness(m_p2MinBrightness);
+        client->p1SetColor(m_p1Color);
+        client->p2SetColor(m_p2Color);
+        client->p1SetBrightness(m_p1MinBrightness);
+        client->p2SetBrightness(m_p2MinBrightness, true);
     }
 }
 
@@ -62,7 +62,7 @@ void Breath::update(GeneralLEDConfiguration*, qint64 elapsedTime, ArduinoClient 
         // values to go below the min but we limit that value to being zero.
         int p1NewBrightness = std::min(m_p1MaxBrightness, std::max(0, int(floor(p1BrightnessMagnatude * p1CurveValue)) + m_p1MinBrightness));
         if (m_unified) {
-            client->setAllBrightness(p1NewBrightness);
+            client->setAllBrightness(p1NewBrightness, true);
         } else {
             qDebug() <<"Skipping non unified implementation for now.";
             // Converting player twos breath using their own curve.
@@ -75,7 +75,7 @@ void Breath::update(GeneralLEDConfiguration*, qint64 elapsedTime, ArduinoClient 
 
         int p1NewBrightness = std::min(m_p1MaxBrightness, std::max(0, int(floor(p1BrightnessMagnatude * p1InvertedCurveValue)) + m_p1MinBrightness));
         if (m_unified) {
-            client->setAllBrightness(p1NewBrightness);
+            client->setAllBrightness(p1NewBrightness, true);
         }
     }
 }

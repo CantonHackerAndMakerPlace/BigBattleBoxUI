@@ -29,7 +29,7 @@ int ArduinoClient::computePlayerOneIndex(int providedIndex) {
     if (providedIndex >= m_config->playerOneLedCount().value()) {
         return 0;
     }
-    if (m_config->playerOneLedDirection().value()) {
+    if (!m_config->playerOneLedDirection().value()) {
         // Forward
         return providedIndex;
     } else {
@@ -42,7 +42,7 @@ int ArduinoClient::computePlayerTwoIndex(int providedIndex){
     if (providedIndex >= m_config->playerTwoLedCount().value()) {
         return 0;
     }
-    if (m_config->playerTwoLedDirection().value()) {
+    if (!m_config->playerTwoLedDirection().value()) {
         // Forward
         return providedIndex;
     } else {
@@ -56,7 +56,7 @@ ArduinoClient::FillInfo ArduinoClient::computePlayerOneFill(int providedIndex, i
     if (providedIndex >= m_config->playerOneLedCount().value()) {
         return {0, 0};
     }
-    if (m_config->playerOneLedDirection().value()) {
+    if (!m_config->playerOneLedDirection().value()) {
         // Forward
         return { providedIndex, providedCount };
     } else {
@@ -69,12 +69,12 @@ ArduinoClient::FillInfo ArduinoClient::computePlayerTwoFill(int providedIndex, i
     if (providedIndex >= m_config->playerTwoLedCount().value()) {
         return {0, 0};
     }
-    if (m_config->playerTwoLedDirection().value()) {
+    if (!m_config->playerTwoLedDirection().value()) {
         // Forward
         return { providedIndex, providedCount };
     } else {
         // backward
-        return { computePlayerTwoIndex(providedIndex) - providedCount, providedCount};
+        return { computePlayerTwoIndex(providedIndex) - providedCount, providedCount };
     }
 }
 
@@ -94,31 +94,93 @@ void ArduinoClient::contigiousSetPixel(QColor color, int index, bool show) {
 }
 
 void ArduinoClient::contigiousFill(QColor color, int index, int count, bool show) {
-    // Building the fill command for player two.
-    if ((index + count) > m_config->playerOneLedCount().value()) {
-        int p2Count = (index + count) - m_config->playerOneLedCount().value();
-        int p2StartingIndex = 0;
-        if (index > m_config->playerOneLedCount().value()) {
-            // Change to be relative to the p2 LED strand otherwise leave the value
-            // as zero and start at the beginning.
-            p2StartingIndex = index - m_config->playerOneLedCount().value();
-        }
-        auto p2Fill = computePlayerTwoFill(p2StartingIndex, p2Count);
-        m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
-    }
+    qDebug() << "Called contigiousFill(int) index count" << index << " " << count<< "Show" <<show ;
 
-    // Building the fill command for player one.
-    if (index < m_config->playerOneLedCount().value()) {
-        // No need to fill player two because the lights don't reach
-        // that far.
-        // Starting index doesn't change but the number of led within the count does change.
-        int computedCount = std::min(index + count, m_config->playerOneLedCount().value()) - index;
-        auto p1Fill = computePlayerTwoFill(index, computedCount);
-        m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
+    int p2Index = 0;
+    int p2Count = 0;
+    int p1Index = 0;
+    int p1Count = 0;
+    if (m_config->lightOrder() == 0) {
+        // Handling p1 -> p2 ordering
+
+        // Checking if we will be setting the number of lights inside
+        // of the 2nd strip.
+        if ((index + count) > m_config->playerOneLedCount().value()) {
+            if (index > m_config->playerOneLedCount().value()) {
+                // We start from zero unless the index is greather than the number of led inside of
+                // p1.
+                p2Index = index - m_config->playerOneLedCount().value();
+                // Then the count should be unchanged because we are scoped to
+                // the 2nd stip only.
+                p2Count = count;
+            } else {
+                // Computiung count because it will be the number of from the starting position minus
+                // the number off lights in the first strip.
+                p2Count = index + count - m_config->playerOneLedCount().value();
+            }
+            p2Fill(color, p2Index, p2Count);
+        }
+
+
+        if (index <= m_config->playerOneLedCount()) {
+            p1Index = index;
+            if ((p1Index + count) >= m_config->playerOneLedCount()) {
+                p1Count = m_config->playerOneLedCount() - index;
+            } else {
+                p1Count = count;
+            }
+            p1Fill(color, p1Index, p1Count);
+        }
+    } else {
+        // Handling p2 -> p1 ordering
+
+        // Checking if we will be setting the number of lights inside
+        // of the 2nd strip.
+        if ((index + count) > m_config->playerTwoLedCount().value()) {
+            if (index > m_config->playerTwoLedCount().value()) {
+                // We start from zero unless the index is greather than the number of led inside of
+                // p1.
+                p1Index = index - m_config->playerTwoLedCount().value();
+                // Then the count should be unchanged because we are scoped to
+                // the 2nd stip only.
+                p1Count = count;
+            } else {
+                // Computiung count because it will be the number of from the starting position minus
+                // the number off lights in the first strip.
+                p1Count = index + count - m_config->playerTwoLedCount().value();
+            }
+            p1Fill(color, p1Index, p1Count);
+        }
+
+
+        if (index <= m_config->playerTwoLedCount()) {
+            p2Index = index;
+            if ((p2Index + count) >= m_config->playerTwoLedCount()) {
+                p2Count = m_config->playerTwoLedCount() - index;
+            }else {
+                p2Count = count;
+            }
+            p2Fill(color, p2Index, p2Count);
+        }
     }
     if (show) {
         m_messanger->sendLEDAllShow();
     }
+}
+
+void ArduinoClient::contigiousFill(QColor color, int index, qreal percentOfLights, bool show) {
+    int totalNumberOfLights = m_config->playerOneLedCount() + m_config->playerTwoLedCount();
+    if (index > totalNumberOfLights) {
+        return;
+    }
+    percentOfLights = std::max(0.0, std::min(1.0, percentOfLights));
+    int remainingLights = totalNumberOfLights - index;
+    auto computedNumberOfLights = qreal(remainingLights) * qreal(percentOfLights);
+    int lightsToIlluminate = std::max(0, std::min(totalNumberOfLights, int(std::floor(computedNumberOfLights))));
+    if (lightsToIlluminate == 0) {
+        return;
+    }
+    contigiousFill(color, index, lightsToIlluminate, show);
 }
 
 void ArduinoClient::mirroredSetPixel(QColor color, int index, bool show) {
@@ -133,10 +195,14 @@ void ArduinoClient::mirroredSetPixel(QColor color, int index, bool show) {
 
 void ArduinoClient::mirroredFill(QColor color, int index, int count, bool show) {
     auto p1Fill = computePlayerOneFill(index, count);
-    m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
+    if (p1Fill.count != 0) {
+        m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
+    }
 
     auto p2Fill = computePlayerTwoFill(index, count);
-    m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
+    if (p2Fill.count != 0) {
+        m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
+    }
 
     if (show)
         m_messanger->sendLEDAllShow();
@@ -145,12 +211,15 @@ void ArduinoClient::mirroredFill(QColor color, int index, int count, bool show) 
 void ArduinoClient::mirroredFill(QColor color, int index, qreal percentage, bool show) {
     auto numberOfLightsToFillP1 = std::min(m_config->playerOneLedCount() - index, int(std::floor(percentage * (m_config->playerOneLedCount() - index))));
     auto p1Fill = computePlayerOneFill(index, numberOfLightsToFillP1);
-    m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
-
+    if (p1Fill.count != 0) {
+        m_messanger->sendLEDFill(0, color, p1Fill.index, p1Fill.count);
+    }
 
     auto numberOfLightsToFillP2 = std::min(m_config->playerTwoLedCount() - index, int(std::floor(percentage * (m_config->playerTwoLedCount() - index))));
     auto p2Fill = computePlayerTwoFill(index, numberOfLightsToFillP2);
-    m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
+    if (p2Fill.count != 0) {
+        m_messanger->sendLEDFill(1, color, p2Fill.index, p2Fill.count);
+    }
 
     if (show)
         m_messanger->sendLEDAllShow();
@@ -180,7 +249,9 @@ void ArduinoClient::p1SetBrightness(int brightness, bool show) {
 
 void ArduinoClient::p1Fill(QColor color, int index, int count, bool show) {
     auto fill = computePlayerOneFill(index, count);
-    m_messanger->sendLEDFill(0, color, fill.index, fill.count);
+    if (fill.count != 0) {
+        m_messanger->sendLEDFill(0, color, fill.index, fill.count);
+    }
     if (show)
         m_messanger->sendLEDAllShow();
 }
@@ -207,7 +278,9 @@ void ArduinoClient::p2SetBrightness(int brightness, bool show) {
 
 void ArduinoClient::p2Fill(QColor color, int index, int count, bool show) {
     auto fill = computePlayerTwoFill(index, count);
-    m_messanger->sendLEDFill(1, color, fill.index, fill.count);
+    if (fill.count != 0) {
+        m_messanger->sendLEDFill(1, color, fill.index, fill.count);
+    }
     if (show)
         m_messanger->sendLEDAllShow();
 }

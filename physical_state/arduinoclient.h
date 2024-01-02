@@ -30,30 +30,31 @@ public:
 
 
     /// Functions for treating the entire set of pixels as a single strand
-    void contigiousSetPixel(QColor color, int index, bool show = true);
-    void contigiousFill(QColor color, int index, int count, bool show= true);
+    void contigiousSetPixel(QColor color, int index, bool show = false);
+    void contigiousFill(QColor color, int index, int count, bool show = false);
+    void contigiousFill(QColor color, int index, qreal percentOfLights, bool show = false);
 
     /// Sets both strips the same way.
-    void mirroredSetPixel(QColor color, int index, bool show = true);
-    void mirroredFill(QColor color, int index, int count, bool show = true);
-    void mirroredFill(QColor color, int index, qreal percentage, bool show = true);
+    void mirroredSetPixel(QColor color, int index, bool show = false);
+    void mirroredFill(QColor color, int index, int count, bool show = false);
+    void mirroredFill(QColor color, int index, qreal percentage, bool show = false);
 
     /// Functions that can be used by both the global and mirrored
     /// and contiguous.
-    void setGlobalColor(QColor color, bool show = true);
-    void setAllBrightness(int brightness, bool show = true);
+    void setGlobalColor(QColor color, bool show = false);
+    void setAllBrightness(int brightness, bool show = false);
 
     /// Player 1 specific led comands
-    void p1SetBrightness(int brightness, bool show = true);
-    void p1Fill(QColor color, int index, int count, bool show = true);
-    void p1SetPixel(QColor color, int index, bool show = true);
-    void p1SetColor(QColor color, bool show = true);
+    void p1SetBrightness(int brightness, bool show = false);
+    void p1Fill(QColor color, int index, int count, bool show = false);
+    void p1SetPixel(QColor color, int index, bool show = false);
+    void p1SetColor(QColor color, bool show = false);
 
     /// Player 2 specific led commands.
-    void p2SetBrightness(int brightness, bool show = true);
-    void p2Fill(QColor color, int index, int count, bool show = true);
-    void p2SetPixel(QColor color, int index, bool show = true);
-    void p2SetColor(QColor color, bool show = true);
+    void p2SetBrightness(int brightness, bool show = false);
+    void p2Fill(QColor color, int index, int count, bool show = false);
+    void p2SetPixel(QColor color, int index, bool show = false);
+    void p2SetColor(QColor color, bool show = false);
 
     void setSpotLights(bool p1, bool p2);
     void setP1SpotLight(bool v);

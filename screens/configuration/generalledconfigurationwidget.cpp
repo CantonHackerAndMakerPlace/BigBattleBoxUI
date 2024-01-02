@@ -88,9 +88,6 @@ void GeneralLEDConfigurationWidget::init(ApplicationState *state) {
     assert(!m_state && !m_generalConfig);
     m_state = state;
     m_generalConfig = m_state->ledConfig()->generalLEDConfiguration();
-    qDebug() << "=======================================";
-    qDebug() << "Connecting with applicationState";
-    qDebug() << "=======================================";
 
     // Connecting players with internal application state.
     attachPlayerOneAppState();

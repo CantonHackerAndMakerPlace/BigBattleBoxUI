@@ -40,6 +40,7 @@ CountDownFill::CountDownFill(int duration,
              << "\n    Duration:" << m_duration
              << "\n    Looping enabled:" << m_loop
              << "\n    timeBetweenLoop:" << m_timeBetweenLoops
+             << "\n    unification kind: " << UnificationKindObject::getDisplayName(m_unificationStyle)
              << "\n    p1:"
              << "\n        Initial Brightness:" << m_p1Brightness
              << "\n        Easing Curve:" << m_p1EasingCurve
@@ -54,10 +55,9 @@ CountDownFill::CountDownFill(int duration,
              << "\n        Initial Color:" << m_p2InitialColor.name()
              << "\n        Final Color:" << m_p2FinalColor.name()
              << "\n        Final Color brightness:" << m_p2FinalColorBrightness
-             << "\n    unification kind: " << UnificationKindObject::getDisplayName(m_unificationStyle)
+             << "\n";
         ;
 }
-
 
 void CountDownFill::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) {
 }
@@ -76,14 +76,10 @@ void CountDownFill::update(GeneralLEDConfiguration *generalConfig, qint64 elapse
             initialStartOfAlgorithm(client);
             // Note: We fall through here.
         case Consuming:
-            {
-
-                if (currentIteration == m_loopCounter && m_duration > timeRelativeToCurrentLoop) {
-                    consumeLedStrip(client, timeRelativeToCurrentLoop, numberOfLightsP1, numberOfLightsP2);
-                } else {
-                    finishConsuming(client);
-
-                }
+            if (currentIteration == m_loopCounter && m_duration > timeRelativeToCurrentLoop) {
+                consumeLedStrip(client, timeRelativeToCurrentLoop, numberOfLightsP1, numberOfLightsP2);
+            } else {
+                finishConsuming(client);
             }
             break;
         case Waiting:
@@ -128,15 +124,15 @@ void CountDownFill::initialStartOfAlgorithm(ArduinoClient *client) {
     switch (m_unificationStyle) {
     case UnificationKindObject::Kind::SuperStrip:
     case UnificationKindObject::Kind::BothSame:
-        client->p1SetColor(m_p1InitialColor, false);
-        client->p1SetBrightness(m_p1Brightness, false);
-        client->p2SetColor(m_p1InitialColor, false);
+        client->p1SetColor(m_p1InitialColor);
+        client->p1SetBrightness(m_p1Brightness);
+        client->p2SetColor(m_p1InitialColor);
         client->p2SetBrightness(m_p1Brightness, true);
         break;
     case UnificationKindObject::Kind::Separate:
-        client->p1SetColor(m_p1InitialColor, false);
-        client->p1SetBrightness(m_p1Brightness, false);
-        client->p2SetColor(m_p2InitialColor, false);
+        client->p1SetColor(m_p1InitialColor);
+        client->p1SetBrightness(m_p1Brightness);
+        client->p2SetColor(m_p2InitialColor);
         client->p2SetBrightness(m_p2Brightness, true);
         break;
 
@@ -148,15 +144,15 @@ void CountDownFill::finishConsuming(ArduinoClient *client) {
     switch (m_unificationStyle) {
     case UnificationKindObject::Kind::SuperStrip:
     case UnificationKindObject::Kind::BothSame:
-        client->p1SetColor(m_p1FinalColor, false);
-        client->p1SetBrightness(m_p1FinalColorBrightness, false);
-        client->p2SetColor(m_p1FinalColor, false);
+        client->p1SetColor(m_p1FinalColor);
+        client->p1SetBrightness(m_p1FinalColorBrightness);
+        client->p2SetColor(m_p1FinalColor);
         client->p2SetBrightness(m_p1FinalColorBrightness, true);
         break;
     case UnificationKindObject::Kind::Separate:
-        client->p1SetColor(m_p1FinalColor, false);
-        client->p1SetBrightness(m_p1FinalColorBrightness, false);
-        client->p2SetColor(m_p2FinalColor, false);
+        client->p1SetColor(m_p1FinalColor);
+        client->p1SetBrightness(m_p1FinalColorBrightness);
+        client->p2SetColor(m_p2FinalColor);
         client->p2SetBrightness(m_p2FinalColorBrightness, true);
         break;
     }
@@ -209,7 +205,7 @@ void CountDownFill::consumeSeparate(ArduinoClient *client, int p1LEDCount, int p
     p1PercentageOfLights = std::max(0.0, p1PercentageOfLights);
     p1PercentageOfLights = std::min(1.0, p1PercentageOfLights);
     auto p1LightCount = std::max(0, std::min(p1LEDCount, int(std::floor(p1PercentageOfLights * p1LEDCount))));
-    client->p1Fill(m_p1ConsumingColor, 0, p1LightCount, false);
+    client->p1Fill(m_p1ConsumingColor, 0, p1LightCount);
 
     qreal p2PercentageOfLights = m_p2EasingCurve.valueForProgress(percentComplete);
     // Making sure to try and keep this between 0 and 1.
@@ -220,5 +216,6 @@ void CountDownFill::consumeSeparate(ArduinoClient *client, int p1LEDCount, int p
 }
 
 void CountDownFill::consumeSuperStrip(ArduinoClient *client, int p1LEDCount, int p2LEDCount, qreal percentComplete) {
-
+    qreal p1PercentageOfLights = m_p1EasingCurve.valueForProgress(percentComplete);
+    client->contigiousFill(m_p1ConsumingColor, 0, p1PercentageOfLights, true);
 }
