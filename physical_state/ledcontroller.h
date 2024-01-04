@@ -80,18 +80,17 @@ public slots:
 
 
     /// Enter the sweaping eye state.
-    void cylon(int startIndex,
-               int stopIndex,
-               int eyeLength,
+    void cylon(int eyeLength,
                int duration,
-               int p1brightness,
-               int p2brightness,
-               QEasingCurve interpolationCurve,
-               QColor p1foregroundColor,
-               QColor p1backgroundColor,
-               QColor p2foregroundColor,
-               QColor p2backgroundColor,
-               UnificationKindObject::Kind unifiedLedStrips);
+               int p1Brightness,
+               QEasingCurve p1InterpolationCurve,
+               QColor p1ForegroundColor,
+               QColor p1BackgroundColor,
+               int p2Brightness,
+               QEasingCurve p2InterpolationCurve,
+               QColor p2ForegroundColor,
+               QColor p2BackgroundColor,
+               UnificationKindObject::Kind unificationKind);
 
     /// Enters the solid colors state where don't do anything but display a
     /// specififc color at a specified brightness.

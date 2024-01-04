@@ -16,7 +16,106 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="6" column="1">
+      <widget class="InterpolationSelectorWidget" name="p2Interpolation" native="true"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="UnificationDropDownWidget" name="unification" native="true"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="DefaultRestorableSpinBox" name="duration" native="true">
+       <property name="title" stdset="0">
+        <string>Sweep Time</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>3000</number>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>100000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="InterpolationSelectorWidget" name="p1Interpolation" native="true"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="DefaultRestorableSpinBox" name="eyeLength" native="true">
+       <property name="title" stdset="0">
+        <string>Eye Length</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>2</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>15</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="ColorSelectionWidget" name="p1EyeColor" native="true">
+       <property name="title" stdset="0">
+        <string>Eye color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="ColorSelectionWidget" name="p2EyeColor" native="true">
+       <property name="title" stdset="0">
+        <string>Eye color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>8</red>
+         <green>0</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="DefaultRestorableSpinBox" name="p1Brightness" native="true">
+       <property name="title" stdset="0">
+        <string>Brightness</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>255</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="ColorSelectionWidget" name="p2BackgroundColor" native="true">
+       <property name="title" stdset="0">
+        <string>Background Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
@@ -29,10 +128,66 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="DefaultRestorableSpinBox" name="p2Brightness" native="true">
+       <property name="title" stdset="0">
+        <string>Brightness</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>255</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="ColorSelectionWidget" name="p1BackgroundColor" native="true">
+       <property name="title" stdset="0">
+        <string>Background Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UnificationDropDownWidget</class>
+   <extends>QWidget</extends>
+   <header>unificationdropdownwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DefaultRestorableSpinBox</class>
+   <extends>QWidget</extends>
+   <header>defaultrestorablespinbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>colorselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>InterpolationSelectorWidget</class>
+   <extends>QWidget</extends>
+   <header>interpolationselectorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

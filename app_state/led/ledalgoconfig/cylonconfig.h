@@ -16,19 +16,23 @@ class CylonConfig : public QObject
     Q_OBJECT
 public:
     explicit CylonConfig(QString const& keyPrefix, QObject *parent = nullptr);
-
-    IntegerObject &startIndex();
-    IntegerObject &stopIndex();
     IntegerObject &eyeLength();
     IntegerObject &cycleDuration();
+
     IntegerObject &p1Brightness();
+    InterpolationCurveObject &p1Curve();
+    QRealObject &p1CurveAmplitude();
+    ColorObject &p1ForegroundColor();
+    ColorObject &p1BackgroundColor();
+
+
+
     IntegerObject &p2Brightness();
-    InterpolationCurveObject &curve();
-    QRealObject &curveAmplitude();
-    ColorObject &p1foregroundColor();
-    ColorObject &p1backgroundColor();
-    ColorObject &p2foregroundColor();
-    ColorObject &p2backgroundColor();
+    InterpolationCurveObject &p2Curve();
+    QRealObject &p2CurveAmplitude();
+    ColorObject &p2ForegroundColor();
+    ColorObject &p2BackgroundColor();
+
     UnificationKindObject &unificationKind();
 
 public slots:
@@ -36,18 +40,18 @@ public slots:
     void setLEDController(LEDController *controller);
 private:
     QString m_settingsPrefix;
-    IntegerObject m_startIndex;
-    IntegerObject m_stopIndex;
     IntegerObject m_eyeLength;
     IntegerObject m_cycleDuration;
     IntegerObject m_p1Brightness;
     IntegerObject m_p2Brightness;
-    InterpolationCurveObject m_curve;
-    QRealObject m_curveAmplitude;
+    InterpolationCurveObject m_p1Curve;
+    QRealObject m_p1CurveAmplitude;
     ColorObject m_p1foregroundColor;
     ColorObject m_p1backgroundColor;
     ColorObject m_p2foregroundColor;
     ColorObject m_p2backgroundColor;
+    InterpolationCurveObject m_p2Curve;
+    QRealObject m_p2CurveAmplitude;
     UnificationKindObject m_unificationKind;
 
 };

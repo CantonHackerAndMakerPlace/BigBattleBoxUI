@@ -25,25 +25,15 @@ public:
     bool hasChanges() const;
 public slots:
     void init(ApplicationState *state);
-
     void save();
     void cancel();
     void revertToDefault();
 private slots:
     void setCurrentConfigPage(AlgoKindObject::AlgoKind kind);
 private:
-    // Utility functions that may need to be moved eventually.
-//    void connectAppState(DefaultRestorableInt& localValue, IntegerObject& configuredValue);
-//    void connectAppState(DefaultRestorableBool& localValue, BooleanObject& configuredValue);
-//    void connectAppState(DefaultRestorableQColor& localValue, ColorObject& configuredValue);
-//    void connectAppState(DefaultRestorableCurve& localValue, InterpolationCurveObject& configuredValue);
 
-//    void attachColor(DefaultRestorableQColor& color, ColorSelectionWidget *colorSelectorWidget);
-//    void attachMinBrightness(DefaultRestorableInt& minValue, BrightnessSelectionWidget *brightnessSelectionWidget);
-//    void attachMaxBrightness(DefaultRestorableInt& maxValue, BrightnessSelectionWidget *brightnessSelectionWidget);
-    void attachCurve(DefaultRestorableCurve& curve, InterpolationSelectorWidget *widget);
-
-
+    template<typename T>
+    void connectToControlButtons(T *page);
 
     Ui::IdleLedConfigurationWidget *ui;
     ApplicationState *m_state;

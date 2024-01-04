@@ -75,6 +75,10 @@ void DefaultRestorableSpinBox::setTitle(QString value) {
     ui->label->setText(value);
 }
 
+void DefaultRestorableSpinBox::setValue(int value) {
+    ui->spinBox->setValue(value);
+}
+
 void DefaultRestorableSpinBox::setMinimum(int value) {
     ui->spinBox->setMinimum(value);
 }

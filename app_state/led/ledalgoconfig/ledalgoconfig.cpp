@@ -1,6 +1,5 @@
 #include "ledalgoconfig.h"
 
-
 LEDAlgoConfig::LEDAlgoConfig(QString const& settingsKeyPrefix, QObject *parent)
     : QObject{parent}
     , m_algo(AlgoKindObject::AlgoKind::Blink, settingsKeyPrefix + "/algorithmkind")
@@ -64,6 +63,10 @@ BreathConfig *LEDAlgoConfig::getBreath() const {
 
 CountDownFillConfig *LEDAlgoConfig::getCountDownFill() const {
     return m_countDown;
+}
+
+CylonConfig *LEDAlgoConfig::getCylonConfig() const {
+    return m_cylon;
 }
 
 RampUpConfig *LEDAlgoConfig::getRampUpConfig() const {

@@ -33,6 +33,7 @@ public slots:
     void restorePreviousValue();
     void restoreDefaultValue();
     void save();
+    void setValue(int value);
     void setTitle(QString value);
     void setMinimum(int value);
     void setMaximum(int value);

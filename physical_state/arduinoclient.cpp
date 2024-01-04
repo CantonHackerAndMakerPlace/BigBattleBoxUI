@@ -94,7 +94,6 @@ void ArduinoClient::contigiousSetPixel(QColor color, int index, bool show) {
 }
 
 void ArduinoClient::contigiousFill(QColor color, int index, int count, bool show) {
-    qDebug() << "Called contigiousFill(int) index count" << index << " " << count<< "Show" <<show ;
 
     int p2Index = 0;
     int p2Count = 0;
