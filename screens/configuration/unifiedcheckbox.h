@@ -12,7 +12,7 @@ class UnifiedCheckBox;
 class UnifiedCheckBox : public QWidget
 {
     Q_OBJECT
-
+    Q_PROPERTY(bool defaultValue READ defaultValue WRITE setDefaultValue NOTIFY defaultValueChanged FINAL)
 public:
     explicit UnifiedCheckBox(QWidget *parent = nullptr);
     ~UnifiedCheckBox();
@@ -20,14 +20,16 @@ public:
     bool hasChanges() const;
 
     bool getValue() const;
-
+    bool defaultValue() const;
 public slots:
     void init(BooleanObject *settingObject);
     void restorePreviousValue();
     void restoreDefaultValue();
     void save();
+    void setDefaultValue(bool value);
 signals:
     void valueChanged(bool value);
+    void defaultValueChanged(bool value);
 private:
     Ui::UnifiedCheckBox *ui;
     DefaultRestorableBool m_link;

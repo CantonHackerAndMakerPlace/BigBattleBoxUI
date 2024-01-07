@@ -27,9 +27,9 @@ public:
     virtual bool isFinished() const override;
 private:
     QColor m_p1Color;
-    int m_p1brightness;
+    int m_p1Brightness;
     QColor m_p2Color;
-    int m_p2brightness;
+    int m_p2Brightness;
     bool m_unified;
 };
 

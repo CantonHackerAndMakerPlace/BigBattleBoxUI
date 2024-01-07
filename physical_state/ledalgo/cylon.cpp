@@ -76,9 +76,6 @@ void Cylon::start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client)
         m_p2SpaceToTraverse = 0;
         break;
     }
-
-    qDebug() << "Player 1 traversal lenght: " <<m_p1SpaceToTraverse;
-    qDebug() << "Player 2 traversal lenght: " <<m_p2SpaceToTraverse;
 }
 
 void Cylon::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *client) {
@@ -96,7 +93,6 @@ void Cylon::update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, A
         fillLightPosition(percentComplete, client);
     }
 }
-
 
 bool Cylon::loops() const { return true; }
 

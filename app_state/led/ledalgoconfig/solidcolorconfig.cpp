@@ -6,8 +6,8 @@ SolidColorConfig::SolidColorConfig(QString const& keyPrefix, QObject *parent)
     , m_p1Color(Qt::white, m_keyPrefix + "/soilid/p1/color")
     , m_p1brightness(100, m_keyPrefix + "/soilid/p1/brightness")
     , m_p2Color(Qt::white, m_keyPrefix + "/soilid/p2/color")
-    , m_p2brightness(100, m_keyPrefix + "/soilid/p1/brightness")
-    , m_unified(true, m_keyPrefix + "/soilid/p1/brightness")
+    , m_p2brightness(100, m_keyPrefix + "/soilid/p2/brightness")
+    , m_unified(true, m_keyPrefix + "/soilid/unification")
 {
     qDebug() << "constructing SolidColorConfig";
 }
@@ -34,7 +34,7 @@ ColorObject &SolidColorConfig::p1Color() {
     return m_p1Color;
 }
 
-IntegerObject &SolidColorConfig::p1brightness() {
+IntegerObject &SolidColorConfig::p1Brightness() {
     return m_p1brightness;
 }
 
@@ -42,7 +42,7 @@ ColorObject &SolidColorConfig::p2Color() {
     return m_p2Color;
 }
 
-IntegerObject &SolidColorConfig::p2brightness() {
+IntegerObject &SolidColorConfig::p2Brightness() {
     return m_p2brightness;
 }
 

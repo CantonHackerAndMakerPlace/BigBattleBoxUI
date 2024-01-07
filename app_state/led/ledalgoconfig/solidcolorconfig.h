@@ -15,9 +15,9 @@ public:
     explicit SolidColorConfig(QString const& keyPrefix, QObject *parent = nullptr);
 
     ColorObject &p1Color();
-    IntegerObject &p1brightness();
+    IntegerObject &p1Brightness();
     ColorObject &p2Color();
-    IntegerObject &p2brightness();
+    IntegerObject &p2Brightness();
     BooleanObject &unified();
 public slots:
     void init(QSettings *settings);

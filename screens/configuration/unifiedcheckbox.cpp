@@ -14,6 +14,8 @@ UnifiedCheckBox::UnifiedCheckBox(QWidget *parent) :
             &m_link, &DefaultRestorableBool::setValue);
     connect(&m_link, &DefaultRestorableBool::valueChanged,
             this, &UnifiedCheckBox::valueChanged);
+    connect(&m_link, &DefaultRestorableBool::defaultValueChanged,
+            this, &UnifiedCheckBox::defaultValueChanged);
     ui->unificationCheckBox->setCheckState(Qt::Checked);
 }
 
@@ -27,6 +29,9 @@ bool UnifiedCheckBox::hasChanges() const {
 
 bool UnifiedCheckBox::getValue() const {
     return m_link.value();
+}
+bool UnifiedCheckBox::defaultValue() const {
+    return m_link.defaultValue();
 }
 
 void UnifiedCheckBox::init(BooleanObject *settingObject) {
@@ -50,4 +55,8 @@ void UnifiedCheckBox::save() {
         return;
     }
     m_settingObj->setValue(m_link.value());
+}
+
+void UnifiedCheckBox::setDefaultValue(bool value) {
+    m_link.setDefaultValue(value);
 }
