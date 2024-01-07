@@ -28,29 +28,10 @@ CylonConfigWidget::CylonConfigWidget(QWidget *parent) :
                     break;
                 }
             });
-
-    connectToControlButtons(ui->p2BackgroundColor);
-    connectToControlButtons(ui->p2Brightness);
-    connectToControlButtons(ui->p1Interpolation);
-    connectToControlButtons(ui->eyeLength);
-    connectToControlButtons(ui->unification);
-    connectToControlButtons(ui->p1BackgroundColor);
-    connectToControlButtons(ui->p1EyeColor);
-    connectToControlButtons(ui->p2EyeColor);
-    connectToControlButtons(ui->p1Brightness);
-    connectToControlButtons(ui->p2Interpolation);
-    connectToControlButtons(ui->duration);
 }
 
 CylonConfigWidget::~CylonConfigWidget() {
     delete ui;
-}
-
-template<typename T>
-void CylonConfigWidget::connectToControlButtons(T *page) {
-    connect(this, &CylonConfigWidget::save, page, &T::save);
-    connect(this, &CylonConfigWidget::restorePreviousValue, page, &T::restorePreviousValue);
-    connect(this, &CylonConfigWidget::restoreDefaultValue, page, &T::restoreDefaultValue);
 }
 
 bool CylonConfigWidget::hasChanges() const {
@@ -77,8 +58,44 @@ void CylonConfigWidget::init(CylonConfig *config) {
 
 }
 
-void CylonConfigWidget::restorePreviousValue() { }
+void CylonConfigWidget::restorePreviousValue() {
+    ui->duration->restorePreviousValue();
+    ui->eyeLength->restorePreviousValue();
+    ui->unification->restorePreviousValue();
+    ui->p1Brightness->restorePreviousValue();
+    ui->p1Interpolation->restorePreviousValue();
+    ui->p1EyeColor->restorePreviousValue();
+    ui->p1BackgroundColor->restorePreviousValue();
+    ui->p2Brightness->restorePreviousValue();
+    ui->p2BackgroundColor->restorePreviousValue();
+    ui->p2EyeColor->restorePreviousValue();
+    ui->p2Interpolation->restorePreviousValue();
+}
 
-void CylonConfigWidget::restoreDefaultValue() {}
+void CylonConfigWidget::restoreDefaultValue() {
+    ui->duration->restoreDefaultValue();
+    ui->eyeLength->restoreDefaultValue();
+    ui->unification->restoreDefaultValue();
+    ui->p1Brightness->restoreDefaultValue();
+    ui->p1Interpolation->restoreDefaultValue();
+    ui->p1EyeColor->restoreDefaultValue();
+    ui->p1BackgroundColor->restoreDefaultValue();
+    ui->p2Brightness->restoreDefaultValue();
+    ui->p2BackgroundColor->restoreDefaultValue();
+    ui->p2EyeColor->restoreDefaultValue();
+    ui->p2Interpolation->restoreDefaultValue();
+}
 
-void CylonConfigWidget::save() {}
+void CylonConfigWidget::save() {
+    ui->duration->save();
+    ui->eyeLength->save();
+    ui->unification->save();
+    ui->p1Brightness->save();
+    ui->p1Interpolation->save();
+    ui->p1EyeColor->save();
+    ui->p1BackgroundColor->save();
+    ui->p2Brightness->save();
+    ui->p2BackgroundColor->save();
+    ui->p2EyeColor->save();
+    ui->p2Interpolation->save();
+}

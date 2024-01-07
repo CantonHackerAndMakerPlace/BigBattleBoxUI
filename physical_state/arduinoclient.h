@@ -60,6 +60,7 @@ public:
     void setP1SpotLight(bool v);
     void setP2SpotLight(bool v);
 
+    void ledShowAll();
 private:
     /// Figure out based on the LED light orientation the index inside of the LED
     /// strand that corresponds to a zero relative index.

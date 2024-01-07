@@ -2,7 +2,6 @@
 #define CYLONCONFIGWIDGET_H
 
 #include <QWidget>
-#include "app_state/led/generalledconfiguration.h"
 #include "app_state/led/ledalgoconfig/cylonconfig.h"
 
 namespace Ui {
@@ -25,9 +24,6 @@ public slots:
     void save();
 
 private:
-    template<typename T>
-    void connectToControlButtons(T *page);
-
     Ui::CylonConfigWidget *ui;
     CylonConfig *m_config = nullptr;
 };

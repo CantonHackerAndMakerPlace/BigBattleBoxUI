@@ -115,10 +115,10 @@ private:
     /// receive the first status from the connected arduino.
     bool m_receivedFirstMessageAftrerConnection = false;
     ArduinoConnectionManager *m_conn;
-    std::size_t m_maxMessages = 10000;
+    std::size_t m_maxMessages = 10;
     std::size_t m_timeOutMs = 300;
     std::size_t m_messagePollingInterval = 1;
-    std::size_t m_firstMsgTimeOut = 1000;
+    std::size_t m_firstMsgTimeOut = 2000;
     QTimer *m_messagingTimeoutHandler;
     QTimer *m_messageSender;
     MsgState m_messagingState;

@@ -26,7 +26,7 @@ ArduinoMessanger *ArduinoClient::messanger() const {
 }
 
 int ArduinoClient::computePlayerOneIndex(int providedIndex) {
-    if (providedIndex >= m_config->playerOneLedCount().value()) {
+    if (providedIndex > m_config->playerOneLedCount().value()) {
         return 0;
     }
     if (!m_config->playerOneLedDirection().value()) {
@@ -39,7 +39,7 @@ int ArduinoClient::computePlayerOneIndex(int providedIndex) {
 }
 
 int ArduinoClient::computePlayerTwoIndex(int providedIndex){
-    if (providedIndex >= m_config->playerTwoLedCount().value()) {
+    if (providedIndex > m_config->playerTwoLedCount().value()) {
         return 0;
     }
     if (!m_config->playerTwoLedDirection().value()) {
@@ -53,7 +53,7 @@ int ArduinoClient::computePlayerTwoIndex(int providedIndex){
 
 
 ArduinoClient::FillInfo ArduinoClient::computePlayerOneFill(int providedIndex, int providedCount) {
-    if (providedIndex >= m_config->playerOneLedCount().value()) {
+    if (providedIndex > m_config->playerOneLedCount().value()) {
         return {0, 0};
     }
     if (!m_config->playerOneLedDirection().value()) {
@@ -66,7 +66,7 @@ ArduinoClient::FillInfo ArduinoClient::computePlayerOneFill(int providedIndex, i
 }
 
 ArduinoClient::FillInfo ArduinoClient::computePlayerTwoFill(int providedIndex, int providedCount) {
-    if (providedIndex >= m_config->playerTwoLedCount().value()) {
+    if (providedIndex > m_config->playerTwoLedCount().value()) {
         return {0, 0};
     }
     if (!m_config->playerTwoLedDirection().value()) {
@@ -79,7 +79,6 @@ ArduinoClient::FillInfo ArduinoClient::computePlayerTwoFill(int providedIndex, i
 }
 
 void ArduinoClient::contigiousSetPixel(QColor color, int index, bool show) {
-    //        m_messanger->
     if (index >= m_config->playerOneLedCount().value()) {
         // Sending to player two
         int computedIndex = computePlayerTwoIndex(index - m_config->playerOneLedCount().value());
@@ -308,6 +307,9 @@ void ArduinoClient::setP1SpotLight(bool v) {
 void ArduinoClient::setP2SpotLight(bool v) {
     m_messanger->sendSetP2SpotLight(v);
 }
+void ArduinoClient::ledShowAll() {
+    m_messanger->sendLEDAllShow();
+}
 
 // NOTE: This should probably move somewhere else.
 void ArduinoClient::onConnected() {
@@ -320,3 +322,4 @@ void ArduinoClient::onConnected() {
             m_config->playerTwoLedPin().value(),
             m_config->playerTwoLedCount().value());
 }
+

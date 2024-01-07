@@ -30,9 +30,6 @@ void IntegerObject::setValue(int value) {
 
 void IntegerObject::attachSettings(QSettings *settings) {
     assert(settings);
-    for(auto &x:settings->childKeys()) {
-        qDebug() << "" << x.data();
-    }
     auto loadedSetting = settings->value(m_settingsKey, m_default).value<int>();
     assert(this);
     connect(this, &IntegerObject::valueChanged,

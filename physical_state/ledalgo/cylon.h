@@ -32,8 +32,14 @@ public:
     /// Returns true for algorithms who don't loop, and have completed their
     /// evaluation and have haulted evaluation.
     virtual bool isFinished() const override;
+private:
+    void fillLightPosition(qreal percentageComplete, ArduinoClient *client);
+    void fillLightPositionBothSame(qreal percentageComplete, ArduinoClient *client);
+    void fillLightPositionSeparate(qreal percentageComplete, ArduinoClient *client);
+    void fillLightPositionSuperStrip(qreal percentageComplete, ArduinoClient *client);
 
 private:
+    GeneralLEDConfiguration *m_generalConfig = nullptr;
     int m_eyeLength;
     int m_duration;
     int m_p1Brightness;
@@ -46,12 +52,11 @@ private:
     QColor m_p2BackgroundColor;
     UnificationKindObject::Kind m_unificationKind;
 
-    // Computation used to track the eye's position.
-    int m_p1CurrentEyeOffset;
+    int m_p1CurrentIndex = 0;
     int m_p1SpaceToTraverse;
-    int m_p2CurrentEyeOffset;
-    int m_p2SpaceToTraverse;
 
+    int m_p2CurrentIndex = 0;
+    int m_p2SpaceToTraverse;
 };
 
 #endif // CYLON_H
