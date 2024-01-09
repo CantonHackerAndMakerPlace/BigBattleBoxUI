@@ -16,7 +16,54 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="1" column="1">
+      <widget class="UnifiedCheckBox" name="unification" native="true"/>
+     </item>
+     <item row="6" column="0">
+      <widget class="DefaultRestorableSpinBox" name="p1OffBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Second Color Brightness</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>255</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="ColorSelectionWidget" name="p1OnColor" native="true">
+       <property name="title" stdset="0">
+        <string>Color One</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>213</red>
+         <green>255</green>
+         <blue>0</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="ColorSelectionWidget" name="p2OnColor" native="true">
+       <property name="title" stdset="0">
+        <string>Color One</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>225</red>
+         <green>1</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
@@ -29,10 +76,154 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="DefaultRestorableSpinBox" name="p2OnBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Color One Brightness</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>255</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="DefaultRestorableSpinBox" name="offDuration" native="true">
+       <property name="title" stdset="0">
+        <string>Color Two Time</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>1000000</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>1000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="DefaultRestorableSpinBox" name="p2OffBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Second Color Brightness</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>255</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="DefaultRestorableSpinBox" name="p1OnBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Color One Brightness</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>255</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="DefaultRestorableSpinBox" name="numberOfBlinks" native="true">
+       <property name="title" stdset="0">
+        <string>Number of time to blink(set to 0 for infinite)</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>100000</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="DefaultRestorableSpinBox" name="onDuration" native="true">
+       <property name="title" stdset="0">
+        <string>Color One Time</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>1000000</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>1000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="ColorSelectionWidget" name="p1OffColor" native="true">
+       <property name="title" stdset="0">
+        <string>Second Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>0</red>
+         <green>25</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="ColorSelectionWidget" name="p2OffColor" native="true">
+       <property name="title" stdset="0">
+        <string>SecondColor</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>255</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>colorselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UnifiedCheckBox</class>
+   <extends>QWidget</extends>
+   <header>unifiedcheckbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DefaultRestorableSpinBox</class>
+   <extends>QWidget</extends>
+   <header>defaultrestorablespinbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

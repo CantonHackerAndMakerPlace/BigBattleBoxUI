@@ -5,7 +5,6 @@ LEDConfiguration::LEDConfiguration(QObject *parent)
     , m_generalLedConfig(new GeneralLEDConfiguration(this))
     , m_idleConfig(new LEDIdleConfiguration(this))
 {
-    qDebug() << "Finished initializing LEDConfiguration";
 }
 
 
@@ -19,7 +18,6 @@ LEDIdleConfiguration *LEDConfiguration::idleConfiguration() const {
 
 void LEDConfiguration::loadSettings(QSettings *settings) {
     assert(settings);
-    qDebug() << "Initializing settings for LEDConfiguration";
     m_generalLedConfig->loadSettings(settings);
     m_idleConfig->loadSettings(settings);
 }

@@ -30,7 +30,6 @@ void ConfigurationWidget::init(ApplicationState *state, MediaDialog *media) {
     assert(!m_state && "Cannot call init twice");
     assert(!m_media && "Cannot initialize media dialog reference twice");
 
-//    m_settings = settings;
     m_state = state;
     m_media = media;
     m_settings = m_state->data()->settings();
@@ -94,6 +93,7 @@ void ConfigurationWidget::initSpotLightConfig() {
 constexpr size_t LOG_LINES = 1000;
 void ConfigurationWidget::initArduinoConfig() {
     ui->arduinoConnectionIndicator->setState(m_state->physicalState()->connectionManager()->isConnected());
+
     connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::connected,
             [&](QString port) {
         ui->arduinoConnectionIndicator->setState(m_state->physicalState()->connectionManager()->isConnected());
@@ -137,9 +137,6 @@ void ConfigurationWidget::initArduinoConfig() {
 
     });
 
-    connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::connectToSerialPort,
-            ui->availableComPorts, &QComboBox::currentTextChanged);
-
     connect(m_state->physicalState()->connectionManager(), &ArduinoConnectionManager::receivedData,
             [&](QString msg) {
         QString cleanMsg = msg.remove('\r').remove('\n');
@@ -165,12 +162,10 @@ void ConfigurationWidget::initArduinoConfig() {
 }
 
 void ConfigurationWidget::sendCommand() {
-
     auto msg = ui->arduinoCmdLineEdit->text();
     qDebug() << "Sending message: " << msg;
     m_state->physicalState()->connectionManager()->sendData(msg);
     ui->arduinoCmdLineEdit->setText("");
-
 }
 
 void ConfigurationWidget::initMediaDialog() {

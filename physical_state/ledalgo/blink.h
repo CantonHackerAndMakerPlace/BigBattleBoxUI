@@ -24,7 +24,7 @@ public:
     virtual void start(GeneralLEDConfiguration *generalConfig, ArduinoClient *client) override;
 
     /// This is called ever 33 ish ms in to interpolate the algorithm and send messages to the arduino.
-    virtual void update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *messanger) override;
+    virtual void update(GeneralLEDConfiguration *generalConfig, qint64 elapsedTime, ArduinoClient *client) override;
 
     /// should return true if the algorithm is designed to loop and not designed
     /// to complete after some amount of time.
@@ -39,14 +39,20 @@ private:
     int m_onDuration;
     int m_offDuration;
     QColor m_p1OnColor;
-    int m_p1ColorBrightness;
+    int m_p1OnColorBrightness;
     QColor m_p1OffColor;
     int m_p1OffColorBrightness;
     QColor m_p2OnColor;
-    int m_p2ColorBrightness;
+    int m_p2OnColorBrightness;
     QColor m_p2OffColor;
     int m_p2OffColorBrightness;
     bool m_unified;
+
+    // Computed Values
+    bool m_currentPhaseIsOn;
+    int m_totalTime;
+    int m_blinks = 0;
+    bool m_isFinished = false;
 };
 
 #endif // BLINK_H

@@ -112,7 +112,7 @@ ArduinoMessanger::ArduinoMessanger(ArduinoConnectionManager *connectionManager, 
     connect(m_messageSender, &QTimer::timeout, this, &ArduinoMessanger::messageHandler);
     m_messageSender->start(m_messagePollingInterval);
 
-    // Setting up connections to the arduino
+    // Setting up connections to the
     connect(m_conn, &ArduinoConnectionManager::connected,
             this, &ArduinoMessanger::onConnected);
     connect(m_conn, &ArduinoConnectionManager::disconnected,

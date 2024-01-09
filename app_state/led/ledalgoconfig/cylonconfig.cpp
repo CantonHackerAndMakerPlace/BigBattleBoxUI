@@ -17,7 +17,6 @@ CylonConfig::CylonConfig(QString const& keyPrefix, QObject *parent)
     , m_p2backgroundColor(Qt::white, m_settingsPrefix + "/cylon/p2/backgroundColor")
     , m_unificationKind(UnificationKindObject::Kind::Separate, m_settingsPrefix + "/cylon/unificationKind")
 {
-    qDebug() << "Constructing cylonConfig";
 }
 
 IntegerObject &CylonConfig::eyeLength() {

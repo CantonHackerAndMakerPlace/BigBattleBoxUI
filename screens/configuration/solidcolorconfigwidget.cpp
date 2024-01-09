@@ -6,6 +6,11 @@ SolidColorConfigWidget::SolidColorConfigWidget(QWidget *parent) :
     ui(new Ui::SolidColorConfigWidget)
 {
     ui->setupUi(this);
+    connect(ui->unification, &UnifiedCheckBox::valueChanged,
+            [&](bool value) {
+                ui->p2Brightness->setDisabled(value);
+                ui->p2Color->setDisabled(value);
+            });
 }
 
 SolidColorConfigWidget::~SolidColorConfigWidget() {

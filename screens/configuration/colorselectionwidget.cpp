@@ -23,7 +23,6 @@ ColorSelectionWidget::ColorSelectionWidget(QWidget *parent)
             this, &ColorSelectionWidget::defaultValueChanged);
     connect(&m_value, &DefaultRestorableQColor::valueChanged,
             [&](QColor color) {
-                qDebug() << "Received a color change from " << ui->colorLabel->text();
                 ui->colorWidgetDisplay->setStyleSheet(QString(styleSheetToFmt).arg(m_value.value().name()));
             });
 }
@@ -76,8 +75,6 @@ void ColorSelectionWidget::setTitle(QString value) {
 }
 
 void ColorSelectionWidget::setDefaultValue(QColor value) {
-    qDebug() << "Setting default value for:" << ui->colorLabel->text() << "with value" << value;
-
     m_value.setDefaultValue(value.convertTo(QColor::Spec::Rgb));
 }
 

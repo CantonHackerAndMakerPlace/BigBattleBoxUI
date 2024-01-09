@@ -98,7 +98,6 @@ IntegerObject &CountDownFillConfig::p2FinalColorBrightness() {
 
 void CountDownFillConfig::init(QSettings *settings) {
     assert(settings);
-    qDebug() << "Attaching settings BreathConfig";
     m_duration.attachSettings(settings);
     m_unificationKind.attachSettings(settings);
     m_p1Brightness.attachSettings(settings);

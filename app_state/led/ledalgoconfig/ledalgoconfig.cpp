@@ -15,7 +15,6 @@ void LEDAlgoConfig::init(QSettings *settings) {
     m_algo.attachSettings(settings);
     m_blink->init(settings);
     m_breath->init(settings);
-    m_breath->init(settings);
     m_countDown->init(settings);
     m_cylon->init(settings);
     m_rampUp->init(settings);

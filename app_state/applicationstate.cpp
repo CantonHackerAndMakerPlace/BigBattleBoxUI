@@ -41,7 +41,6 @@ void ApplicationState::attachSettingToSwitch(PhysicalButton *button, const char*
     auto loadedSetting = intToSwitchConfig(data()->settings()->value(settingsKey, (int)PhysicalButton::SwitchConfig::NormallyClosed).value<int>());
     connect(button, &PhysicalButton::switchKindChanged,
             [=](PBSwitchConfig kind){
-                qDebug() << "Called save setting change for " << settingsKey;
                 data()->settings()->setValue(settingsKey, (int)kind);
                 data()->saveSettings();
             });
@@ -52,6 +51,7 @@ void ApplicationState::attachSettingToSwitch(PhysicalButton *button, const char*
 }
 
 void ApplicationState::initBattleBoxState() {
+
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::connected,
             [&] {
                 qDebug() << "Connected serial port";
@@ -70,17 +70,10 @@ void ApplicationState::initBattleBoxState() {
             [] {
                 qDebug() << "disconnected from serial port";
             });
-
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::error,
             [](QString msg) {
                 qDebug() << "Serial port error occurred: " << msg;
             });
-
-    connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::error,
-            [](QString msg) {
-                qDebug() << "Serial port error occurred: " << msg;
-            });
-
     connect(m_physicalState->connectionManager(), &ArduinoConnectionManager::availableSerialPortsChanged,
             [](QStringList msg) {
                 qDebug() << "Received new serial ports" << msg;

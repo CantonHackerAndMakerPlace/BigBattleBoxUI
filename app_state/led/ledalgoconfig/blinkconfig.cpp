@@ -15,12 +15,9 @@ BlinkConfig::BlinkConfig(QString const& settingKeyPrefix, QObject *parent)
     , m_p2OnBrightness(100, settingKeyPrefix + "/blink/p2/onBrightness")
     , m_p2OffColor(Qt::yellow, settingKeyPrefix + "/blink/p2/offColor")
     , m_p2OffBrightness(100, settingKeyPrefix + "/blink/p2/offBrightness")
-{
-    qDebug() << "Constructing BlinkConfig";
-}
+{ }
 
 void BlinkConfig::init(QSettings* settings) {
-    qDebug() << "Attaching settings BlinkConfig";
     m_numberOfBlinks.attachSettings(settings);
     m_onDuration.attachSettings(settings);
     m_offDuration.attachSettings(settings);
@@ -48,4 +45,52 @@ void BlinkConfig::setLEDController(LEDController* controller) {
                       m_p2OffColor,
                       m_p2OffBrightness,
                       m_unified);
+}
+
+IntegerObject &BlinkConfig::numberOfBlinks() {
+    return m_numberOfBlinks;
+}
+
+IntegerObject &BlinkConfig::onDuration() {
+    return m_onDuration;
+}
+
+IntegerObject &BlinkConfig::offDuration() {
+    return m_offDuration;
+}
+
+BooleanObject &BlinkConfig::unified() {
+    return m_unified;
+}
+
+ColorObject &BlinkConfig::p1OnColor() {
+    return m_p1OnColor;
+}
+
+IntegerObject &BlinkConfig::p1OnBrightness() {
+    return m_p1OnBrightness;
+}
+
+ColorObject &BlinkConfig::p1OffColor() {
+    return m_p1OffColor;
+}
+
+IntegerObject &BlinkConfig::p1OffBrightness() {
+    return m_p1OffBrightness;
+}
+
+ColorObject &BlinkConfig::p2OnColor() {
+    return m_p2OnColor;
+}
+
+IntegerObject &BlinkConfig::p2OnBrightness() {
+    return m_p2OnBrightness;
+}
+
+ColorObject &BlinkConfig::p2OffColor() {
+    return m_p2OffColor;
+}
+
+IntegerObject &BlinkConfig::p2OffBrightness() {
+    return m_p2OffBrightness;
 }

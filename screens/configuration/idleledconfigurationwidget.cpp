@@ -18,6 +18,7 @@ IdleLedConfigurationWidget::IdleLedConfigurationWidget(QWidget *parent) :
     connectToControlButtons(ui->countDownPage);
     connectToControlButtons(ui->cylonPage);
     connectToControlButtons(ui->solidColorPage);
+    connectToControlButtons(ui->blinkPage);
 
 
     connect(ui->defaultButton, &QPushButton::clicked,
@@ -86,6 +87,7 @@ void IdleLedConfigurationWidget::init(ApplicationState *state) {
     ui->countDownPage->init(idleConfig->algoConfig().getCountDownFill());
     ui->cylonPage->init(idleConfig->algoConfig().getCylonConfig());
     ui->solidColorPage->init(idleConfig->algoConfig().getSolidColorConfig());
+    ui->blinkPage->init(idleConfig->algoConfig().getBlink());
 }
 
 bool IdleLedConfigurationWidget::hasChanges() const {

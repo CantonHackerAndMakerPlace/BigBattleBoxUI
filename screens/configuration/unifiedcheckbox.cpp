@@ -57,6 +57,10 @@ void UnifiedCheckBox::save() {
     m_settingObj->setValue(m_link.value());
 }
 
+void UnifiedCheckBox::setValue(bool value) {
+    m_link.setValue(value);
+}
+
 void UnifiedCheckBox::setDefaultValue(bool value) {
     m_link.setDefaultValue(value);
 }

@@ -26,6 +26,7 @@ public slots:
     void restorePreviousValue();
     void restoreDefaultValue();
     void save();
+    void setValue(bool value);
     void setDefaultValue(bool value);
 signals:
     void valueChanged(bool value);

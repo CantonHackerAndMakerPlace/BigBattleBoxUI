@@ -12,7 +12,6 @@ ArduinoClient::ArduinoClient(GeneralLEDConfiguration *generalLEDConfig,
 {
     connect(m_messanger, &ArduinoMessanger::receivedFirstResponse,
             this, &ArduinoClient::onConnected);
-
     connect(m_messanger->connectionManager(), &ArduinoConnectionManager::disconnected,
             this, &ArduinoClient::disconnected);
 }

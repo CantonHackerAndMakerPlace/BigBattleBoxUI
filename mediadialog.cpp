@@ -272,7 +272,6 @@ void MediaDialog::init() {
 }
 
 void MediaDialog::initialzieDeathMatchRunning() {
-    qDebug() << "Initialzing death match running called";
     connect(m_data->deathMatchRuntime(), &DeathMatchRuntime::timeRemainingChanged,
             this, &MediaDialog::updateDMRRemainingTime);
     connect(m_data->deathMatchRuntime(), &DeathMatchRuntime::doorDropTimeRemainingChanged,

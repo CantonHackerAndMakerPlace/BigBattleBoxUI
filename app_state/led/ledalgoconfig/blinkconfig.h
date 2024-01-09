@@ -13,7 +13,6 @@ class BlinkConfig : public QObject
 public:
     explicit BlinkConfig(QString const& settingKeyPrefix, QObject *parent = nullptr);
 
-
     IntegerObject &numberOfBlinks();
     IntegerObject &onDuration();
     IntegerObject &offDuration();
