@@ -53,7 +53,6 @@ void SolidColorConfigWidget::restoreDefaultValue() {
 }
 
 void SolidColorConfigWidget::save() {
-    qDebug() << "Called save?";
     ui->unification->save();
     ui->p1Color->save();
     ui->p1Brightness->save();

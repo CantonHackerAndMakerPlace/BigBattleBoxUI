@@ -19,6 +19,7 @@ IdleLedConfigurationWidget::IdleLedConfigurationWidget(QWidget *parent) :
     connectToControlButtons(ui->cylonPage);
     connectToControlButtons(ui->solidColorPage);
     connectToControlButtons(ui->blinkPage);
+    connectToControlButtons(ui->rampUpPage);
 
 
     connect(ui->defaultButton, &QPushButton::clicked,
@@ -76,7 +77,6 @@ IdleLedConfigurationWidget::~IdleLedConfigurationWidget() {
     delete ui;
 }
 
-
 void IdleLedConfigurationWidget::init(ApplicationState *state) {
     assert(m_state && "Can't initialize twice");
     m_state = state;
@@ -88,6 +88,7 @@ void IdleLedConfigurationWidget::init(ApplicationState *state) {
     ui->cylonPage->init(idleConfig->algoConfig().getCylonConfig());
     ui->solidColorPage->init(idleConfig->algoConfig().getSolidColorConfig());
     ui->blinkPage->init(idleConfig->algoConfig().getBlink());
+    ui->rampUpPage->init(idleConfig->algoConfig().getRampUpConfig());
 }
 
 bool IdleLedConfigurationWidget::hasChanges() const {

@@ -30,7 +30,7 @@ void LEDController::onTick() {
     if (m_isReady && m_algo) {
         // If the algorithm has been started and we no longer need to
         // loop or is finished we can simply exit.
-        if (m_algo->wasStarted() && (!m_algo->loops() || m_algo->isFinished() )) {
+        if (m_algo->wasStarted() && m_algo->isFinished()) {
             return;
         }
         if (!m_algo->wasStarted()) {
@@ -192,7 +192,8 @@ void LEDController::rampUp(int duration,
                            QColor p2Color,
                            int p2MinBrightness,
                            int p2MaxBrightness,
-                           bool unified)
+                           bool unified,
+                           bool loop)
 {
     m_algo = LEDAlgoPointerType(new RampUp(duration,
                                            p1Curve,
@@ -203,7 +204,8 @@ void LEDController::rampUp(int duration,
                                            p2Color,
                                            p2MinBrightness,
                                            p2MaxBrightness,
-                                           unified));
+                                           unified,
+                                           loop));
 }
 
 void LEDController::canSendMessages() {

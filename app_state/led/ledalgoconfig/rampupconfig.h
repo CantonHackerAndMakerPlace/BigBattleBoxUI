@@ -29,6 +29,7 @@ public:
     IntegerObject &p2MinBrightness();
     IntegerObject &p2MaxBrightness();
     BooleanObject &unified();
+    BooleanObject &loop();
 public slots:
     void init(QSettings *settings);
     void setLEDController(LEDController *controller);
@@ -46,6 +47,7 @@ private:
     IntegerObject m_p2MinBrightness;
     IntegerObject m_p2MaxBrightness;
     BooleanObject m_unified;
+    BooleanObject m_loop;
 };
 
 #endif // RAMPUPCONFIG_H

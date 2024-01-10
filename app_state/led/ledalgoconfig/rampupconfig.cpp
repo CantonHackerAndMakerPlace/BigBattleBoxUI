@@ -12,12 +12,12 @@ RampUpConfig::RampUpConfig(QString const& keyPrefix, QObject *parent)
     , m_p1MaxBrightness(255, m_keyPrefix + "/rampup/p1/maxBrightness")
     , m_p2Curve(Interpolation::Curve::Linear, m_keyPrefix + "/rampup/p2/curve")
     , m_p2Amplitude(1.0, m_keyPrefix + "/rampup/p2/amplitude")
-    , m_p2Color(Qt::green, m_keyPrefix + "/rampup/p2/color")
+    , m_p2Color(Qt::darkCyan, m_keyPrefix + "/rampup/p2/color")
     , m_p2MinBrightness(10, m_keyPrefix + "/rampup/p2/minBrightness")
     , m_p2MaxBrightness(255, m_keyPrefix + "/rampup/p2/maxBrightness")
     , m_unified(true, m_keyPrefix + "/rampup/unified")
-{
-}
+    , m_loop(true, m_keyPrefix + "/rampup/loop")
+{ }
 
 void RampUpConfig::init(QSettings *settings) {
     assert(settings);
@@ -33,6 +33,7 @@ void RampUpConfig::init(QSettings *settings) {
     m_p2MinBrightness.attachSettings(settings);
     m_p2MaxBrightness.attachSettings(settings);
     m_unified.attachSettings(settings);
+    m_loop.attachSettings(settings);
 }
 
 void RampUpConfig::setLEDController(LEDController *controller) {
@@ -47,7 +48,8 @@ void RampUpConfig::setLEDController(LEDController *controller) {
                        m_p2Color,
                        m_p2MinBrightness,
                        m_p2MaxBrightness,
-                       m_unified);
+                       m_unified,
+                       m_loop);
 }
 
 
@@ -97,4 +99,8 @@ IntegerObject &RampUpConfig::p2MaxBrightness() {
 
 BooleanObject &RampUpConfig::unified() {
     return m_unified;
+}
+
+BooleanObject &RampUpConfig::loop() {
+    return m_loop;
 }

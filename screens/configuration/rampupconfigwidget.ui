@@ -16,7 +16,74 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
+      <widget class="DefaultRestorableSpinBox" name="duration" native="true">
+       <property name="title" stdset="0">
+        <string>Duration</string>
+       </property>
+       <property name="minimum" stdset="0">
+        <number>0</number>
+       </property>
+       <property name="maximum" stdset="0">
+        <number>1000000</number>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>1000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="ColorSelectionWidget" name="p1Color" native="true">
+       <property name="title" stdset="0">
+        <string>Select a color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>253</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="InterpolationSelectorWidget" name="p1Curve" native="true"/>
+     </item>
+     <item row="5" column="1">
+      <widget class="BrightnessSelectionWidget" name="p2BrightnessSlider" native="true">
+       <property name="defaultMaximum" stdset="0">
+        <number>100</number>
+       </property>
+       <property name="defaultMinimum" stdset="0">
+        <number>10</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="UnifiedCheckBox" name="unification" native="true">
+       <property name="defaultValue" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="ColorSelectionWidget" name="p2Color" native="true">
+       <property name="title" stdset="0">
+        <string>Select a color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>0</red>
+         <green>47</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="InterpolationSelectorWidget" name="p2Curve" native="true"/>
+     </item>
+     <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
@@ -29,10 +96,68 @@
        </property>
       </widget>
      </item>
+     <item row="5" column="0">
+      <widget class="BrightnessSelectionWidget" name="p1BrightnessSlider" native="true">
+       <property name="defaultMaximum" stdset="0">
+        <number>100</number>
+       </property>
+       <property name="defaultMinimum" stdset="0">
+        <number>10</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="DefaultRestorableCheckBox" name="loop" native="true">
+       <property name="title" stdset="0">
+        <string>Loop</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>colorselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>InterpolationSelectorWidget</class>
+   <extends>QWidget</extends>
+   <header>interpolationselectorwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BrightnessSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>brightnessselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UnifiedCheckBox</class>
+   <extends>QWidget</extends>
+   <header>unifiedcheckbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DefaultRestorableCheckBox</class>
+   <extends>QWidget</extends>
+   <header>defaultrestorablecheckbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DefaultRestorableSpinBox</class>
+   <extends>QWidget</extends>
+   <header>defaultrestorablespinbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

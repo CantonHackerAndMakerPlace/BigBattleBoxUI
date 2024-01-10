@@ -106,7 +106,8 @@ public slots:
                 QColor p2Color,
                 int p2MinBrightness,
                 int p2MaxBrightness,
-                bool unified);
+                bool unified,
+                bool loop);
 
     void canSendMessages();
     void unableToSendMessages();
