@@ -152,6 +152,8 @@ set(PROJECT_SOURCES
     app_state/led/ledalgoconfig/rampupconfig.cpp
     app_state/led/ledalgoconfig/solidcolorconfig.h
     app_state/led/ledalgoconfig/solidcolorconfig.cpp
+    app_state/led/ledalgoconfig/deathmatchledconfiguration.h
+    app_state/led/ledalgoconfig/deathmatchledconfiguration.cpp
 
 
     # Screens directory used for managing individual screen widgets
@@ -197,6 +199,7 @@ set(PROJECT_SOURCES
     screens/configuration/unifiedcheckbox.h
     screens/configuration/unifiedcheckbox.cpp
     screens/configuration/unifiedcheckbox.ui
+    screens/configuration/defaultvaluemacros.h
 
     # other custom widgets
     widgets/RangeSlider.h

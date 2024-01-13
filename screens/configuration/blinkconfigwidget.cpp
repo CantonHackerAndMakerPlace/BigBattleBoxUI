@@ -17,6 +17,21 @@ BlinkConfigWidget::BlinkConfigWidget(QWidget *parent) :
             ui->p2OffColor, &ColorSelectionWidget::setDisabled);
     ui->unification->setValue(true);
     ui->unification->setValue(false);
+
+    UNIFIED_CB_CONNECT(BlinkConfigWidget, unification, unificationDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, onDuration, onDurationDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, offDuration, offDurationDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, numberOfBlinks, numberOfBlinksDefaultChanged, changesWereMade)
+
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, p1OnBrightness, p1OnBrightnessDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(BlinkConfigWidget, p1OnColor, p1OnColorDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, p1OffBrightness, p1OffBrightnessDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(BlinkConfigWidget, p1OffColor, p1OffColorDefaultChanged, changesWereMade)
+
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, p2OnBrightness, p2OnBrightnessDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(BlinkConfigWidget, p2OnColor, p2OnColorDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(BlinkConfigWidget, p2OffBrightness, p2OffBrightnessDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(BlinkConfigWidget, p2OffColor, p1OffColorDefaultChanged, changesWereMade)
 }
 
 BlinkConfigWidget::~BlinkConfigWidget() {
@@ -92,3 +107,17 @@ void BlinkConfigWidget::save() {
     ui->p2OffColor->save();
 }
 
+UNIFIED_CB_DEFAULT_VALUE_DEF(BlinkConfigWidget, unification, unificationDefault, setUnificationDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, onDuration, onDurationDefault, setOnDurationDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, offDuration, offDurationDefault, setOffDurationDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, numberOfBlinks, numberOfBlinksDefault, setNumberOfBlinksDefault)
+
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, p1OnBrightness, p1OnBrightnessDefault, setP1OnBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(BlinkConfigWidget, p1OnColor, p1OnColorDefault, setP1OnColorDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, p1OffBrightness, p1OffBrightnessDefault, setP1OffBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(BlinkConfigWidget, p1OffColor, p1OffColorDefault, setP1OffColorDefault)
+
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, p2OnBrightness, p2OnBrightnessDefault, setP2OnBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(BlinkConfigWidget, p2OnColor, p2OnColorDefault, setP2OnColorDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BlinkConfigWidget, p2OffBrightness, p2OffBrightnessDefault, setP2OffBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(BlinkConfigWidget, p2OffColor, p2OffColorDefault, setP2OffColorDefault)

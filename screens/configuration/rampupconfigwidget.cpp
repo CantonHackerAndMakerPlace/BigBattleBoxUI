@@ -14,6 +14,18 @@ RampUpConfigWidget::RampUpConfigWidget(QWidget *parent) :
             ui->p2BrightnessSlider, &BrightnessSelectionWidget::setDisabled);
     ui->unification->setValue(true);
     ui->unification->setValue(false);
+
+    DR_SPIN_BOX_CONNECT(RampUpConfigWidget, duration, durationDefaultChanged, changesWereMade)
+    UNIFIED_CB_CONNECT(RampUpConfigWidget, unification, unificationDefaultChanged, changesWereMade)
+    DF_CB_CONNECT(RampUpConfigWidget, loop, loopDefaultChanged, changesWereMade)
+
+    BRIGHTNESS_SLIDER_CONNECT(RampUpConfigWidget, p1BrightnessSlider, p1MinBrightnessDefaultChanged, p1MaxBrightnessDefaultChanged, changesWereMade)
+    INTERPOLATION_CONNECT(RampUpConfigWidget, p1Curve, p1CurveDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(RampUpConfigWidget, p1Color, p1ColorDefaultChanged, changesWereMade)
+
+    BRIGHTNESS_SLIDER_CONNECT(RampUpConfigWidget, p2BrightnessSlider, p2MinBrightnessDefaultChanged, p2MaxBrightnessDefaultChanged, changesWereMade)
+    INTERPOLATION_CONNECT(RampUpConfigWidget, p2Curve, p2CurveDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(RampUpConfigWidget, p2Color, p2ColorDefaultChanged, changesWereMade)
 }
 
 RampUpConfigWidget::~RampUpConfigWidget() {
@@ -86,3 +98,14 @@ void RampUpConfigWidget::setDisableDuration(bool value) {
     }
 }
 
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(RampUpConfigWidget, duration, durationDefault, setDurationDefault)
+UNIFIED_CB_DEFAULT_VALUE_DEF(RampUpConfigWidget, unification, unificationDefault, setUnificationDefault)
+UNIFIED_CB_DEFAULT_VALUE_DEF(RampUpConfigWidget, loop, loopDefault, setLoopDefault)
+
+INTERPOLATION_DEFAULT_VALUE_DEF(RampUpConfigWidget, p1Curve, p1CurveDefault, setP1CurveDefault)
+BRIGHTNESS_SLIDER_DEFAULT_VALUE_DEF(RampUpConfigWidget, p1BrightnessSlider, p1MinBrightnessDefault, setP1MinBrightnessDefault, p1MaxBrightnessDefault, setP1MaxBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(RampUpConfigWidget, p1Color, p1ColorDefault, setP1ColorDefault)
+
+INTERPOLATION_DEFAULT_VALUE_DEF(RampUpConfigWidget, p2Curve, p2CurveDefault, setP2CurveDefault)
+BRIGHTNESS_SLIDER_DEFAULT_VALUE_DEF(RampUpConfigWidget, p2BrightnessSlider, p2MinBrightnessDefault, setP2MinBrightnessDefault, p2MaxBrightnessDefault, setP2MaxBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(RampUpConfigWidget, p2Color, p2ColorDefault, setP2ColorDefault)

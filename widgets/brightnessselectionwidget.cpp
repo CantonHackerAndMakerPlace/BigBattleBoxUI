@@ -82,6 +82,10 @@ int BrightnessSelectionWidget::defaultMaximum() const {
     return m_max.defaultValue();
 }
 
+bool BrightnessSelectionWidget::hasChanges() const {
+    return m_min.hasChange() || m_max.hasChange();
+}
+
 void BrightnessSelectionWidget::init(IntegerObject *minSetting, IntegerObject *maxSetting) {
     assert(!m_minSetting && !m_maxSetting && "Cannot be initialized twice");
     m_minSetting = minSetting;

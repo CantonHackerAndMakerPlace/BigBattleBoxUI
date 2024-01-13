@@ -2,6 +2,7 @@
 #include "ui_idleledconfigurationwidget.h"
 
 
+
 IdleLedConfigurationWidget::IdleLedConfigurationWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::IdleLedConfigurationWidget)
@@ -26,8 +27,6 @@ IdleLedConfigurationWidget::IdleLedConfigurationWidget(QWidget *parent) :
             this, &IdleLedConfigurationWidget::revertToDefault);
     connect(ui->cancelButton, &QPushButton::clicked,
             this, &IdleLedConfigurationWidget::cancel);
-
-
 
     // Connecting changes in the the drop down to the changes
     // inside of the current dropdown
@@ -77,18 +76,16 @@ IdleLedConfigurationWidget::~IdleLedConfigurationWidget() {
     delete ui;
 }
 
-void IdleLedConfigurationWidget::init(ApplicationState *state) {
-    assert(m_state && "Can't initialize twice");
-    m_state = state;
-
-    auto idleConfig = m_state->ledConfig()->idleConfiguration();
-    ui->algorithmSelector->init(&idleConfig->algoConfig().getAlgoKind());
-    ui->breathPage->init(idleConfig->algoConfig().getBreath());
-    ui->countDownPage->init(idleConfig->algoConfig().getCountDownFill());
-    ui->cylonPage->init(idleConfig->algoConfig().getCylonConfig());
-    ui->solidColorPage->init(idleConfig->algoConfig().getSolidColorConfig());
-    ui->blinkPage->init(idleConfig->algoConfig().getBlink());
-    ui->rampUpPage->init(idleConfig->algoConfig().getRampUpConfig());
+void IdleLedConfigurationWidget::init(LEDAlgoConfig *state) {
+    assert(!m_config && "Can't initialize twice");
+    m_config = state;
+    ui->algorithmSelector->init(&m_config->getAlgoKind());
+    ui->breathPage->init(m_config->getBreath());
+    ui->countDownPage->init(m_config->getCountDownFill());
+    ui->cylonPage->init(m_config->getCylonConfig());
+    ui->solidColorPage->init(m_config->getSolidColorConfig());
+    ui->blinkPage->init(m_config->getBlink());
+    ui->rampUpPage->init(m_config->getRampUpConfig());
 }
 
 bool IdleLedConfigurationWidget::hasChanges() const {
@@ -99,8 +96,19 @@ bool IdleLedConfigurationWidget::hasChanges() const {
            || ui->solidColorPage->hasChanges();
 }
 
+QString IdleLedConfigurationWidget::title(){
+    return ui->titleLabel->text();
+}
+
 void IdleLedConfigurationWidget::save() { }
 
 void IdleLedConfigurationWidget::cancel() { }
 
 void IdleLedConfigurationWidget::revertToDefault() { }
+
+void IdleLedConfigurationWidget::setTitle(QString value) {
+    if (ui->titleLabel->text() != value) {
+        ui->titleLabel->setText(value);
+        emit titleChanged(value);
+    }
+}

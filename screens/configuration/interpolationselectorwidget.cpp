@@ -33,6 +33,8 @@ InterpolationSelectorWidget::InterpolationSelectorWidget(QWidget *parent)
                     qWarning() << "Received invalid interpolation selection";
                 }
             });
+    connect(&m_curve, &DefaultRestorableCurve::valueChanged,
+            this, &InterpolationSelectorWidget::defaultValueChanged);
 }
 
 InterpolationSelectorWidget::~InterpolationSelectorWidget() {
@@ -50,6 +52,9 @@ DefaultRestorableQReal const& InterpolationSelectorWidget::getAmplitude() const 
 bool InterpolationSelectorWidget::hasChanges() const {
     return m_curve.hasChange()
            || m_amplitude.hasChange();
+}
+Interpolation::Curve InterpolationSelectorWidget::defaultValue() const {
+    return m_curve.defaultValue();
 }
 
 void InterpolationSelectorWidget::init(InterpolationCurveObject *curveObj, QRealObject *amplitudeObj) {
@@ -83,6 +88,10 @@ void InterpolationSelectorWidget::save() {
     }
     m_curveSetting->setValue(m_curve.value());
     m_amplitudeSetting->setValue(m_amplitude.value());
+}
+
+void InterpolationSelectorWidget::setDefaultValue(Interpolation::Curve curve) {
+    m_curve.setDefaultValue(curve);
 }
 
 void InterpolationSelectorWidget::setCurveSelection(Interpolation::Curve curve) {

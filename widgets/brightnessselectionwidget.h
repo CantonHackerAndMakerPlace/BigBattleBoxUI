@@ -26,7 +26,7 @@ public:
     int defaultMinimum() const;
     int defaultMaximum() const;
 
-
+    bool hasChanges() const;
 public slots:
     void init(IntegerObject *minSetting, IntegerObject *maxSetting);
     void restorePreviousValue();

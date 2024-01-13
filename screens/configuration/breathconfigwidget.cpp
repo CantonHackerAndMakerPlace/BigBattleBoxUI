@@ -19,6 +19,16 @@ BreathConfigWidget::BreathConfigWidget(QWidget *parent) :
             ui->p2BrightnessSelector, &QWidget::setDisabled);
     ui->p2BrightnessSelector->setDisabled(ui->unificationCheckBoxWidget->getValue());
 
+    CYCLE_DURATION_CONNECT(BreathConfigWidget, durationWidget, durationDefaultChanged, changesWereMade)
+    UNIFIED_CB_CONNECT(BreathConfigWidget, unificationCheckBoxWidget, unificationDefaultChanged, changesWereMade)
+
+    BRIGHTNESS_SLIDER_CONNECT(BreathConfigWidget, p1BrightnessSelector, p1MinBrightnessDefaultChanged, p1MaxBrightnessDefaultChanged, changesWereMade)
+    INTERPOLATION_CONNECT(BreathConfigWidget, p1InterpolationWidget, p1CurveDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(BreathConfigWidget, p1ColorSelectorWidget, p1ColorDefaultChanged, changesWereMade)
+
+    BRIGHTNESS_SLIDER_CONNECT(BreathConfigWidget, p2BrightnessSelector, p2MinBrightnessDefaultChanged, p2MaxBrightnessDefaultChanged, changesWereMade)
+    INTERPOLATION_CONNECT(BreathConfigWidget, p2InterpolationWidget, p2CurveDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(BreathConfigWidget, p2ColorSelectorWidget, p2ColorDefaultChanged, changesWereMade)
 }
 
 BreathConfigWidget::~BreathConfigWidget() {
@@ -27,10 +37,13 @@ BreathConfigWidget::~BreathConfigWidget() {
 
 bool BreathConfigWidget::hasChanges() const {
     return ui->durationWidget->hasChanges()
+        || ui->unificationCheckBoxWidget->hasChanges()
         || ui->p1ColorSelectorWidget->hasChanges()
         || ui->p2ColorSelectorWidget->hasChanges()
         || ui->p1InterpolationWidget->hasChanges()
-        || ui->p2InterpolationWidget->hasChanges();
+        || ui->p2InterpolationWidget->hasChanges()
+        || ui->p1BrightnessSelector->hasChanges()
+        || ui->p2BrightnessSelector->hasChanges();
 }
 
 void BreathConfigWidget::init(BreathConfig *config) {
@@ -51,6 +64,7 @@ void BreathConfigWidget::init(BreathConfig *config) {
 
 void BreathConfigWidget::restorePreviousValue() {
     ui->durationWidget->restorePreviousValue();
+    ui->unificationCheckBoxWidget->restorePreviousValue();
     ui->p1ColorSelectorWidget->restorePreviousValue();
     ui->p2ColorSelectorWidget->restorePreviousValue();
     ui->p1InterpolationWidget->restorePreviousValue();
@@ -61,6 +75,7 @@ void BreathConfigWidget::restorePreviousValue() {
 
 void BreathConfigWidget::restoreDefaultValue() {
     ui->durationWidget->restoreDefaultValue();
+    ui->unificationCheckBoxWidget->restoreDefaultValue();
     ui->p1ColorSelectorWidget->restoreDefaultValue();
     ui->p2ColorSelectorWidget->restoreDefaultValue();
     ui->p1InterpolationWidget->restoreDefaultValue();
@@ -71,6 +86,7 @@ void BreathConfigWidget::restoreDefaultValue() {
 
 void BreathConfigWidget::save() {
     ui->durationWidget->save();
+    ui->unificationCheckBoxWidget->save();
     ui->p1ColorSelectorWidget->save();
     ui->p2ColorSelectorWidget->save();
     ui->p1InterpolationWidget->save();
@@ -78,3 +94,14 @@ void BreathConfigWidget::save() {
     ui->p1BrightnessSelector->save();
     ui->p2BrightnessSelector->save();
 }
+
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(BreathConfigWidget, durationWidget, durationDefault, setDurationDefault)
+UNIFIED_CB_DEFAULT_VALUE_DEF(BreathConfigWidget, unificationCheckBoxWidget, unificationDefault, setUnificationDefault)
+
+INTERPOLATION_DEFAULT_VALUE_DEF(BreathConfigWidget, p1InterpolationWidget, p1CurveDefault, setP1CurveDefault)
+BRIGHTNESS_SLIDER_DEFAULT_VALUE_DEF(BreathConfigWidget, p1BrightnessSelector, p1MinBrightnessDefault, setP1MinBrightnessDefault, p1MaxBrightnessDefault, setP1MaxBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(BreathConfigWidget, p1ColorSelectorWidget, p1ColorDefault, setP1ColorDefault)
+
+INTERPOLATION_DEFAULT_VALUE_DEF(BreathConfigWidget, p2InterpolationWidget, p2CurveDefault, setP2CurveDefault)
+BRIGHTNESS_SLIDER_DEFAULT_VALUE_DEF(BreathConfigWidget, p2BrightnessSelector, p2MinBrightnessDefault, setP2MinBrightnessDefault, p2MaxBrightnessDefault, setP2MaxBrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(BreathConfigWidget, p2ColorSelectorWidget, p2ColorDefault, setP2ColorDefault)

@@ -10,11 +10,12 @@ UnificationDropDownWidget::UnificationDropDownWidget(QWidget *parent)
 
     // Connecting signals and slots so that value within the drop down are in sync
     // with those within the default restorable value.
-
     connect(&m_value, &DefaultRestorableUnificationKind::valueChanged,
             [&](UnificationKindObject::Kind kind) {
                 ui->unificationKindDropDown->setCurrentText(UnificationKindObject::getDisplayName(kind));
             });
+    connect(&m_value, &DefaultRestorableUnificationKind::defaultValueChanged,
+            this, &UnificationDropDownWidget::defaultValueChanged);
     connect(ui->unificationKindDropDown, &QComboBox::currentIndexChanged,
             [&](int index) {
                 auto variant = ui->unificationKindDropDown->itemData(index);
@@ -62,6 +63,10 @@ UnificationKindObject::Kind UnificationDropDownWidget::getStyle() const {
     return m_value.value();
 }
 
+UnificationKindObject::Kind UnificationDropDownWidget::defaultValue() const {
+    return m_value.defaultValue();
+}
+
 bool UnificationDropDownWidget::hasChanges() const{
     return m_value.hasChange();
 }
@@ -94,4 +99,8 @@ void UnificationDropDownWidget::save() {
         return;
     }
     m_settingConfig->setValue(m_value.value());
+}
+
+void UnificationDropDownWidget::setDefaultValue(UnificationKindObject::Kind value) {
+    m_value.setDefaultValue(value);
 }

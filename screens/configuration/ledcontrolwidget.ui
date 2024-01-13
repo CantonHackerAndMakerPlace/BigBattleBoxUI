@@ -41,88 +41,13 @@
          <string>Screens</string>
         </property>
        </column>
-       <item>
-        <property name="text">
-         <string>General LED Configurations</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Idle Screen</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Death Match</string>
-        </property>
-        <property name="flags">
-         <set>ItemIsEnabled</set>
-        </property>
-        <item>
-         <property name="text">
-          <string>Configuration Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Players Ready Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Count Down Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Door Drop Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Match Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Winning Player Lights</string>
-         </property>
-        </item>
-       </item>
-       <item>
-        <property name="text">
-         <string>Soccer</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>Configuration Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Players Ready Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Count Down Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Match Lights</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Winning Player Lights</string>
-         </property>
-        </item>
-       </item>
       </widget>
      </item>
      <item row="0" column="1">
       <widget class="QStackedWidget" name="lightConfigDisplay">
+       <property name="currentIndex">
+        <number>13</number>
+       </property>
        <widget class="GeneralLEDConfigurationWidget" name="generalLedConfigurationWidget"/>
        <widget class="QWidget" name="deathMatchPlayersReadyLightsWidget"/>
        <widget class="QWidget" name="deathMatchCountDownLightsWidget"/>
@@ -134,8 +59,13 @@
        <widget class="QWidget" name="soccerMatchLightsWidget"/>
        <widget class="QWidget" name="soccerWinningPlayerLightsWidget"/>
        <widget class="QWidget" name="deathMatchWinningPlayerLightsWidget"/>
+       <widget class="QWidget" name="deathMatchCountDownToGameOver"/>
        <widget class="IdleLedConfigurationWidget" name="idleScreenWidget"/>
-       <widget class="QWidget" name="deathMatchConfigLightsWidget"/>
+       <widget class="IdleLedConfigurationWidget" name="deathMatchConfigLightsWidget">
+        <property name="title" stdset="0">
+         <string>Death Match Configuration Screen Light configuration</string>
+        </property>
+       </widget>
       </widget>
      </item>
     </layout>

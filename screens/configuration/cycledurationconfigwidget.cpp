@@ -14,6 +14,10 @@ CycleDurationConfigWidget::CycleDurationConfigWidget(QWidget *parent)
             ui->durationSpinBox, &QSpinBox::setValue);
 
     ui->durationSpinBox->setValue(m_duration.value());
+    connect(&m_duration, &DefaultRestorableInt::defaultValueChanged,
+            this, &CycleDurationConfigWidget::defaultValueChanged);
+    connect(&m_duration, &DefaultRestorableInt::valueChanged,
+            this, &CycleDurationConfigWidget::valueChanged);
 }
 
 CycleDurationConfigWidget::~CycleDurationConfigWidget() {
@@ -26,6 +30,10 @@ DefaultRestorableInt const& CycleDurationConfigWidget::getDuration() const {
 
 bool CycleDurationConfigWidget::hasChanges() {
     return m_duration.hasChange();
+}
+
+int CycleDurationConfigWidget::defaultValue() const {
+    return m_duration.defaultValue();
 }
 
 void CycleDurationConfigWidget::init(IntegerObject *settingConfig) {
@@ -49,4 +57,8 @@ void CycleDurationConfigWidget::save() {
         return;
     }
     m_settingObject->setValue(m_duration.value());
+}
+
+void CycleDurationConfigWidget::setDefaultValue(int value) {
+    m_duration.setDefaultValue(value);
 }

@@ -25,6 +25,8 @@ ColorSelectionWidget::ColorSelectionWidget(QWidget *parent)
             [&](QColor color) {
                 ui->colorWidgetDisplay->setStyleSheet(QString(styleSheetToFmt).arg(m_value.value().name()));
             });
+    connect(&m_value, &DefaultRestorableQColor::valueChanged,
+            this, &ColorSelectionWidget::valueChanged);
 }
 
 ColorSelectionWidget::~ColorSelectionWidget() {

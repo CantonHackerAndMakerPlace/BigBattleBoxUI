@@ -30,6 +30,7 @@ public slots:
     void setDefaultValue(QColor value);
 signals:
     void titleChanged(QString title);
+    void valueChanged(QColor value);
     void defaultValueChanged(QColor value);
 private:
     Ui::ColorSelectionWidget *ui;

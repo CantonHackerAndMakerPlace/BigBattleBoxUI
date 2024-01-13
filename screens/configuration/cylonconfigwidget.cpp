@@ -28,6 +28,20 @@ CylonConfigWidget::CylonConfigWidget(QWidget *parent) :
                     break;
                 }
             });
+
+    DR_SPIN_BOX_CONNECT(CylonConfigWidget, duration, durationDefaultChanged, changesWereMade)
+    UNIFICATION_DD_CONNECT(CylonConfigWidget, unification, unificationKindDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(CylonConfigWidget, eyeLength, eyeLengthDefaultChanged, changesWereMade)
+
+    INTERPOLATION_CONNECT(CylonConfigWidget, p1Interpolation, p1CurveDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(CylonConfigWidget, p1EyeColor, p1EyeColorDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(CylonConfigWidget, p1BackgroundColor, p1BackgroundColorDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(CylonConfigWidget, p1Brightness, p1BrightnessDefaultChanged, changesWereMade)
+
+    INTERPOLATION_CONNECT(CylonConfigWidget, p2Interpolation, p2CurveDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(CylonConfigWidget, p2EyeColor, p2EyeColorDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(CylonConfigWidget, p2BackgroundColor, p2BackgroundColorDefaultChanged, changesWereMade)
+    DR_SPIN_BOX_CONNECT(CylonConfigWidget, p2Brightness, p2BrightnessDefaultChanged, changesWereMade)
 }
 
 CylonConfigWidget::~CylonConfigWidget() {
@@ -35,7 +49,17 @@ CylonConfigWidget::~CylonConfigWidget() {
 }
 
 bool CylonConfigWidget::hasChanges() const {
-    return false;
+    return ui->duration->hasChanges() ||
+           ui->eyeLength->hasChanges() ||
+           ui->unification->hasChanges() ||
+           ui->p1Brightness->hasChanges() ||
+           ui->p1Interpolation->hasChanges() ||
+           ui->p1EyeColor->hasChanges() ||
+           ui->p1BackgroundColor->hasChanges() ||
+           ui->p2Brightness->hasChanges() ||
+           ui->p2BackgroundColor->hasChanges() ||
+           ui->p2EyeColor->hasChanges() ||
+           ui->p2Interpolation->hasChanges();
 }
 
 void CylonConfigWidget::init(CylonConfig *config) {
@@ -55,7 +79,6 @@ void CylonConfigWidget::init(CylonConfig *config) {
     ui->p2BackgroundColor->init(&m_config->p2BackgroundColor());
     ui->p2EyeColor->init(&m_config->p2ForegroundColor());
     ui->p2Interpolation->init(&m_config->p2Curve(), &m_config->p2CurveAmplitude());
-
 }
 
 void CylonConfigWidget::restorePreviousValue() {
@@ -90,12 +113,28 @@ void CylonConfigWidget::save() {
     ui->duration->save();
     ui->eyeLength->save();
     ui->unification->save();
+
     ui->p1Brightness->save();
     ui->p1Interpolation->save();
     ui->p1EyeColor->save();
     ui->p1BackgroundColor->save();
+
     ui->p2Brightness->save();
     ui->p2BackgroundColor->save();
     ui->p2EyeColor->save();
     ui->p2Interpolation->save();
 }
+
+UNIFICATION_DD_DEFAULT_VALUE_DEF(CylonConfigWidget, unification, unificationKindDefault, setUnificationKindDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(CylonConfigWidget, duration, durationDefault, setDurationDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(CylonConfigWidget, eyeLength, eyeLengthDefault, setEyeLengthDefault)
+
+INTERPOLATION_DEFAULT_VALUE_DEF(CylonConfigWidget, p1Interpolation, p1CurveDefault, setP1CurveDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(CylonConfigWidget, p1Brightness, p1BrightnessDefault, setP1BrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(CylonConfigWidget, p1EyeColor, p1EyeColorDefault, setP1EyeColorDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(CylonConfigWidget, p1BackgroundColor,  p1BackgroundColorDefault, setP1BackgroundColorDefault)
+
+INTERPOLATION_DEFAULT_VALUE_DEF(CylonConfigWidget, p2Interpolation, p2CurveDefault, setP2CurveDefault)
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(CylonConfigWidget, p2Brightness, p2BrightnessDefault, setP2BrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(CylonConfigWidget, p2EyeColor, p2EyeColorDefault, setP2EyeColorDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(CylonConfigWidget, p2BackgroundColor,  p2BackgroundColorDefault, setP2BackgroundColorDefault)

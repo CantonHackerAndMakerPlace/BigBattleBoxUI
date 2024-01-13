@@ -11,6 +11,13 @@ SolidColorConfigWidget::SolidColorConfigWidget(QWidget *parent) :
                 ui->p2Brightness->setDisabled(value);
                 ui->p2Color->setDisabled(value);
             });
+    UNIFIED_CB_CONNECT(SolidColorConfigWidget, unification, unificationDefaultChanged, changesWereMade)
+
+    DR_SPIN_BOX_CONNECT(SolidColorConfigWidget, p1Brightness, p1BrightnessDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(SolidColorConfigWidget, p1Color, p1ColorDefaultChanged, changesWereMade)
+
+    DR_SPIN_BOX_CONNECT(SolidColorConfigWidget, p2Brightness, p2BrightnessDefaultChanged, changesWereMade)
+    COLOR_SELECT_CONNECT(SolidColorConfigWidget, p2Color, p1ColorDefaultChanged, changesWereMade)
 }
 
 SolidColorConfigWidget::~SolidColorConfigWidget() {
@@ -59,3 +66,11 @@ void SolidColorConfigWidget::save() {
     ui->p2Color->save();
     ui->p2Brightness->save();
 }
+
+UNIFIED_CB_DEFAULT_VALUE_DEF(SolidColorConfigWidget, unification, unificationDefault, setUnificationDefault)
+
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(SolidColorConfigWidget, p1Brightness, p1BrightnessDefault, setP1BrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(SolidColorConfigWidget, p1Color, p1ColorDefault, setP1ColorDefault)
+
+DR_SPIN_BOX_DEFAULT_VALUE_DEF(SolidColorConfigWidget, p2Brightness, p2BrightnessDefault, setP2BrightnessDefault)
+COLOR_SELECT_DEFAULT_VALUE_DEF(SolidColorConfigWidget, p2Color, p2ColorDefault, setP2ColorDefault)
