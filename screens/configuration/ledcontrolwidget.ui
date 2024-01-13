@@ -46,7 +46,7 @@
      <item row="0" column="1">
       <widget class="QStackedWidget" name="lightConfigDisplay">
        <property name="currentIndex">
-        <number>13</number>
+        <number>15</number>
        </property>
        <widget class="GeneralLEDConfigurationWidget" name="generalLedConfigurationWidget"/>
        <widget class="QWidget" name="deathMatchPlayersReadyLightsWidget"/>
@@ -66,6 +66,10 @@
          <string>Death Match Configuration Screen Light configuration</string>
         </property>
        </widget>
+       <widget class="QWidget" name="deathMatchThree"/>
+       <widget class="QWidget" name="deathMatchTwo"/>
+       <widget class="QWidget" name="deathMatchOne"/>
+       <widget class="QWidget" name="deathMatchFight"/>
       </widget>
      </item>
     </layout>

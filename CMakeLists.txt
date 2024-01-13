@@ -138,6 +138,13 @@ set(PROJECT_SOURCES
     app_state/led/ledidleconfiguration.cpp
     app_state/led/interpolation.h
     app_state/led/interpolation.cpp
+    app_state/led/deathmatchledconfiguration.h
+    app_state/led/deathmatchledconfiguration.cpp
+    app_state/led/playerreadyledlightconfiguration.h
+    app_state/led/playerreadyledlightconfiguration.cpp
+    app_state/led/winningplayerlightconfiguration.h
+    app_state/led/winningplayerlightconfiguration.cpp
+
     app_state/led/ledalgoconfig/ledalgoconfig.h
     app_state/led/ledalgoconfig/ledalgoconfig.cpp
     app_state/led/ledalgoconfig/breathconfig.h
@@ -152,8 +159,8 @@ set(PROJECT_SOURCES
     app_state/led/ledalgoconfig/rampupconfig.cpp
     app_state/led/ledalgoconfig/solidcolorconfig.h
     app_state/led/ledalgoconfig/solidcolorconfig.cpp
-    app_state/led/ledalgoconfig/deathmatchledconfiguration.h
-    app_state/led/ledalgoconfig/deathmatchledconfiguration.cpp
+
+
 
 
     # Screens directory used for managing individual screen widgets

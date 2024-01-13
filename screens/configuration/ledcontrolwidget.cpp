@@ -25,6 +25,8 @@ LEDControlWidget::LEDControlWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Manually configuring tree selection because this is easier than using the
+    // designer.q
     m_general = new QTreeWidgetItem(ui->treeWidget);
     m_general->setText(0, tr("General LED Configurations"));
 
@@ -38,6 +40,18 @@ LEDControlWidget::LEDControlWidget(QWidget *parent) :
     m_dmConfig->setText(0, tr("Configuration Lights"));
     m_dmPlayersReady = new QTreeWidgetItem(m_deathMatch);
     m_dmPlayersReady->setText(0, tr("Players Ready Lights"));
+
+    m_dmCountDownToMatchStart = new QTreeWidgetItem(m_deathMatch);
+    m_dmCountDownToMatchStart->setText(0, tr("Count Down To Match Start"));
+    m_dmThree = new QTreeWidgetItem(m_dmCountDownToMatchStart);
+    m_dmThree->setText(0, tr("Three"));
+    m_dmTwo = new QTreeWidgetItem(m_dmCountDownToMatchStart);
+    m_dmTwo->setText(0, tr("Two"));
+    m_dmOne = new QTreeWidgetItem(m_dmCountDownToMatchStart);
+    m_dmOne->setText(0, tr("One"));
+    m_dmFight = new QTreeWidgetItem(m_dmCountDownToMatchStart);
+    m_dmFight->setText(0, tr("FIGHT!!!"));
+
     m_dmRunningLights = new QTreeWidgetItem(m_deathMatch);
     m_dmRunningLights->setText(0, tr("Match Running Lights"));
     m_dmCountDownDoorDrop = new QTreeWidgetItem(m_deathMatch);
@@ -48,7 +62,6 @@ LEDControlWidget::LEDControlWidget(QWidget *parent) :
     m_dmCountDownMatchOver->setText(0, tr("Count Down To Match Over"));
     m_dmPlayerWins = new QTreeWidgetItem(m_deathMatch);
     m_dmPlayerWins->setText(0, tr("Winner Screen"));
-
 
     m_soccer = new QTreeWidgetItem(ui->treeWidget);
     m_soccer->setText(0, tr("Soccer"));
@@ -79,6 +92,10 @@ LEDControlWidget::LEDControlWidget(QWidget *parent) :
         {m_soccerPlayerReady, ui->soccerPlayerReadyLightsWidget},
         {m_soccerCountDownMatchOver, ui->soccerCountDownLightsWidget},
         {m_soccerWinner, ui->soccerWinningPlayerLightsWidget},
+        {m_dmThree, ui->deathMatchThree},
+        {m_dmTwo, ui->deathMatchTwo},
+        {m_dmOne, ui->deathMatchOne},
+        {m_dmFight, ui->deathMatchFight},
     };
 
     connect(ui->treeWidget, &QTreeWidget::currentItemChanged,
@@ -89,26 +106,11 @@ LEDControlWidget::~LEDControlWidget() {
     delete ui;
 }
 
-//void LEDControlWidget::buildGeneral() {
-
-//}
-
-//void LEDControlWidget::buildIdle() {
-
-//}
-
-void LEDControlWidget::buildDeathMatch() {
-
-}
-
-void LEDControlWidget::buildSoccer() {
-
-}
-
 void LEDControlWidget::init(ApplicationState *state) {
     m_state = state;
     ui->generalLedConfigurationWidget->init(m_state);
     ui->idleScreenWidget->init(&m_state->ledConfig()->idleConfiguration()->algoConfig());
+    ui->deathMatchConfigLightsWidget->init(m_state->ledConfig()->deathMatchConfiguration()->configurationScreenLights());
     // TODO: This may also need some kind of flag to prevent navigation in the
     // event that we have unsaved changes.
 

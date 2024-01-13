@@ -25,11 +25,6 @@ public:
 private slots:
     void selectionChangedChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 private:
-//    void buildGeneral();
-//    void buildIdle();
-    void buildDeathMatch();
-    void buildSoccer();
-private:
     Ui::LEDControlWidget *ui;
     ApplicationState *m_state;
     QHash<QTreeWidgetItem*, QWidget*> m_itemToPage;
@@ -37,6 +32,11 @@ private:
     QTreeWidgetItem *m_idleScreen = nullptr;
     QTreeWidgetItem *m_deathMatch = nullptr;
     QTreeWidgetItem *m_dmConfig = nullptr;
+    QTreeWidgetItem *m_dmCountDownToMatchStart = nullptr;
+    QTreeWidgetItem *m_dmThree = nullptr;
+    QTreeWidgetItem *m_dmTwo = nullptr;
+    QTreeWidgetItem *m_dmOne = nullptr;
+    QTreeWidgetItem *m_dmFight = nullptr;
     QTreeWidgetItem *m_dmPlayersReady = nullptr;
     QTreeWidgetItem *m_dmRunningLights = nullptr;
     QTreeWidgetItem *m_dmCountDownDoorDrop = nullptr;
