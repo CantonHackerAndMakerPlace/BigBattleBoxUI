@@ -21,10 +21,10 @@ public:
 
 
     // Player one stuff.
-    ColorObject &p1ColorNotReady();
+    ColorObject &p1NotReadyColor();
     IntegerObject &p1NotReadyBrightness();
 
-    ColorObject &p1ColorReadyColor();
+    ColorObject &p1ReadyColor();
     IntegerObject &p1ReadyBrightness();
 
     ColorObject &p1BlinkOnColor();
@@ -36,10 +36,10 @@ public:
 
 
     // Player two stuff.
-    ColorObject &p2ColorNotReady();
+    ColorObject &p2NotReadyColor();
     IntegerObject &p2NotReadyBrightness();
 
-    ColorObject &p2ColorReadyColor();
+    ColorObject &p2ReadyColor();
     IntegerObject &p2ReadyBrightness();
 
     ColorObject &p2BlinkOnColor();
@@ -55,7 +55,6 @@ private:
     IntegerObject m_numberOfBlinks;
     IntegerObject m_onDuration;
     IntegerObject m_offDuration;
-
 
     // Player one stuff.
     ColorObject m_p1ColorNotReady;

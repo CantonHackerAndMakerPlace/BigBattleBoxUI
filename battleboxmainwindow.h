@@ -50,6 +50,9 @@ private:
     // Game selection screen initializations
     void initGameSelectScreen();
 
+    // connect led controller
+    void initLEDController();
+
     // Deathmatch init
     void initDeathMatchConfigScreen();
     void initDeathMatchCountDownScreen();
@@ -127,6 +130,18 @@ signals:
     void DMCDstart2();
     void DMCDstart1();
     void DMCDstartFight();
+
+    void dmPlayerOneWins(QString name);
+    void dmPlayerTwoWins(QString name);
+
+    // Player ready screen selection.
+    void dmPlayerOneReady();
+    void dmPlayerOneCancelledReady();
+    void dmPlayerOneCantBeReady();
+
+    void dmPlayerTwoReady();
+    void dmPlayerTwoCancelledReady();
+    void dmPlayerTwoCantBeReady();
 
 private slots:
     void dmprUpdateP1ReadyText(QString arg);

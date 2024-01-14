@@ -10,16 +10,34 @@
 #include "ledalgo/rampup.h"
 #include "ledalgo/solidcolors.h"
 #include <app_state/led/ledconfiguration.h>
+#include <physical_state/ledalgo/deathmatchplayerready.h>
 
 LEDController::LEDController(LEDConfiguration *config, ArduinoClient *client, QObject *parent)
     : QObject{parent}
     , m_timer(new QTimer(this))
     , m_client(client)
     , m_config(config)
+    , m_dmPlayersReady(new DeathMatchPlayerReady(config->deathMatchConfiguration()->playersReadyLights()))
 {
+    // Connecting signals to DeathMatchPlayerReady algorithm
+    connect(this, &LEDController::dmPlayerOneReady,
+        m_dmPlayersReady.get(), &DeathMatchPlayerReady::dmPlayerOneReady);
+    connect(this, &LEDController::dmPlayerOneCancelledReady,
+            m_dmPlayersReady.get(), &DeathMatchPlayerReady::dmPlayerOneCancelledReady);
+    connect(this, &LEDController::dmPlayerOneCantBeReady,
+            m_dmPlayersReady.get(), &DeathMatchPlayerReady::dmPlayerOneCantBeReady);
+
+    connect(this, &LEDController::dmPlayerTwoReady,
+            m_dmPlayersReady.get(), &DeathMatchPlayerReady::dmPlayerTwoReady);
+    connect(this, &LEDController::dmPlayerTwoCancelledReady,
+            m_dmPlayersReady.get(), &DeathMatchPlayerReady::dmPlayerTwoCancelledReady);
+    connect(this, &LEDController::dmPlayerTwoCantBeReady,
+            m_dmPlayersReady.get(), &DeathMatchPlayerReady::dmPlayerTwoCantBeReady);
+
     // Connecting to the messaging timer.
     connect(m_timer, &QTimer::timeout,
             this, &LEDController::onTick);
+
 
     // Try for 30 msg per second.
     m_timer->start(33);
@@ -222,40 +240,63 @@ void LEDController::enterConfigurationScreen() {
 }
 
 void LEDController::enterGameSelectScreen() {
-    qDebug() << "Entered game selection screen setting breath as the current algorithm";
     m_config->idleConfiguration()->algoConfig().setLEDController(this);
 }
 
 void LEDController::enterDMConfigScreen() {
-
+    m_config->deathMatchConfiguration()->configurationScreenLights()->setLEDController(this);
 }
 
-void LEDController::enterDMCountDownScreen() {
+void LEDController::enterDMCountDownScreen() { }
 
-}
-
-void LEDController::postEnterDMCountDownScreen() {
-
-}
+void LEDController::postEnterDMCountDownScreen() { }
 
 void LEDController::enterDMPlayersReadyScreen() {
+    m_algo = m_dmPlayersReady;
+}
 
+void LEDController::leaveDMPlayersReadyScreen() {
+    m_algo = LEDAlgoPointerType();
+    m_dmPlayersReady->reset();
 }
 
 void LEDController::enterDMRunningScreen() {
-
+    m_config->deathMatchConfiguration()->matchRunningLights()->setLEDController(this);
 }
 
-void LEDController::enterDMWinnerDisplayScreen(QString playerName) {
+void LEDController::enterDMWinnerDisplayScreen(QString playerName) { }
 
+void LEDController::DMCDstart3() {
+    m_config->deathMatchConfiguration()->matchStartThree()->setLEDController(this);
 }
+
+void LEDController::DMCDstart2() {
+    m_config->deathMatchConfiguration()->matchStartTwo()->setLEDController(this);
+}
+
+void LEDController::DMCDstart1() {
+    m_config->deathMatchConfiguration()->matchStartOne()->setLEDController(this);
+}
+
+void LEDController::DMCDstartFight() {
+    m_config->deathMatchConfiguration()->matchStartFight()->setLEDController(this);
+}
+
+void LEDController::dmPlayerOneWins(QString) {
+    m_config->deathMatchConfiguration()->winningPlayerScreen()->playerOne()->setLEDController(this);
+}
+
+void LEDController::dmPlayerTwoWins(QString) {
+    m_config->deathMatchConfiguration()->winningPlayerScreen()->playerTwo()->setLEDController(this);
+}
+
+
 
 void LEDController::enterSoccerConfigScreen() {
 
 }
 
 void LEDController::enterSoccerPlayersReadyScreen() {
-
 }
 
 void LEDController::enterSoccerRunningScreen() {
@@ -269,20 +310,3 @@ void LEDController::enterSoccerCountDownScreen() {
 void LEDController::enterSoccerGameOverScreen() {
 
 }
-
-void LEDController::DMCDstart3() {
-
-}
-
-void LEDController::DMCDstart2() {
-
-}
-
-void LEDController::DMCDstart1() {
-
-}
-
-void LEDController::DMCDstartFight() {
-
-}
-

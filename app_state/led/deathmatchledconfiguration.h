@@ -45,7 +45,6 @@ public:
 public slots:
     void loadSettings(QSettings *settings);
 private:
-
     LEDAlgoConfig *m_configScreen;
     PlayerReadyLEDLightConfiguration *m_playersReady;
     CountDownFillConfig *m_doorDropLights;

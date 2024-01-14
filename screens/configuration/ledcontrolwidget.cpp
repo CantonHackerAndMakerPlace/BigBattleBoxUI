@@ -56,12 +56,15 @@ LEDControlWidget::LEDControlWidget(QWidget *parent) :
     m_dmRunningLights->setText(0, tr("Match Running Lights"));
     m_dmCountDownDoorDrop = new QTreeWidgetItem(m_deathMatch);
     m_dmCountDownDoorDrop->setText(0, tr("Count Down To Door Drop"));
-    m_dmDoorDrop = new QTreeWidgetItem(m_deathMatch);
-    m_dmDoorDrop->setText(0, tr("Door Drop Lights"));
     m_dmCountDownMatchOver = new QTreeWidgetItem(m_deathMatch);
     m_dmCountDownMatchOver->setText(0, tr("Count Down To Match Over"));
+
     m_dmPlayerWins = new QTreeWidgetItem(m_deathMatch);
     m_dmPlayerWins->setText(0, tr("Winner Screen"));
+    m_dmP1Wins = new QTreeWidgetItem(m_dmPlayerWins);
+    m_dmP1Wins->setText(0, tr("Player One Wins"));
+    m_dmP2Wins = new QTreeWidgetItem(m_dmPlayerWins);
+    m_dmP2Wins->setText(0, tr("Player Two Wins"));
 
     m_soccer = new QTreeWidgetItem(ui->treeWidget);
     m_soccer->setText(0, tr("Soccer"));
@@ -82,11 +85,12 @@ LEDControlWidget::LEDControlWidget(QWidget *parent) :
         {m_idleScreen, ui->idleScreenWidget},
         {m_dmConfig, ui->deathMatchConfigLightsWidget},
         {m_dmPlayersReady, ui->deathMatchPlayersReadyLightsWidget},
-        {m_dmRunningLights, ui->deathMatchMatchLightsWidget},
-        {m_dmCountDownDoorDrop, ui->deathMatchCountDownLightsWidget},
-        {m_dmDoorDrop, ui->deathMatchDoorDropLightsWidget},
+        {m_dmRunningLights, ui->deathMatchMatchRunningLightsWidget},
+        {m_dmCountDownDoorDrop, ui->deathMatchCountDownDoorDropWidget},
         {m_dmCountDownMatchOver, ui->deathMatchCountDownToGameOver},
-        {m_dmPlayerWins, ui->deathMatchWinningPlayerLightsWidget},
+//        {m_dmPlayerWins, ui->deathMatchWinningPlayerLightsWidget},
+        {m_dmP1Wins, ui->deathMatchP1Wins},
+        {m_dmP2Wins, ui->deathMatchP2Wins},
         {m_soccerConfig, ui->soccerConfigLightsWidget},
         {m_soccerRunningLights, ui->soccerMatchLightsWidget},
         {m_soccerPlayerReady, ui->soccerPlayerReadyLightsWidget},
@@ -110,12 +114,19 @@ void LEDControlWidget::init(ApplicationState *state) {
     m_state = state;
     ui->generalLedConfigurationWidget->init(m_state);
     ui->idleScreenWidget->init(&m_state->ledConfig()->idleConfiguration()->algoConfig());
-    ui->deathMatchConfigLightsWidget->init(m_state->ledConfig()->deathMatchConfiguration()->configurationScreenLights());
-    // TODO: This may also need some kind of flag to prevent navigation in the
-    // event that we have unsaved changes.
 
-    // TODO: finish connecting the lights and other related physical
-    // state information.
+    auto *dmConfig = m_state->ledConfig()->deathMatchConfiguration();
+    ui->deathMatchConfigLightsWidget->init(dmConfig->configurationScreenLights());
+    ui->deathMatchCountDownDoorDropWidget->init(dmConfig->doorDropCountDownLights());
+    ui->deathMatchCountDownToGameOver->init(dmConfig->matchOverCountDownLights());
+    ui->deathMatchThree->init(dmConfig->matchStartThree());
+    ui->deathMatchTwo->init(dmConfig->matchStartTwo());
+    ui->deathMatchOne->init(dmConfig->matchStartOne());
+    ui->deathMatchFight->init(dmConfig->matchStartFight());
+    ui->deathMatchMatchRunningLightsWidget->init(dmConfig->matchRunningLights());
+    ui->deathMatchP1Wins->init(dmConfig->winningPlayerScreen()->playerOne());
+    ui->deathMatchP2Wins->init(dmConfig->winningPlayerScreen()->playerTwo());
+    ui->deathMatchPlayersReadyLightsWidget->init(dmConfig->playersReadyLights());
 }
 
 void LEDControlWidget::selectionChangedChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous) {

@@ -12,12 +12,15 @@
 #include <physical_state/ledalgo/ledalgo.h>
 #include "unificationkindobject.h"
 
+
 class LEDConfiguration;
 class QTimer;
 class GeneralLEDConfiguration;
 class ArduinoClient;
+class DeathMatchPlayerReady;
 
 using LEDAlgoPointerType = std::shared_ptr<LEDAlgo>;
+using DMPlayersReadyAlgoPointerType = std::shared_ptr<DeathMatchPlayerReady>;
 
 /// The LEDController is responsible for sending information to the
 /// arduino through the messanger in order to construct light patterns.
@@ -119,6 +122,7 @@ public slots:
     void enterDMCountDownScreen();
     void postEnterDMCountDownScreen();
     void enterDMPlayersReadyScreen();
+    void leaveDMPlayersReadyScreen();
     void enterDMRunningScreen();
     void enterDMWinnerDisplayScreen(QString playerName);
     void enterSoccerConfigScreen();
@@ -132,7 +136,17 @@ public slots:
     void DMCDstart2();
     void DMCDstart1();
     void DMCDstartFight();
+
+    void dmPlayerOneWins(QString name);
+    void dmPlayerTwoWins(QString name);
 signals:
+    void dmPlayerOneReady();
+    void dmPlayerOneCancelledReady();
+    void dmPlayerOneCantBeReady();
+
+    void dmPlayerTwoReady();
+    void dmPlayerTwoCancelledReady();
+    void dmPlayerTwoCantBeReady();
     // Algorithm finished
     void algoFinished();
 private slots:
@@ -163,6 +177,8 @@ private:
     LEDConfiguration *m_config;
 
     LEDAlgoPointerType m_algo;
+
+    DMPlayersReadyAlgoPointerType m_dmPlayersReady;
 };
 
 #endif // LEDCONTROLLER_H

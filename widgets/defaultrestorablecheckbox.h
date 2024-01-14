@@ -21,6 +21,7 @@ public:
     QString title() const;
     bool hasChanges() const;
     bool isChecked() const;
+    void setValue(bool value);
     bool defaultValue() const {return m_value.defaultValue(); }
 public slots:
     void setTitle(QString value);

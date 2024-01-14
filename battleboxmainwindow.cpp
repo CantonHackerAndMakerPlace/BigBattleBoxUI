@@ -47,6 +47,9 @@ BattleBoxMainWindow::BattleBoxMainWindow(QWidget *parent)
     // Game selection
     initGameSelectScreen();
 
+    // Connecting all signals to the LED controller.
+    initLEDController();
+
     // DeathMatch
     initDeathMatchConfigScreen();
     initDeathMatchPlayersReadyScreen();
@@ -163,6 +166,40 @@ void BattleBoxMainWindow::initQuickSelectWidgets() {
     loadQuickLoadFiles(DEATHMATCH_QUICK_LOAD_FOLDER);
     m_dirWatcher->addPath(SOCCER_QUICK_LOAD_FOLDER);
     loadQuickLoadFiles(SOCCER_QUICK_LOAD_FOLDER);
+}
+
+void BattleBoxMainWindow::initLEDController() {
+    // Connecting count down signals.
+    connect(this, &BattleBoxMainWindow::DMCDstart3,
+            m_state->ledController(), &LEDController::DMCDstart3);
+    connect(this, &BattleBoxMainWindow::DMCDstart2,
+            m_state->ledController(), &LEDController::DMCDstart2);
+    connect(this, &BattleBoxMainWindow::DMCDstart1,
+            m_state->ledController(), &LEDController::DMCDstart1);
+    connect(this, &BattleBoxMainWindow::DMCDstartFight,
+            m_state->ledController(), &LEDController::DMCDstartFight);
+
+    // Connecting death match player wins screen light signals.
+    connect(this, &BattleBoxMainWindow::dmPlayerOneWins,
+            m_state->ledController(), &LEDController::dmPlayerOneWins);
+    connect(this, &BattleBoxMainWindow::dmPlayerTwoWins,
+            m_state->ledController(), &LEDController::dmPlayerTwoWins);
+
+    // Connecting player ready screen signals.
+    connect(this, &BattleBoxMainWindow::dmPlayerOneReady,
+            m_state->ledController(), &LEDController::dmPlayerOneReady);
+    connect(this, &BattleBoxMainWindow::dmPlayerOneCancelledReady,
+            m_state->ledController(), &LEDController::dmPlayerOneCancelledReady);
+    connect(this, &BattleBoxMainWindow::dmPlayerOneCantBeReady,
+            m_state->ledController(), &LEDController::dmPlayerOneCantBeReady);
+
+    connect(this, &BattleBoxMainWindow::dmPlayerTwoReady,
+            m_state->ledController(), &LEDController::dmPlayerTwoReady);
+    connect(this, &BattleBoxMainWindow::dmPlayerTwoCancelledReady,
+            m_state->ledController(), &LEDController::dmPlayerTwoCancelledReady);
+    connect(this, &BattleBoxMainWindow::dmPlayerTwoCantBeReady,
+            m_state->ledController(), &LEDController::dmPlayerTwoCantBeReady);
+
 }
 
 void BattleBoxMainWindow::initDeathMatchConfigScreen() {
@@ -320,7 +357,6 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
 }
 
 void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
-
     QGraphicsOpacityEffect *eff1 = new QGraphicsOpacityEffect(ui->dmCDCountDownLabel);
     ui->dmCDCountDownLabel->setGraphicsEffect(eff1);
     {
@@ -381,6 +417,7 @@ void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
             if(newState == QAbstractAnimation::State::Running) {
                 emit DMCDstartFight();
                 ui->dmCDCountDownLabel->setText("FIGHT!!!");
+
             }
         });
         m_dmcdAnimationGroup->addAnimation(a);
@@ -831,6 +868,11 @@ void BattleBoxMainWindow::leaveDMRunningScreen() {
 
 void BattleBoxMainWindow::enterDMWinnerDisplayScreen(QString playerName) {
     ui->mainDisplay->setCurrentWidget(ui->deathMatchWinner);
+    if (playerName == m_state->data()->deathMatchConfig()->playerOneName()) {
+        emit dmPlayerOneWins(playerName);
+    } else {
+        emit dmPlayerTwoWins(playerName);
+    }
 }
 
 void BattleBoxMainWindow::leaveDMWinnerDisplayScreen() {
@@ -898,8 +940,10 @@ void BattleBoxMainWindow::dmprUpdateP1ReadyText(QString arg) {
     ui->dmprPlayerOneReadyLabel->setText(QString("Player One: %1").arg(arg));
     if(m_state->data()->deathMatchPlayerOneReady()->playerReady()) {
         ui->dmprPlayerOneReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
+        emit dmPlayerOneReady();
     } else {
         ui->dmprPlayerOneReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+        emit dmPlayerOneCancelledReady();
     }
 }
 
@@ -907,8 +951,10 @@ void BattleBoxMainWindow::dmprUpdateP2ReadyText(QString arg) {
     ui->dmprPlayerTwoReadyLabel->setText(QString("Player Two: %1").arg(arg));
     if(m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
         ui->dmprPlayerTwoReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
+        emit dmPlayerTwoReady();
     } else {
         ui->dmprPlayerTwoReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+        emit dmPlayerTwoCancelledReady();
     }
 }
 

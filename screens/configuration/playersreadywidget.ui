@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayersReadyWidget</class>
+ <widget class="QWidget" name="PlayersReadyWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1204</width>
+    <height>1467</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="titleWidget">
+       <property name="text">
+        <string>Players Ready LED Configuration</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0" colspan="2">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="saveButton">
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancelButton">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="defaultButton">
+         <property name="text">
+          <string>Default</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="testButton">
+         <property name="text">
+          <string>Test</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="ColorSelectionWidget" name="p1NotReadyColor" native="true">
+       <property name="title" stdset="0">
+        <string>Player Not Ready Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>255</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="DefaultRestorableSpinBox" name="p2ReadyBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Player Ready Brightness</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0" colspan="2">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Blink Configuration</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="3" column="1">
+           <widget class="ColorSelectionWidget" name="p2OnColor" native="true">
+            <property name="title" stdset="0">
+             <string>1st Color</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <color>
+              <red>255</red>
+              <green>247</green>
+              <blue>0</blue>
+             </color>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="DefaultRestorableSpinBox" name="p2OffBrightness" native="true">
+            <property name="title" stdset="0">
+             <string>2nd Color Brightness</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="ColorSelectionWidget" name="p1OffColor" native="true">
+            <property name="title" stdset="0">
+             <string>2nd Color</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <color>
+              <red>255</red>
+              <green>238</green>
+              <blue>0</blue>
+             </color>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="ColorSelectionWidget" name="p2OffColor" native="true">
+            <property name="title" stdset="0">
+             <string>2nd Color</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <color>
+              <red>0</red>
+              <green>255</green>
+              <blue>247</blue>
+             </color>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="DefaultRestorableSpinBox" name="offDuration" native="true">
+            <property name="title" stdset="0">
+             <string>2nd Color Duration</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>500</number>
+            </property>
+            <property name="maximum" stdset="0">
+             <number>1000000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="DefaultRestorableSpinBox" name="p2OnBrightness" native="true">
+            <property name="title" stdset="0">
+             <string>1st Color Brightness</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="ColorSelectionWidget" name="p1OnColor" native="true">
+            <property name="title" stdset="0">
+             <string>1st Color</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <color>
+              <red>255</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="DefaultRestorableSpinBox" name="p1OnBrightness" native="true">
+            <property name="title" stdset="0">
+             <string>1st Color Brightness</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="DefaultRestorableSpinBox" name="p1OffBrightness" native="true">
+            <property name="title" stdset="0">
+             <string>2nd Color Brightness</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>20</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="DefaultRestorableSpinBox" name="onDuration" native="true">
+            <property name="title" stdset="0">
+             <string>1st Color Duration</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>500</number>
+            </property>
+            <property name="maximum" stdset="0">
+             <number>1000000</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="DefaultRestorableSpinBox" name="numberOfBlinks" native="true">
+            <property name="title" stdset="0">
+             <string>Number of Blinks</string>
+            </property>
+            <property name="defaultValue" stdset="0">
+             <number>3</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="ColorSelectionWidget" name="p2NotReadyColor" native="true">
+       <property name="title" stdset="0">
+        <string>Player Not Ready Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>255</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="DefaultRestorableSpinBox" name="p1ReadyBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Player Ready Brightness</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="DefaultRestorableSpinBox" name="p2NotReadyBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Player Not Ready Brightness</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <string>20</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="ColorSelectionWidget" name="p1ReadyColor" native="true">
+       <property name="title" stdset="0">
+        <string>Player Ready Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>0</red>
+         <green>25</green>
+         <blue>255</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="DefaultRestorableSpinBox" name="p1NotReadyBrightness" native="true">
+       <property name="title" stdset="0">
+        <string>Player Not Ready Color Brightness</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="ColorSelectionWidget" name="p2ReadyColor" native="true">
+       <property name="title" stdset="0">
+        <string>Player Ready Color</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <color>
+         <red>255</red>
+         <green>0</green>
+         <blue>221</blue>
+        </color>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="DefaultRestorableCheckBox" name="blinkOnNoLongerReady" native="true">
+       <property name="title" stdset="0">
+        <string>Blink If User Hits Cancel</string>
+       </property>
+       <property name="defaultValue" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DefaultRestorableSpinBox</class>
+   <extends>QWidget</extends>
+   <header>defaultrestorablespinbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ColorSelectionWidget</class>
+   <extends>QWidget</extends>
+   <header>colorselectionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DefaultRestorableCheckBox</class>
+   <extends>QWidget</extends>
+   <header>defaultrestorablecheckbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

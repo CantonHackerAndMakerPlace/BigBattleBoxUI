@@ -99,6 +99,7 @@ void ApplicationState::initLightPatternControls() {
     SCREEN_CONNECT(enterDMCountDownScreen);
     SCREEN_CONNECT(postEnterDMCountDownScreen)
     SCREEN_CONNECT(enterDMPlayersReadyScreen);
+    SCREEN_CONNECT(leaveDMPlayersReadyScreen);
     SCREEN_CONNECT(enterDMRunningScreen);
     SCREEN_CONNECT(enterDMWinnerDisplayScreen);
     SCREEN_CONNECT(enterSoccerConfigScreen);

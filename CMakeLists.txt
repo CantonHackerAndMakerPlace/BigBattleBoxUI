@@ -107,6 +107,8 @@ set(PROJECT_SOURCES
     physical_state/ledalgo/solidcolors.cpp
     physical_state/ledalgo/lightoff.h
     physical_state/ledalgo/lightoff.cpp
+    physical_state/ledalgo/deathmatchplayerready.h
+    physical_state/ledalgo/deathmatchplayerready.cpp
 
     app_state/applicationstate.h
     app_state/applicationstate.cpp
@@ -207,6 +209,9 @@ set(PROJECT_SOURCES
     screens/configuration/unifiedcheckbox.cpp
     screens/configuration/unifiedcheckbox.ui
     screens/configuration/defaultvaluemacros.h
+    screens/configuration/playersreadywidget.h
+    screens/configuration/playersreadywidget.cpp
+    screens/configuration/playersreadywidget.ui
 
     # other custom widgets
     widgets/RangeSlider.h
@@ -228,6 +233,15 @@ set(PROJECT_SOURCES
     widgets/defaultrestorablespinbox.h
     widgets/defaultrestorablespinbox.cpp
     widgets/defaultrestorablespinbox.ui
+    widgets/countdownpage.h
+    widgets/countdownpage.cpp
+    widgets/countdownpage.ui
+    widgets/rampuppage.h
+    widgets/rampuppage.cpp
+    widgets/rampuppage.ui
+    widgets/solidcolorpage.h
+    widgets/solidcolorpage.cpp
+    widgets/solidcolorpage.ui
 
 
     # Other files.

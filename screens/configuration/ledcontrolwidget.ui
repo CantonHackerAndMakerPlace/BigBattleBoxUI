@@ -46,30 +46,67 @@
      <item row="0" column="1">
       <widget class="QStackedWidget" name="lightConfigDisplay">
        <property name="currentIndex">
-        <number>15</number>
+        <number>1</number>
        </property>
        <widget class="GeneralLEDConfigurationWidget" name="generalLedConfigurationWidget"/>
-       <widget class="QWidget" name="deathMatchPlayersReadyLightsWidget"/>
-       <widget class="QWidget" name="deathMatchCountDownLightsWidget"/>
-       <widget class="QWidget" name="deathMatchDoorDropLightsWidget"/>
-       <widget class="QWidget" name="deathMatchMatchLightsWidget"/>
+       <widget class="PlayersReadyWidget" name="deathMatchPlayersReadyLightsWidget"/>
+       <widget class="CountDownPage" name="deathMatchCountDownDoorDropWidget">
+        <property name="title" stdset="0">
+         <string>Count Down To Door Drop Lights</string>
+        </property>
+       </widget>
+       <widget class="IdleLedConfigurationWidget" name="deathMatchP1Wins">
+        <property name="title" stdset="0">
+         <string>Player One Wins</string>
+        </property>
+       </widget>
+       <widget class="IdleLedConfigurationWidget" name="deathMatchP2Wins">
+        <property name="title" stdset="0">
+         <string>Player Two Wins</string>
+        </property>
+       </widget>
+       <widget class="SolidColorPage" name="deathMatchMatchRunningLightsWidget">
+        <property name="title" stdset="0">
+         <string>Match Running Lights</string>
+        </property>
+       </widget>
        <widget class="QWidget" name="soccerConfigLightsWidget"/>
        <widget class="QWidget" name="soccerPlayerReadyLightsWidget"/>
        <widget class="QWidget" name="soccerCountDownLightsWidget"/>
        <widget class="QWidget" name="soccerMatchLightsWidget"/>
        <widget class="QWidget" name="soccerWinningPlayerLightsWidget"/>
        <widget class="QWidget" name="deathMatchWinningPlayerLightsWidget"/>
-       <widget class="QWidget" name="deathMatchCountDownToGameOver"/>
+       <widget class="CountDownPage" name="deathMatchCountDownToGameOver">
+        <property name="title" stdset="0">
+         <string>Count Down To End Of Match</string>
+        </property>
+       </widget>
        <widget class="IdleLedConfigurationWidget" name="idleScreenWidget"/>
        <widget class="IdleLedConfigurationWidget" name="deathMatchConfigLightsWidget">
         <property name="title" stdset="0">
          <string>Death Match Configuration Screen Light configuration</string>
         </property>
        </widget>
-       <widget class="QWidget" name="deathMatchThree"/>
-       <widget class="QWidget" name="deathMatchTwo"/>
-       <widget class="QWidget" name="deathMatchOne"/>
-       <widget class="QWidget" name="deathMatchFight"/>
+       <widget class="RampUpPage" name="deathMatchThree">
+        <property name="title" stdset="0">
+         <string>Three</string>
+        </property>
+       </widget>
+       <widget class="RampUpPage" name="deathMatchTwo">
+        <property name="title" stdset="0">
+         <string>Two</string>
+        </property>
+       </widget>
+       <widget class="RampUpPage" name="deathMatchOne">
+        <property name="title" stdset="0">
+         <string>One</string>
+        </property>
+       </widget>
+       <widget class="RampUpPage" name="deathMatchFight">
+        <property name="title" stdset="0">
+         <string>Fight</string>
+        </property>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -87,6 +124,30 @@
    <class>IdleLedConfigurationWidget</class>
    <extends>QWidget</extends>
    <header>idleledconfigurationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CountDownPage</class>
+   <extends>QWidget</extends>
+   <header>countdownpage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RampUpPage</class>
+   <extends>QWidget</extends>
+   <header>rampuppage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SolidColorPage</class>
+   <extends>QWidget</extends>
+   <header>solidcolorpage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlayersReadyWidget</class>
+   <extends>QWidget</extends>
+   <header>playersreadywidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

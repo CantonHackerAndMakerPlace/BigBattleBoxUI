@@ -35,6 +35,10 @@ bool DefaultRestorableCheckBox::isChecked() const {
     return m_value.value();
 }
 
+void DefaultRestorableCheckBox::setValue(bool value) {
+    m_value.setValue(value);
+}
+
 void DefaultRestorableCheckBox::init(BooleanObject *settingConfig) {
     assert(!m_settingConfig && "Cannot be initialized twice");
     m_settingConfig = settingConfig;

@@ -194,7 +194,7 @@ void MediaDialog::initAnimatedSoundEffect(SoundEffectMedia *effect,
             });
             group->addAnimation(a);
         }
-        if (dur >1000) {
+        if (dur > 1000) {
             dur = 0;
         } else {
             dur = 1000 - dur;

@@ -40,9 +40,10 @@ private:
     QTreeWidgetItem *m_dmPlayersReady = nullptr;
     QTreeWidgetItem *m_dmRunningLights = nullptr;
     QTreeWidgetItem *m_dmCountDownDoorDrop = nullptr;
-    QTreeWidgetItem *m_dmDoorDrop = nullptr;
     QTreeWidgetItem *m_dmCountDownMatchOver = nullptr;
     QTreeWidgetItem *m_dmPlayerWins = nullptr;
+    QTreeWidgetItem *m_dmP1Wins = nullptr;
+    QTreeWidgetItem *m_dmP2Wins = nullptr;
     QTreeWidgetItem *m_soccer = nullptr;
     QTreeWidgetItem *m_soccerConfig = nullptr;
     QTreeWidgetItem *m_soccerPlayerReady = nullptr;
