@@ -200,6 +200,13 @@ void BattleBoxMainWindow::initLEDController() {
     connect(this, &BattleBoxMainWindow::dmPlayerTwoCantBeReady,
             m_state->ledController(), &LEDController::dmPlayerTwoCantBeReady);
 
+    // Connecting the deathmatch countdown trigger signals from the
+    // death match runtime.
+    connect(m_state->data()->deathMatchRuntime(), &DeathMatchRuntime::doorDropCountDown,
+            m_state->ledController(), &LEDController::dmDoorDropCountDown);
+    connect(m_state->data()->deathMatchRuntime(), &DeathMatchRuntime::matchOverCountDown,
+            m_state->ledController(), &LEDController::dmMatchOverCountDown);
+
 }
 
 void BattleBoxMainWindow::initDeathMatchConfigScreen() {
@@ -255,6 +262,20 @@ void BattleBoxMainWindow::initDeathMatchConfigScreen() {
             m_state->data()->deathMatchConfig(), &DeathMatchConfig::setDoorDropKindFromInt);
     connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::doorDropKindChangedInt,
             ui->doorDropKindComboBox, &QComboBox::setCurrentIndex);
+
+    // Connecting do matchOverWarningTime
+    ui->matchOverWarningTime->setValue(m_state->data()->deathMatchConfig()->matchOverWarningTime());
+    connect(ui->matchOverWarningTime, &QSpinBox::valueChanged,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setMatchOverWarningTime);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::matchOverWarningTimeChanged,
+            ui->matchOverWarningTime, &QSpinBox::setValue);
+
+    // Connecting do doorDropWarningTime
+    ui->doorDropWarningTime->setValue(m_state->data()->deathMatchConfig()->doorDropWarningTime());
+    connect(ui->doorDropWarningTime, &QSpinBox::valueChanged,
+            m_state->data()->deathMatchConfig(), &DeathMatchConfig::setDoorDropWarningTime);
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::doorDropWarningTimeChanged,
+            ui->doorDropWarningTime, &QSpinBox::setValue);
 
     // Connecting quick load slot
     connect(ui->dmQuickLoadButton, &QPushButton::clicked,
@@ -442,7 +463,6 @@ void BattleBoxMainWindow::initDeathMatchRunningScreen() {
     // Configuring buttons
     connect(ui->dmrPlayerOneWinsButton, &QPushButton::clicked,
             [&] {
-        qDebug() << "Clicked dmrPlayerOneWinsButton";
         if(m_state->data()->deathMatchConfig()->playerOneName() == "") {
             m_state->data()->setDeathMatchWinner("Player One");
         } else {
@@ -452,7 +472,6 @@ void BattleBoxMainWindow::initDeathMatchRunningScreen() {
     });
     connect(ui->dmrPlayerTwoWinsButton, &QPushButton::clicked,
             [&] {
-        qDebug() << "Clicked dmrPlayerTwoWinsButton";
         if(m_state->data()->deathMatchConfig()->playerTwoName() == "") {
             m_state->data()->setDeathMatchWinner("Player Two");
         } else {

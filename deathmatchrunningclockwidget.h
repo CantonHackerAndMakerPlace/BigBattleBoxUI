@@ -33,7 +33,6 @@ private slots:
     void staringMatch(int duration, bool needsDoorDropTimer, int doorDropTime);
     void updateRemainingTime(int var);
     void updateDoorDropTime(int var);
-//    void animationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
 
 signals:
     void started();

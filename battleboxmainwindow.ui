@@ -68,7 +68,7 @@
          <string notr="true"/>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>6</number>
         </property>
         <widget class="QWidget" name="gameSelection">
          <property name="sizePolicy">
@@ -1042,8 +1042,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>1065</width>
-                 <height>609</height>
+                 <width>1051</width>
+                 <height>640</height>
                 </rect>
                </property>
                <property name="styleSheet">
@@ -1132,14 +1132,14 @@ QPushButton {
                   <item row="2" column="1">
                    <widget class="DurationWidget" name="matchDurationWidget" native="true"/>
                   </item>
-                  <item row="3" column="0">
+                  <item row="4" column="0">
                    <widget class="QLabel" name="doorDropKindLabel">
                     <property name="text">
                      <string>Door Drop Kind</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
+                  <item row="4" column="1">
                    <widget class="QComboBox" name="doorDropKindComboBox">
                     <item>
                      <property name="text">
@@ -1173,24 +1173,24 @@ QPushButton {
                     </item>
                    </widget>
                   </item>
-                  <item row="4" column="0">
+                  <item row="6" column="0">
                    <widget class="QLabel" name="dropDoorAtLabel">
                     <property name="text">
                      <string>Drop Door At</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
+                  <item row="6" column="1">
                    <widget class="DurationWidget" name="doorDropTimeWidget" native="true"/>
                   </item>
-                  <item row="5" column="0">
+                  <item row="7" column="0">
                    <widget class="QLabel" name="saveLoadLabel">
                     <property name="text">
                      <string>Save/Load</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="1">
+                  <item row="7" column="1">
                    <layout class="QGridLayout" name="gridLayout_19">
                     <property name="spacing">
                      <number>0</number>
@@ -1247,14 +1247,14 @@ QPushButton {
                     </item>
                    </layout>
                   </item>
-                  <item row="6" column="0">
+                  <item row="8" column="0">
                    <widget class="QLabel" name="quickLoadLabelLabel">
                     <property name="text">
                      <string>Quick Load</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="6" column="1">
+                  <item row="8" column="1">
                    <layout class="QGridLayout" name="gridLayout">
                     <item row="1" column="0">
                      <widget class="QPushButton" name="dmQuickLoadButton">
@@ -1305,6 +1305,40 @@ QPushButton {
                      </widget>
                     </item>
                    </layout>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QSpinBox" name="doorDropWarningTime">
+                    <property name="maximum">
+                     <number>1000000</number>
+                    </property>
+                    <property name="value">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="label">
+                    <property name="text">
+                     <string>Door Drop Warning Time</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_2">
+                    <property name="text">
+                     <string>Match Over Warning Time</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QSpinBox" name="matchOverWarningTime">
+                    <property name="maximum">
+                     <number>100000</number>
+                    </property>
+                    <property name="value">
+                     <number>10</number>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>

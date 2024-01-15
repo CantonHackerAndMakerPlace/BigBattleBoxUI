@@ -22,13 +22,17 @@ public:
         PlayerTwo
     };
 
+    static constexpr int DEFAULT_MATCH_OVER_WARNING_TIME = 10;
     static constexpr int DEFAULT_MATCH_DURATION = 180;
     static constexpr int DEFAULT_DOOR_DROP_TIME = 60;
+    static constexpr int DEFAULT_DOOR_DROP_WARNING_TIME = 10;
     static constexpr DoorDrop DEFAULT_DOOR_DROP_KIND = DoorDrop::Random;
 private:
 
     // Members
+    int m_matchOverWarningTime;
     int m_matchDuration;
+    int m_doorDropWarningTime;
     int m_doorDropTime;
     QString m_playerOneName;
     QString m_playerTwoName;
@@ -70,6 +74,14 @@ public:
 
     QString doorDropKindAsString() const;
 
+    int matchOverWarningTime() const {
+        return m_matchOverWarningTime;
+    }
+
+    int doorDropWarningTime() const {
+        return m_doorDropWarningTime;
+    }
+
 public slots:
     void setPlayerOneName(QString const& new_name);
     void resetPlayerOneName();
@@ -77,8 +89,14 @@ public slots:
     void setPlayerTwoName(QString const& new_name);
     void resetPlayerTwoName();
 
+    void setMatchOverWarningTime(int value);
+    void resetMatchOverWarningTime();
+
     void setMatchDuration(int value);
     void resetMatchDuration();
+
+    void setDoorDropWarningTime(int value);
+    void resetDoorDropWarningTime();
 
     void setDoorDropTime(int value);
     void resetDoorDropTime();
@@ -97,6 +115,9 @@ signals:
     void doorDropKindChanged(DeathMatchConfig::DoorDrop arg);
     void doorDropKindChangedInt(int arg);
     void error(QString message);
+    void doorDropWarningTimeChanged(int value);
+    void matchOverWarningTimeChanged(int value);
+
 
 public:
     void saveToFile(QString path);

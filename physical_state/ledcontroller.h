@@ -10,6 +10,7 @@
 #include <chrono>
 
 #include <physical_state/ledalgo/ledalgo.h>
+#include <app_state/deathmatchconfig.h>
 #include "unificationkindobject.h"
 
 
@@ -124,6 +125,7 @@ public slots:
     void enterDMPlayersReadyScreen();
     void leaveDMPlayersReadyScreen();
     void enterDMRunningScreen();
+    void leaveDMRunningScreen();
     void enterDMWinnerDisplayScreen(QString playerName);
     void enterSoccerConfigScreen();
     void enterSoccerPlayersReadyScreen();
@@ -139,6 +141,10 @@ public slots:
 
     void dmPlayerOneWins(QString name);
     void dmPlayerTwoWins(QString name);
+
+    void dmDoorDropCountDown(int ms);
+    void dmMatchOverCountDown(int ms);
+    void dmDropDoorsTriggered(DeathMatchConfig::DoorDrop kind);
 signals:
     void dmPlayerOneReady();
     void dmPlayerOneCancelledReady();

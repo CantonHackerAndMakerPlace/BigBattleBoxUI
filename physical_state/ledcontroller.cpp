@@ -262,6 +262,15 @@ void LEDController::leaveDMPlayersReadyScreen() {
 
 void LEDController::enterDMRunningScreen() {
     m_config->deathMatchConfiguration()->matchRunningLights()->setLEDController(this);
+//    if (m_confo)
+//    m_countDownToDoorDropTimer->callOnTimeout([&]{
+//        m_config->deathMatchConfiguration()->doorDropCountDownLights()->setLEDController(this);
+//    });
+//    m_countDownToMachOverTimer
+}
+
+void LEDController::leaveDMRunningScreen() {
+
 }
 
 void LEDController::enterDMWinnerDisplayScreen(QString playerName) { }
@@ -290,6 +299,21 @@ void LEDController::dmPlayerTwoWins(QString) {
     m_config->deathMatchConfiguration()->winningPlayerScreen()->playerTwo()->setLEDController(this);
 }
 
+void LEDController::dmDoorDropCountDown(int ms) {
+    qDebug() << "Door drop count down called with" << ms <<"ms";
+    m_config->deathMatchConfiguration()->doorDropCountDownLights()->duration().setValue(ms);
+    m_config->deathMatchConfiguration()->doorDropCountDownLights()->setLEDController(this);
+}
+
+void LEDController::dmMatchOverCountDown(int ms) {
+    qDebug() << "Match over count down called with" << ms <<"ms";
+    m_config->deathMatchConfiguration()->matchOverCountDownLights()->duration().setValue(ms);
+    m_config->deathMatchConfiguration()->matchOverCountDownLights()->setLEDController(this);
+}
+
+void LEDController::dmDropDoorsTriggered(DeathMatchConfig::DoorDrop) {
+    m_config->deathMatchConfiguration()->matchRunningLights()->setLEDController(this);
+}
 
 
 void LEDController::enterSoccerConfigScreen() {

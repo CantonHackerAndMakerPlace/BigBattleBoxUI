@@ -61,16 +61,20 @@ void DeathMatchRunningClockWidget::updateDoorDropTime(int value) {
 
 void DeathMatchRunningClockWidget::start() {
     m_dmRt->start();
+    emit started();
 }
 
 void DeathMatchRunningClockWidget::pause() {
     m_dmRt->pause();
+    emit paused();
 }
 
 void DeathMatchRunningClockWidget::resume() {
     m_dmRt->resume();
+    emit resumed();
 }
 
 void DeathMatchRunningClockWidget::stop() {
     m_dmRt->stop();
+    emit matchOver();
 }

@@ -47,6 +47,7 @@ void DeathMatchConfig::setPlayerOneName(QString const& new_name) {
         emit playerOneNameChanged(m_playerOneName);
     }
 }
+
 void DeathMatchConfig::resetPlayerOneName() {
     setPlayerOneName("");
 }
@@ -57,8 +58,20 @@ void DeathMatchConfig::setPlayerTwoName(QString const& new_name) {
         emit playerTwoNameChanged(m_playerTwoName);
     }
 }
+
 void DeathMatchConfig::resetPlayerTwoName() {
     setPlayerTwoName("");
+}
+
+void DeathMatchConfig::setMatchOverWarningTime(int value) {
+    if(m_matchOverWarningTime != value) {
+        m_matchOverWarningTime = value;
+        emit matchOverWarningTimeChanged(m_matchOverWarningTime);
+    }
+}
+
+void DeathMatchConfig::resetMatchOverWarningTime() {
+    setMatchOverWarningTime(DEFAULT_MATCH_OVER_WARNING_TIME);
 }
 
 void DeathMatchConfig::setMatchDuration(int value) {
@@ -80,6 +93,17 @@ void DeathMatchConfig::setDoorDropTime(int value) {
 }
 void DeathMatchConfig::resetDoorDropTime() {
     setDoorDropTime(DEFAULT_DOOR_DROP_TIME);
+}
+
+void DeathMatchConfig::setDoorDropWarningTime(int value) {
+    if(m_doorDropWarningTime != value) {
+        m_doorDropWarningTime = value;
+        emit doorDropWarningTimeChanged(m_doorDropWarningTime);
+    }
+}
+
+void DeathMatchConfig::resetDoorDropWarningTime() {
+    setDoorDropWarningTime(DEFAULT_DOOR_DROP_WARNING_TIME);
 }
 
 auto DeathMatchConfig::fromInt(int val) ->DoorDrop {
@@ -127,6 +151,8 @@ void DeathMatchConfig::reset() {
     resetDoorDropTime();
     resetPlayerOneName();
     resetPlayerTwoName();
+    resetDoorDropWarningTime();
+    resetMatchOverWarningTime();
 }
 
 void DeathMatchConfig::saveToFile(QString path) {
@@ -138,6 +164,9 @@ void DeathMatchConfig::saveToFile(QString path) {
     content["doorDropKind"] = (int)this->doorDropKind();
     content["matchDuration"] = this->matchDuration();
     content["doorDropTime"] = this->doorDropTime();
+    content["doorDropWarningTime"] = this->doorDropWarningTime();
+    content["matchOverWarningTime"] = this->matchOverWarningTime();
+
     QJsonDocument document;
     document.setObject( content );
     QByteArray bytes = document.toJson( QJsonDocument::Indented );
@@ -202,6 +231,9 @@ void DeathMatchConfig::loadFromFile(QString path) {
         return;
     }
 
+    auto optMatchOverWarningTime = getJsonInt(path, root, "matchOverWarningTime");
+    auto optDoorDropWarningTime = getJsonInt(path, root, "doorDropWarningTime");
+
     auto optDoorDropTime = getJsonInt(path, root, "doorDropTime");
     if (!optDoorDropTime.has_value()) {
         return;
@@ -214,7 +246,17 @@ void DeathMatchConfig::loadFromFile(QString path) {
     this->setMatchDuration(optMatchDuration.value());
     this->setDoorDropKindFromInt(optDoorDropKind.value());
     this->setDoorDropTime(optDoorDropTime.value());
+    if (!optMatchOverWarningTime.has_value()) {
+        resetMatchOverWarningTime();
+    } else {
+        setMatchOverWarningTime(optMatchOverWarningTime.value());
+    }
 
+    if (!optDoorDropWarningTime.has_value()) {
+        resetDoorDropWarningTime();
+    } else {
+        setDoorDropWarningTime(optDoorDropWarningTime.value());
+    }
 }
 
 std::optional<QString> DeathMatchConfig::getJsonString(QString path, QJsonObject &obj, QString name) {
