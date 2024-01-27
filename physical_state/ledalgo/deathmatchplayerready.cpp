@@ -156,6 +156,8 @@ void DeathMatchPlayerReady::dmPlayerTwoReady() {
 void DeathMatchPlayerReady::dmPlayerTwoCancelledReady() {
     if (m_isRunning) {
         m_p2StartBlinking = true;
+        m_client->p2SetBrightness(m_config->p2ReadyBrightness());
+        m_client->p2SetColor(m_config->p2ReadyColor(), true);
     }
 }
 
