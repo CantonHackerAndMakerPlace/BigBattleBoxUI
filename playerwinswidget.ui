@@ -47,7 +47,7 @@ color: white;</string>
       <widget class="QLabel" name="titleLabel">
        <property name="font">
         <font>
-         <pointsize>30</pointsize>
+         <pointsize>60</pointsize>
         </font>
        </property>
        <property name="text">
