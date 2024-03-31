@@ -100,6 +100,7 @@ void CountDownFillConfig::init(QSettings *settings) {
     assert(settings);
     m_duration.attachSettings(settings);
     m_unificationKind.attachSettings(settings);
+    m_loop.attachSettings(settings);
     m_p1Brightness.attachSettings(settings);
     m_p1Curve.attachSettings(settings);
     m_p1CurveAmplitude.attachSettings(settings);
