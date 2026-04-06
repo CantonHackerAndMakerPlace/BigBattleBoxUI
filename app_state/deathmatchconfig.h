@@ -65,7 +65,7 @@ public:
     }
 
     QString const& playerTwoName() const {
-        return m_playerOneName;
+        return m_playerTwoName;
     }
 
     DoorDrop doorDropKind() const{

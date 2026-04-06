@@ -8,3 +8,4 @@
 .qtc_clangd/
 *.autosave
 CMakeLists.txt.user
+build/
