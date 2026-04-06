@@ -52,6 +52,10 @@ MediaDialog::MediaDialog(ApplicationState *app_state, BattleBoxMainWindow *paren
     , m_go(new SoundEffectMedia(m_out, this))
 {
     ui->setupUi(this);
+    setWindowFlags(Qt::Window | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+    setSizeGripEnabled(true);
+    layout()->setSizeConstraint(QLayout::SetNoConstraint);
+    setMinimumSize(0, 0);
 
     // Loading movies from contents.
     ui->coinDisplayLabel->setMovie(m_champCoin);
