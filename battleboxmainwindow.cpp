@@ -470,6 +470,10 @@ void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
             if(newState == QAbstractAnimation::State::Running) {
                 emit DMCDstartFight();
                 ui->dmCDCountDownLabel->setText("FIGHT!!!");
+                m_state->physicalState()->playerOne()->spotLight()->setState(false);
+                m_state->physicalState()->playerTwo()->spotLight()->setState(false);
+                m_state->arduinoClient()->setP1SpotLight(false);
+                m_state->arduinoClient()->setP2SpotLight(false);
 
             }
         });
@@ -910,13 +914,14 @@ void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
 
 void BattleBoxMainWindow::dmDoorDropSpotLightFlash() {
     ArduinoClient *client = m_state->arduinoClient();
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 5; ++i) {
         QTimer::singleShot(i * 1000,       this, [client]{ client->setSpotLights(true, true); });
         QTimer::singleShot(i * 1000 + 500, this, [client]{ client->setSpotLights(false, false); });
     }
 }
 
 void BattleBoxMainWindow::leaveDMPlayersReadyScreen() {
+    qDebug() << "Rewached here";
     // TODO: Refactor everything from here into the application state and attach it to
     // the signal in a different way. This shouldn't be part of the main window code base.
     m_state->physicalState()->playerOne()->spotLight()->setState(false);

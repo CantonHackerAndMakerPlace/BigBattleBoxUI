@@ -362,7 +362,7 @@ void ArduinoMessanger::sendSetP2SpotLight(bool v) {
 
 void ArduinoMessanger::sendSetSpotLights(bool p1, bool p2) {
     sendMessage(MsgKind::SetSpotLights,
-                QString("SetSpotLights %1").arg(QString::number(p1), QString::number(p2)));
+                QString("SetSpotLights %1 %2").arg(QString::number(p1), QString::number(p2)));
 }
 
 

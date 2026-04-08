@@ -475,6 +475,8 @@ void MediaDialog::updateDMRDoorDropTime(int value) {
 
 void MediaDialog::staringDMR(int duration, bool needsDoorDropTimer, int doorDropTime) {
     ui->dmrDDTimeRemaining->show();
+    m_state->physicalState()->playerOne()->spotLight()->setState(false);
+    m_state->physicalState()->playerTwo()->spotLight()->setState(false);
     if(needsDoorDropTimer) {
         ui->dmrDDTimeRemaining->setText(msToTimeRep(doorDropTime));
         ui->dmrDDTimeRemaining->show();
