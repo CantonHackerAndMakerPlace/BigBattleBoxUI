@@ -6,7 +6,7 @@
 
 SoundEffectMedia::SoundEffectMedia(QAudioOutput *out, QObject *parent)
     : QObject{parent}
-    , m_volume(100.0)
+    , m_volume(1.0f)
     , m_effect(new QSoundEffect(out->device(), this))
     , m_decoder(new QAudioDecoder(this))
 {
@@ -15,19 +15,35 @@ SoundEffectMedia::SoundEffectMedia(QAudioOutput *out, QObject *parent)
     m_effect->setLoopCount(1);
     m_effect->setVolume(1.0f);
 
+    // Fire any pending play request once the sound finishes loading.
+    connect(m_effect, &QSoundEffect::statusChanged, this, [this]() {
+        if (m_effect->status() == QSoundEffect::Ready && m_pendingPlay) {
+            m_pendingPlay = false;
+            m_effect->play();
+        }
+    });
+
     // Connecting the audio decoder signals/slots
     using MFP = void(QAudioDecoder::*)(QAudioDecoder::Error);
     connect(m_decoder, MFP(&QAudioDecoder::error),
             [=](QAudioDecoder::Error error) {
         qDebug() << "Received error " << error<< m_decoder->errorString() << "for path:" << this->resourcePath();
         emit decodeError(error);
+        // Emit ready(0) so callers can still build animation groups even when
+        // the decoder fails; sound will fire without an intentional delay.
+        emit ready(0);
     });
     connect(m_decoder, &QAudioDecoder::durationChanged,
             this, &SoundEffectMedia::ready);
 }
 
 void SoundEffectMedia::play() {
-    m_effect->play();
+    if (m_effect->status() == QSoundEffect::Ready) {
+        m_effect->play();
+    } else {
+        // Sound hasn't finished loading yet; fire it once it becomes ready.
+        m_pendingPlay = true;
+    }
 }
 
 qint64 SoundEffectMedia::duration() const {

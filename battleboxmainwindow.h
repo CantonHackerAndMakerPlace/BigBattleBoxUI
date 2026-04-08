@@ -148,6 +148,7 @@ private slots:
     void dmprUpdateP2ReadyText(QString arg);
     void dmprUpdateP1DoorText(QString arg);
     void dmprUpdateP2DoorText(QString arg);
+    void dmDoorDropSpotLightFlash();
 
     // Soccer team(player) ready
     void sprUpdateT1ReadyText(QString arg);

@@ -8,6 +8,7 @@
 #include <QPropertyAnimation>
 #include <QSequentialAnimationGroup>
 #include <QFileSystemWatcher>
+#include <QTimer>
 #include <QVariant>
 #include <iostream>
 
@@ -204,6 +205,8 @@ void BattleBoxMainWindow::initLEDController() {
     // death match runtime.
     connect(m_state->data()->deathMatchRuntime(), &DeathMatchRuntime::doorDropCountDown,
             m_state->ledController(), &LEDController::dmDoorDropCountDown);
+    connect(m_state->data()->deathMatchRuntime(), &DeathMatchRuntime::doorDropCountDown,
+            this, [this](int) { dmDoorDropSpotLightFlash(); });
     connect(m_state->data()->deathMatchRuntime(), &DeathMatchRuntime::matchOverCountDown,
             m_state->ledController(), &LEDController::dmMatchOverCountDown);
 
@@ -262,6 +265,19 @@ void BattleBoxMainWindow::initDeathMatchConfigScreen() {
             m_state->data()->deathMatchConfig(), &DeathMatchConfig::setDoorDropKindFromInt);
     connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::doorDropKindChangedInt,
             ui->doorDropKindComboBox, &QComboBox::setCurrentIndex);
+
+    // Keep "Drop <Name> Door" combobox items in sync with configured player names
+    auto updateDoorDropComboNames = [this]() {
+        auto p1 = m_state->data()->deathMatchConfig()->playerOneName();
+        auto p2 = m_state->data()->deathMatchConfig()->playerTwoName();
+        ui->doorDropKindComboBox->setItemText(4, QString("Drop %1 Door").arg(p1.isEmpty() ? "Player One" : p1));
+        ui->doorDropKindComboBox->setItemText(5, QString("Drop %1 Door").arg(p2.isEmpty() ? "Player Two" : p2));
+    };
+    updateDoorDropComboNames();
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::playerOneNameChanged,
+            this, [updateDoorDropComboNames](QString) { updateDoorDropComboNames(); });
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::playerTwoNameChanged,
+            this, [updateDoorDropComboNames](QString) { updateDoorDropComboNames(); });
 
     // Connecting do matchOverWarningTime
     ui->matchOverWarningTime->setValue(m_state->data()->deathMatchConfig()->matchOverWarningTime());
@@ -375,6 +391,22 @@ void BattleBoxMainWindow::initDeathMatchPlayersReadyScreen() {
             this, &BattleBoxMainWindow::receivedError);
     connect(this->m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorNotClosed,
             this, &BattleBoxMainWindow::receivedError);
+
+    // Set ready button text from configured player names
+    auto updateP1ReadyButton = [this]() {
+        auto name = m_state->data()->deathMatchConfig()->playerOneName();
+        ui->dmprPlayerOneReadyButton->setText((name.isEmpty() ? "Player One" : name) + " Ready");
+    };
+    auto updateP2ReadyButton = [this]() {
+        auto name = m_state->data()->deathMatchConfig()->playerTwoName();
+        ui->dmprPlayerTwoReadyButton->setText((name.isEmpty() ? "Player Two" : name) + " Ready");
+    };
+    updateP1ReadyButton();
+    updateP2ReadyButton();
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::playerOneNameChanged,
+            this, [updateP1ReadyButton](QString) { updateP1ReadyButton(); });
+    connect(m_state->data()->deathMatchConfig(), &DeathMatchConfig::playerTwoNameChanged,
+            this, [updateP2ReadyButton](QString) { updateP2ReadyButton(); });
 }
 
 void BattleBoxMainWindow::initDeathMatchCountDownScreen() {
@@ -864,6 +896,24 @@ void BattleBoxMainWindow::enterDMPlayersReadyScreen() {
     m_state->data()->deathMatchPlayerTwoReady()->setDoorClosed(m_state->physicalState()->playerTwo()->doorButton()->state());
     m_state->arduinoClient()->setP1SpotLight(false);
     m_state->arduinoClient()->setP2SpotLight(false);
+
+    // Force labels and buttons to reflect current player names regardless of signal guards.
+    auto p1 = m_state->data()->deathMatchConfig()->playerOneName();
+    auto p2 = m_state->data()->deathMatchConfig()->playerTwoName();
+    auto p1Name = p1.isEmpty() ? "Player One" : p1;
+    auto p2Name = p2.isEmpty() ? "Player Two" : p2;
+    ui->dmprPlayerOneReadyButton->setText(p1Name + " Ready");
+    ui->dmprPlayerTwoReadyButton->setText(p2Name + " Ready");
+    ui->dmprPlayerOneReadyLabel->setText(p1Name + ": Not Ready");
+    ui->dmprPlayerTwoReadyLabel->setText(p2Name + ": Not Ready");
+}
+
+void BattleBoxMainWindow::dmDoorDropSpotLightFlash() {
+    ArduinoClient *client = m_state->arduinoClient();
+    for (int i = 0; i < 3; ++i) {
+        QTimer::singleShot(i * 1000,       this, [client]{ client->setSpotLights(true, true); });
+        QTimer::singleShot(i * 1000 + 500, this, [client]{ client->setSpotLights(false, false); });
+    }
 }
 
 void BattleBoxMainWindow::leaveDMPlayersReadyScreen() {
@@ -956,7 +1006,8 @@ void BattleBoxMainWindow::leaveSoccerGameOverScreen() {
 }
 
 void BattleBoxMainWindow::dmprUpdateP1ReadyText(QString arg) {
-    ui->dmprPlayerOneReadyLabel->setText(QString("Player One: %1").arg(arg));
+    auto name = m_state->data()->deathMatchConfig()->playerOneName();
+    ui->dmprPlayerOneReadyLabel->setText(QString("%1: %2").arg(name.isEmpty() ? "Player One" : name, arg));
     if(m_state->data()->deathMatchPlayerOneReady()->playerReady()) {
         ui->dmprPlayerOneReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
         emit dmPlayerOneReady();
@@ -964,16 +1015,25 @@ void BattleBoxMainWindow::dmprUpdateP1ReadyText(QString arg) {
         ui->dmprPlayerOneReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
         emit dmPlayerOneCancelledReady();
     }
+    if(m_state->data()->deathMatchPlayerOneReady()->playerReady() &&
+       m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
+        m_state->screen()->changeToDMCountDownScreen();
+    }
 }
 
 void BattleBoxMainWindow::dmprUpdateP2ReadyText(QString arg) {
-    ui->dmprPlayerTwoReadyLabel->setText(QString("Player Two: %1").arg(arg));
+    auto name = m_state->data()->deathMatchConfig()->playerTwoName();
+    ui->dmprPlayerTwoReadyLabel->setText(QString("%1: %2").arg(name.isEmpty() ? "Player Two" : name, arg));
     if(m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
         ui->dmprPlayerTwoReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
         emit dmPlayerTwoReady();
     } else {
         ui->dmprPlayerTwoReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
         emit dmPlayerTwoCancelledReady();
+    }
+    if(m_state->data()->deathMatchPlayerOneReady()->playerReady() &&
+       m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
+        m_state->screen()->changeToDMCountDownScreen();
     }
 }
 

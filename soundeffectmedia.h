@@ -37,6 +37,7 @@ signals:
     void decodeError(QAudioDecoder::Error error);
 private:
     float m_volume;
+    bool m_pendingPlay = false;
     QSoundEffect *m_effect;
     QAudioDecoder *m_decoder;
 };

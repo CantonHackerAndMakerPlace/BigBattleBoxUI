@@ -115,6 +115,7 @@ signals:
     void volumeChanged(float);
 private:
     void stopAnimations();
+    void warmUpAudioDevice();
 private:
     Ui::MediaDialog *ui;
     ApplicationState *m_state;

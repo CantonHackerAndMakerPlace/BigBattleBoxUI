@@ -50,6 +50,12 @@ MediaDialog::MediaDialog(ApplicationState *app_state, BattleBoxMainWindow *paren
     , m_one(new SoundEffectMedia(m_out, this))
     , m_fight(new SoundEffectMedia(m_out, this))
     , m_go(new SoundEffectMedia(m_out, this))
+    , m_cdEff(nullptr)
+    , m_cdThreeCallout(nullptr)
+    , m_cdTwoCallout(nullptr)
+    , m_cdOneCallout(nullptr)
+    , m_cdFightCallout(nullptr)
+    , m_cdGoCallout(nullptr)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
@@ -75,6 +81,15 @@ void MediaDialog::loadSettingsDependentResources() {
     m_cdEff = new QGraphicsOpacityEffect(ui->countDownTextLabel);
     ui->countDownTextLabel->setGraphicsEffect(m_cdEff);
     setVolume(1.0f);
+
+    // Pre-initialize to empty groups so DMCDstart* and stopAnimations() are
+    // safe to call before the async QAudioDecoder ready signals arrive.
+    m_cdThreeCallout = new QParallelAnimationGroup(this);
+    m_cdTwoCallout   = new QParallelAnimationGroup(this);
+    m_cdOneCallout   = new QParallelAnimationGroup(this);
+    m_cdFightCallout = new QParallelAnimationGroup(this);
+    m_cdGoCallout    = new QParallelAnimationGroup(this);
+
     initAnimatedSoundEffect(m_three, "resource/sounds/three", "sounds/three", THREE_SOUND, ui->countDownTextLabel, "3",
         [&](QParallelAnimationGroup *g) {
             qDebug() << "Setting m_cdThreeCallout";
@@ -100,6 +115,8 @@ void MediaDialog::loadSettingsDependentResources() {
             qDebug() << "Setting m_cdGoCallout";
             m_cdGoCallout = g;
         });
+
+    warmUpAudioDevice();
 }
 
 
@@ -107,7 +124,8 @@ static const char *GREEN_BG_STYLE_SHEET = "background-color:green;";
 static const char *RED_BG_STYLE_SHEET = "background-color:red;";
 
 void MediaDialog::dmprUpdateP1ReadyText(QString arg) {
-    ui->dmprP1ReadyLabel->setText(QString("Player One: %1").arg(arg));
+    auto name = m_data->deathMatchConfig()->playerOneName();
+    ui->dmprP1ReadyLabel->setText(QString("%1: %2").arg(name.isEmpty() ? "Player One" : name, arg));
     if(m_state->data()->deathMatchPlayerOneReady()->playerReady()) {
         ui->dmprP1ReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
@@ -116,7 +134,8 @@ void MediaDialog::dmprUpdateP1ReadyText(QString arg) {
 }
 
 void MediaDialog::dmprUpdateP2ReadyText(QString arg) {
-    ui->dmprP2ReadyLabel->setText(QString("Player Two: %1").arg(arg));
+    auto name = m_data->deathMatchConfig()->playerTwoName();
+    ui->dmprP2ReadyLabel->setText(QString("%1: %2").arg(name.isEmpty() ? "Player Two" : name, arg));
     if(m_state->data()->deathMatchPlayerTwoReady()->playerReady()) {
         ui->dmprP2ReadyWidget->setStyleSheet(GREEN_BG_STYLE_SHEET);
     } else {
@@ -154,6 +173,16 @@ void MediaDialog::initializeDMPRScreen() {
     connect(m_state->data()->deathMatchPlayerTwoReady(), &DeathMatchPlayerReadyModel::doorTextChanged,
             this, &MediaDialog::dmprUpdateP2DoorText);
 
+    connect(m_data->deathMatchConfig(), &DeathMatchConfig::playerOneNameChanged,
+            this, [this](QString name) {
+                auto readyText = m_state->data()->deathMatchPlayerOneReady()->readyText();
+                ui->dmprP1ReadyLabel->setText(QString("%1: %2").arg(name.isEmpty() ? "Player One" : name, readyText));
+            });
+    connect(m_data->deathMatchConfig(), &DeathMatchConfig::playerTwoNameChanged,
+            this, [this](QString name) {
+                auto readyText = m_state->data()->deathMatchPlayerTwoReady()->readyText();
+                ui->dmprP2ReadyLabel->setText(QString("%1: %2").arg(name.isEmpty() ? "Player Two" : name, readyText));
+            });
 }
 
 void MediaDialog::initSoundEffect(SoundEffectMedia *effect,
@@ -344,6 +373,19 @@ void MediaDialog::enterDMPlayersReadyScreen() {
     ui->mainDisplay->setCurrentWidget(ui->deathMatchPlayersReadyPage);
     ui->deathMatchPlayersReadyPage->show();
 
+    auto p1 = m_data->deathMatchConfig()->playerOneName();
+    auto p2 = m_data->deathMatchConfig()->playerTwoName();
+    auto p1Name = p1.isEmpty() ? "Player One" : p1;
+    auto p2Name = p2.isEmpty() ? "Player Two" : p2;
+    ui->dmprP1ReadyLabel->setText(p1Name + ": Not Ready");
+    ui->dmprP2ReadyLabel->setText(p2Name + ": Not Ready");
+
+    ui->dmprP1ReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+    ui->dmprP2ReadyWidget->setStyleSheet(RED_BG_STYLE_SHEET);
+    bool p1Door = m_state->data()->deathMatchPlayerOneReady()->doorClosed();
+    bool p2Door = m_state->data()->deathMatchPlayerTwoReady()->doorClosed();
+    ui->dmprP1DoorWidget->setStyleSheet(p1Door ? GREEN_BG_STYLE_SHEET : RED_BG_STYLE_SHEET);
+    ui->dmprP2DoorWidget->setStyleSheet(p2Door ? GREEN_BG_STYLE_SHEET : RED_BG_STYLE_SHEET);
 }
 
 void MediaDialog::leaveDMPlayersReadyScreen() {
@@ -455,9 +497,16 @@ void MediaDialog::showWinnerScreen(QString q, QString winningPlayer) {
 }
 
 void MediaDialog::stopAnimations() {
-    m_cdThreeCallout->stop();
-    m_cdTwoCallout->stop();
-    m_cdOneCallout->stop();
-    m_cdFightCallout->stop();
-    m_cdGoCallout->stop();
+    if (m_cdThreeCallout) m_cdThreeCallout->stop();
+    if (m_cdTwoCallout)   m_cdTwoCallout->stop();
+    if (m_cdOneCallout)   m_cdOneCallout->stop();
+    if (m_cdFightCallout) m_cdFightCallout->stop();
+    if (m_cdGoCallout)    m_cdGoCallout->stop();
+}
+
+void MediaDialog::warmUpAudioDevice() {
+    float savedVol = m_out->volume();
+    m_out->setVolume(0.0f);
+    m_deathMatch->play();
+    m_out->setVolume(savedVol);
 }
